@@ -44,7 +44,7 @@
     (fn [e]
       (let [dir (File. (text field))]
       (cond 
-        (not (.exists dir)) (alert (str dir " does not exists."))
+        (not (.exists dir)) (alert (str dir " does not exist."))
         (.isFile dir)       (alert (str dir " is not a directory."))
         :else               (future (run-silk "" dir logger))))))
                         
