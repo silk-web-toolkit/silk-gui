@@ -44,9 +44,10 @@
     (fn [e]
       (let [dir (File. (text field))]
       (cond 
-        (not (.exists dir)) (alert (str dir " does not exist."))
-        (.isFile dir)       (alert (str dir " is not a directory."))
-        :else               (future (run-silk "" dir logger))))))
+        (= (.toString dir) "") (alert (str dir "A directory was not selected."))
+        (not (.exists dir))    (alert (str dir " does not exist."))
+        (.isFile dir)          (alert (str dir " is not a directory."))
+        :else                  (future (run-silk "" dir logger))))))
                         
   ;Frame layout
   (border-panel :vgap fill :hgap fill :border fill
