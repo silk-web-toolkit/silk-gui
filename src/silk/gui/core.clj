@@ -77,6 +77,7 @@
 ;; =============================================================================
 
 (defn -main [& args]
+  (if (contains? #{"-n" "--native"} (first args)) (native!))
   (invoke-later
     (-> (frame :title "Silk" :size [640 :by 480] :content (content) 
                :on-close :exit) show!)))
