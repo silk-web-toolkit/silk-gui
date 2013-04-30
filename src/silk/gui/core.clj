@@ -1,20 +1,23 @@
 (ns silk.gui.core
+  (:refer-clojure :exclude [flush read-line])
   (:use [seesaw.core]
         [seesaw.widgets.log-window]
         [seesaw.chooser]
-        [me.raynes.conch :refer [programs with-programs let-programs]])
+        [me.raynes.conch :refer [programs with-programs let-programs]]
+        [me.raynes.conch.low-level :as conch])
   (import java.io.File)
   (:gen-class))
-  
+ 
 (programs silk)
 
-(defn- run-silk [arg dir logger]  
-  (doseq [x (seq (silk arg :dir dir {:seq true :buffer :none}))]
-    (log logger x)))
+(defn- run-silk [arg dir logger]
+  (def ^:dynamic *silk* (silk arg :dir dir {:verbose true :seq true :buffer 1}))
+  (future 
+    (doseq [x (seq (*silk* :stdout))](log logger x))
+    (doseq [x (seq (*silk* :stderr))](log logger x))))
 
-(defn- kill-silk [fut logger] 
-  (future-cancel fut)
-  (shutdown-agents)
+(defn- kill-silk [logger]
+  (conch/done (*silk* :proc))
   (log logger "Silk auto spin is now off.\n"))
   
 (defn- choose-file-dialog [field]
@@ -47,7 +50,7 @@
         (= (.toString dir) "") (alert (str dir "A directory was not selected."))
         (not (.exists dir))    (alert (str dir " does not exist."))
         (.isFile dir)          (alert (str dir " is not a directory."))
-        :else                  (future (run-silk "" dir logger))))))
+        :else                  (run-silk "" dir logger)))))
                         
   ;Frame layout
   (border-panel :vgap fill :hgap fill :border fill
@@ -67,8 +70,8 @@
               (let [id (.toString (id-of s)) 
                     dir (File. (text field))]
                 (cond
-                  (= id ":on") (def f (future (run-silk "reload" dir logger)))
-                  :else        (kill-silk f logger))))))
+                  (= id ":on") (run-silk "reload" dir logger)
+                  :else        (kill-silk logger))))))
         panel)
         vgap
         (scrollable logger)])))
