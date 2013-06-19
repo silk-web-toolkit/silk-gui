@@ -10,15 +10,24 @@
  
 (programs silk)
 
-(defn- run-silk [arg dir logger]
-  (def ^:dynamic *silk* (silk arg :dir dir {:verbose true :seq true :buffer 1}))
+(defn- check-path-for-errors [path]
+  (let [dir (File. path)]
+    (cond 
+      (= (.toString dir) "") "A directory was not selected."
+      (not (.exists dir))    (str path " does not exist.")
+      (.isFile dir)          (str path " is not a directory.")
+      :else                  "")))
+      
+(defn- run-silk [arg path logger]
+  (def ^:dynamic *silk* (silk arg :dir path {:verbose true :seq true :buffer 1}))
   (future 
     (doseq [x (seq (*silk* :stdout))](log logger x))
     (doseq [x (seq (*silk* :stderr))](log logger x))))
 
 (defn- kill-silk [logger]
-  (conch/done (*silk* :proc))
-  (log logger "Silk auto spin is now off.\n"))
+  (if (bound? #'*silk*)
+    (do (conch/done (*silk* :proc))
+        (log logger "Silk auto spin is now off.\n"))))
   
 (defn- choose-file-dialog [field]
   (choose-file
@@ -35,7 +44,9 @@
         hgap [:fill-h fill]
         vgap [:fill-v fill]
         field (text "")
-        group (button-group)]
+        group (button-group)
+        radio-on (radio :id "on" :text "On" :group group)
+        radio-off (radio :id "off" :text "Off" :selected? true :group group)]
     ;Open folder chooser onload
     (choose-file-dialog field)
     ;Listener for choose button
@@ -45,13 +56,9 @@
     ;Listener for spin button
     (listen spin-btn :action 
       (fn [e]
-        (let [dir (File. (text field))]
-        (cond 
-          (= (.toString dir) "") (alert "A directory was not selected.")
-          (not (.exists dir))    (alert (str dir " does not exist."))
-          (.isFile dir)          (alert (str dir " is not a directory."))
-          :else                  (run-silk "" dir logger)))))
-                          
+        (let [error-msg (check-path-for-errors (text field))]
+          (if (= error-msg "") (run-silk "" (text field) logger)
+            (alert error-msg)))))
     ;Frame layout
     (border-panel :vgap fill :hgap fill :border fill
       :north (horizontal-panel 
@@ -59,20 +66,21 @@
       :center (vertical-panel 
         :items[
           (let [panel (horizontal-panel
-            :items[
-              "Auto Spin"
-              (radio :id "on" :text "On" :group group)
-              (radio :id "off" :text "Off" :selected? true :group group)
-              spin-btn])]
+            :items["Auto Spin" radio-on radio-off spin-btn])]
             ;Listener for auto spin
             (listen group :selection
               (fn [e]
                 (when-let [s (selection group)]
-                  (let [id (.toString (id-of s)) 
-                        dir (File. (text field))]
-                    (cond
-                      (= id ":on") (run-silk "reload" dir logger)
-                      :else        (kill-silk logger))))))
+                  (let [id (.toString (id-of s))
+                        error-msg (check-path-for-errors (text field))]
+                    (if (= id ":on")
+                      (if (= error-msg "") 
+                        (do (run-silk "reload" (text field) logger) 
+                            (hide! spin-btn))
+                        (do (alert error-msg) 
+                            (selection! radio-off 1)))
+                      (do (kill-silk logger) 
+                          (show! spin-btn)))))))
             panel)
           vgap
           (scrollable logger)]))))
