@@ -28,53 +28,54 @@
       (text! field (.getAbsolutePath file)))))
 
 (defn- content []
-  (def choose-btn (button :text "Choose"))
-  (def spin-btn (button :text "Spin"))
-  (def logger (log-window :id :log-window :limit nil))
-  (def fill 5)
-  (def hgap [:fill-h fill])
-  (def vgap [:fill-v fill])
-  (def field (text ""))
-  (def group (button-group))
-  ;Open folder chooser onload
-  (choose-file-dialog field)
-  ;Listener for choose button
-  (listen choose-btn :action
-    (fn [e]
-      (choose-file-dialog field)))
-  ;Listener for spin button
-  (listen spin-btn :action 
-    (fn [e]
-      (let [dir (File. (text field))]
-      (cond 
-        (= (.toString dir) "") (alert (str dir "A directory was not selected."))
-        (not (.exists dir))    (alert (str dir " does not exist."))
-        (.isFile dir)          (alert (str dir " is not a directory."))
-        :else                  (run-silk "" dir logger)))))
-                        
-  ;Frame layout
-  (border-panel :vgap fill :hgap fill :border fill
-    :north (horizontal-panel :items["Project Path" hgap field hgap choose-btn])
-    :center (vertical-panel 
-      :items[
-        (let [panel (horizontal-panel
-          :items[
-            "Auto Spin"
-            (radio :id "on" :text "On" :group group)
-            (radio :id "off" :text "Off" :selected? true :group group)
-            spin-btn])]
-        ;Listener for auto spin
-        (listen group :selection
-          (fn [e]
-            (when-let [s (selection group)]
-              (let [id (.toString (id-of s)) 
-                    dir (File. (text field))]
-                (cond
-                  (= id ":on") (run-silk "reload" dir logger)
-                  :else        (kill-silk logger))))))
-        panel)
-        vgap
-        (scrollable logger)])))
+  (let [choose-btn (button :text "Choose")
+        spin-btn (button :text "Spin")
+        logger (log-window :id :log-window :limit nil)
+        fill 5
+        hgap [:fill-h fill]
+        vgap [:fill-v fill]
+        field (text "")
+        group (button-group)]
+    ;Open folder chooser onload
+    (choose-file-dialog field)
+    ;Listener for choose button
+    (listen choose-btn :action
+      (fn [e]
+        (choose-file-dialog field)))
+    ;Listener for spin button
+    (listen spin-btn :action 
+      (fn [e]
+        (let [dir (File. (text field))]
+        (cond 
+          (= (.toString dir) "") (alert "A directory was not selected.")
+          (not (.exists dir))    (alert (str dir " does not exist."))
+          (.isFile dir)          (alert (str dir " is not a directory."))
+          :else                  (run-silk "" dir logger)))))
+                          
+    ;Frame layout
+    (border-panel :vgap fill :hgap fill :border fill
+      :north (horizontal-panel 
+        :items["Project Path" hgap field hgap choose-btn])
+      :center (vertical-panel 
+        :items[
+          (let [panel (horizontal-panel
+            :items[
+              "Auto Spin"
+              (radio :id "on" :text "On" :group group)
+              (radio :id "off" :text "Off" :selected? true :group group)
+              spin-btn])]
+            ;Listener for auto spin
+            (listen group :selection
+              (fn [e]
+                (when-let [s (selection group)]
+                  (let [id (.toString (id-of s)) 
+                        dir (File. (text field))]
+                    (cond
+                      (= id ":on") (run-silk "reload" dir logger)
+                      :else        (kill-silk logger))))))
+            panel)
+          vgap
+          (scrollable logger)]))))
 
 ;; =============================================================================
 ;; Application entry point
