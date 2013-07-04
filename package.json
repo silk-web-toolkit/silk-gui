@@ -1,0 +1,15 @@
+{
+  "name": "Silk GUI",
+  "description": "Chrome platform app.",
+  "version": "0.1",
+  "main": "frameless-silk-gui.html",
+  "window": {
+    "show": true,
+    "toolbar": false,
+    "frame": false,
+    "width": 400,
+    "height": 500,
+    "min_width": 300,
+    "min_height": 420
+  }
+}

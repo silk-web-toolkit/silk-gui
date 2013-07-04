@@ -1,0 +1,40 @@
+<html><head>
+    <title>Silk Web Toolkit</title>
+    <link rel="stylesheet" type="text/css" href="resource/css/style.css">
+    <script src="resource/js/jquery.1.4.2.min.js"></script>
+    <script src="resource/js/silk-gui.js"></script>
+  </head>
+  <body class="default silk-gui">
+    <div class="content">
+      
+    
+    <div class="jquery-directory-chooser">
+      <input id="chooser" type="file" nwdirectory="">
+    </div>
+  
+
+
+    
+    <div class="simple-spin-options">
+      Auto Spin 
+      <input type="radio" name="autospin" value="y" id="autospin_on" onclick="autospin(this.value);"> On
+      <input type="radio" name="autospin" value="n" id="autospin_off" checked="checked" onclick="autospin(this.value);"> Off
+      <input type="button" id="spin_btn" value="Manual Spin" onclick="spin('');">
+    </div>
+  
+
+
+    
+    <div class="basic-logger">
+      <textarea id="logger" class="logger" rows="10"></textarea>
+    </div>
+  
+
+
+  
+
+
+    </div>
+  
+
+</body></html>
