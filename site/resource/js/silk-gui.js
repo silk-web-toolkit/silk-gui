@@ -19,23 +19,6 @@ function spin(arg) {
   silk.on('exit', function(code) {
     console.log('Child process exited with code:', code);
   });
-
-
-/*
-  var exec = require('child_process').exec;
-
-  exec('silk' +arg, {cwd: chooser.value}, function(err, stdout, stderr) {
-    if (err) { //process error
-      console.log("error is " + err);
-      alert("error is " + err);
-    } else { 
-      console.log("success open");
-      var logger = document.getElementById("logger");
-      logger.value += stdout;
-      logger.scrollTop = logger.scrollHeight;
-    }
-  })
-  */
 }
 
 function autospin(radio) {
@@ -46,4 +29,8 @@ function autospin(radio) {
   } else {
     btn.style.display = "";
   }
+}
+
+function clearLogger() {
+  document.getElementById("logger").value = "";
 }

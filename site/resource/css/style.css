@@ -22,9 +22,9 @@ div.simple-spin-options {
 div.basic-logger {
   position: absolute;
   left: 0;
-  bottom: 0; 
+  bottom: 25px; 
   width: 100%;
-  height: 81%;
+  height: 78%;
 }
 
 textarea.logger {
@@ -34,4 +34,13 @@ textarea.logger {
   color:white;
   border:0px;
   padding:5px;
+  resize: none;
+  outline: none;
+}
+
+div.clear-button {
+  position: absolute;
+  bottom:0px;
+  width:100%;
+  text-align: center;
 }

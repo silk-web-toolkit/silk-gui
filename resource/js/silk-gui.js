@@ -30,3 +30,7 @@ function autospin(radio) {
     btn.style.display = "";
   }
 }
+
+function clearLogger() {
+  document.getElementById("logger").value = "";
+}
