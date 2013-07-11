@@ -1,40 +1,56 @@
 var gui = require('nw.gui');
+var spawn = require('child_process').spawn;
+
+var silk;
+
+function autospin(checked) {
+  if (checked) {
+    spin_btn.style.display = "none";
+    spin("reload");
+  } else {
+    spin_btn.style.display = "";
+    try { silk.kill("SIGHUP"); } 
+    catch (err) { }
+  }
+}
 
 function spin(arg) {  
+  var spin_btn = document.getElementById('spin_btn');
   var chooser = document.getElementById('chooser');
+  var msg = "";
+  
   if (chooser.value == "") {
     alert("You did not select a directory to spin.");
-    document.getElementById('spin_btn').style.display = "";
-    document.getElementById('autospin_off').checked = "checked";
+    spin_btn.style.display = "";
+    autospin_cbx.checked = false;
     return;
   }
   
-  var spawn = require('child_process').spawn;
-  var silk = spawn('silk', [arg], {cwd: chooser.value});
-  var msg = "";
-  silk.stdout.on('data', function(data) {
-    // TO-DO add a shinny spinner.
-    msg += data;
-  });
+  if (arg == "") document.getElementById('autospin_cbx').checked = false;
   
-  silk.on('exit', function(code) {
-    spinOutputContainer(chooser.value, msg)
+  silk = spawn('silk', [arg], {cwd: chooser.value});
+  silk.stdout.on('data', function(data) {
+    msg += data;
+    if (msg.indexOf("Site spinning is complete") !== -1) {
+      spinOutputlogger(true, chooser.value, msg);      
+    } else if (msg.indexOf("Cause Of error:") !== -1) {
+      spinOutputlogger(false, chooser.value, msg);
+    }
   });
 }
 
-function spinOutputContainer(dir, msg) {
-  var container = document.getElementById("stack-logger");
+function spinOutputlogger(success, dir, msg) {
+  var logger = document.getElementById("last-spin-logger");
   var div = document.createElement("div");
-  // Stack divs.
-  if (container.hasChildNodes()) container.appendChild(div)
-  else container.insertBefore(div, container.firstChild);
-  // Spin output.
+  
+  if (logger.hasChildNodes()) logger.replaceChild(div, logger.firstChild)
+  else logger.appendChild(div);
   
   var span = document.createElement("span");
   span.appendChild(document.createTextNode(timenow()));
   div.appendChild(span);
   
-  if (msg.indexOf("Site spinning is complete") !== -1) {
+  if (success) {
     div.className = "success";
     // Display in browser link.
     var openLink = document.createElement('a');
@@ -77,16 +93,6 @@ function openBrowserWindow(site) {
   gui.Window.get().on('close', function() {
     gui.App.quit();
   });
-}
-
-function autospin(radio) {
-  var btn = document.getElementById('spin_btn');
-  if (radio == 'y') {
-    btn.style.display = "none";
-    spin("reload");
-  } else {
-    btn.style.display = "";
-  }
 }
 
 function timenow(){

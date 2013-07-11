@@ -19,7 +19,7 @@ div.simple-spin-options {
   text-align: center;
 }
 
-div.stack-logger {
+div.last-spin-logger {
   position: absolute;
   left: 0;
   bottom: 0px;
@@ -28,16 +28,16 @@ div.stack-logger {
   overflow: auto;
 }
 
-div.stack-logger div {
+div.last-spin-logger div {
  width: 100%;
  border: 1px dashed #000;
 }
 
-div.stack-logger div.error {
+div.last-spin-logger div.error {
   background-color: red;
 }
 
-div.stack-logger div.success {
+div.last-spin-logger div.success {
  width: 99%;
  height: 40px;
  border: 1px dashed #000;
@@ -45,10 +45,10 @@ div.stack-logger div.success {
  float: clear;
 }
 
-div.stack-logger div span {
+div.last-spin-logger div span {
   float: left;
 }
 
-div.stack-logger div a {
+div.last-spin-logger div a {
   float: right;
 }

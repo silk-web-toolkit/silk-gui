@@ -4,10 +4,7 @@
   <body>
     <div class="simple-spin-options">
       Auto Spin 
-      <input type="radio" name="autospin" value="y" id="autospin_on" 
-             onclick="autospin(this.value);" /> On
-      <input type="radio" name="autospin" value="n" id="autospin_off" 
-             checked="checked" onclick="autospin(this.value);" /> Off
+      <input type="checkbox" id="autospin_cbx" onclick="autospin(this.checked);" />
       <input type="button" id="spin_btn" value="Manual Spin" onclick="spin('');"/>
     </div>
   </body>

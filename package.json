@@ -5,7 +5,7 @@
   "main": "silk-gui.html",
   "window": {
     "show": true,
-    "toolbar": false,
+    "toolbar": true,
     "frame": true,
     "width": 400,
     "height": 500,
