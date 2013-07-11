@@ -19,28 +19,36 @@ div.simple-spin-options {
   text-align: center;
 }
 
-div.basic-logger {
+div.stack-logger {
   position: absolute;
   left: 0;
-  bottom: 25px; 
+  bottom: 0px;
   width: 100%;
   height: 78%;
+  overflow: auto;
 }
 
-textarea.logger {
-  width: 100%;
-  height: 100%;
-  background-color:black;
-  color:white;
-  border:0px;
-  padding:5px;
-  resize: none;
-  outline: none;
+div.stack-logger div {
+ width: 100%;
+ border: 1px dashed #000;
 }
 
-div.clear-button {
-  position: absolute;
-  bottom:0px;
-  width:100%;
-  text-align: center;
+div.stack-logger div.error {
+  background-color: red;
+}
+
+div.stack-logger div.success {
+ width: 99%;
+ height: 40px;
+ border: 1px dashed #000;
+ background-color: green;
+ float: clear;
+}
+
+div.stack-logger div span {
+  float: left;
+}
+
+div.stack-logger div a {
+  float: right;
 }
