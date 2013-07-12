@@ -3,9 +3,13 @@
   </head>
   <body>
     <div class="simple-spin-options">
-      Auto Spin 
-      <input type="checkbox" id="autospin_cbx" onclick="autospin(this.checked);" />
-      <input type="button" id="spin_btn" value="Manual Spin" onclick="spin('');"/>
+      <div class="auto-spin">
+        Auto Spin 
+        <input type="checkbox" id="autospin_cbx" onclick="autospin(this.checked);" />
+      </div>
+      <div class="manual-spin">
+        <input type="button" id="spin_btn" value="Manual Spin" onclick="spin('');"/>
+      </div>
     </div>
   </body>
 </html>

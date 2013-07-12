@@ -1,7 +1,8 @@
 var gui = require('nw.gui');
 var spawn = require('child_process').spawn;
-
 var silk;
+var successCls = "success";
+var errorCls = "error";
 
 function autospin(checked) {
   if (checked) {
@@ -20,7 +21,7 @@ function spin(arg) {
   var msg = "";
   
   if (chooser.value == "") {
-    alert("You did not select a directory to spin.");
+    addLog("Please select a Silk Project.", errorCls);
     spin_btn.style.display = "";
     autospin_cbx.checked = false;
     return;
@@ -28,51 +29,61 @@ function spin(arg) {
   
   if (arg == "") document.getElementById('autospin_cbx').checked = false;
   
+  addLog("Spinning please wait", "");
+  
   silk = spawn('silk', [arg], {cwd: chooser.value});
   silk.stdout.on('data', function(data) {
     msg += data;
     if (msg.indexOf("Site spinning is complete") !== -1) {
-      spinOutputlogger(true, chooser.value, msg);      
-    } else if (msg.indexOf("Cause Of error:") !== -1) {
-      spinOutputlogger(false, chooser.value, msg);
+      spinOutputlogger(chooser.value, msg, true);      
+    } else if (msg.indexOf("Cause of error:") !== -1) {
+      spinOutputlogger(chooser.value, msg, false);
     }
   });
 }
 
-function spinOutputlogger(success, dir, msg) {
-  var logger = document.getElementById("last-spin-logger");
-  var div = document.createElement("div");
+function addLog(msg, className) {
+  var container = document.getElementById("last-spin-logger");
+  var logger = document.createElement("div");
   
-  if (logger.hasChildNodes()) logger.replaceChild(div, logger.firstChild)
-  else logger.appendChild(div);
+  if (container.hasChildNodes()) 
+    container.replaceChild(logger, container.firstChild)
+  else container.appendChild(logger);
   
   var span = document.createElement("span");
-  span.appendChild(document.createTextNode(timenow()));
-  div.appendChild(span);
+  span.appendChild(document.createTextNode(timenow() + " - " + msg));
+  logger.appendChild(span);
   
+  logger.className = className
+  return logger;
+}
+
+function spinOutputlogger(dir, msg, success) {
   if (success) {
-    div.className = "success";
+    var logger = addLog("Successfully spun site", successCls);
     // Display in browser link.
-    var openLink = document.createElement('a');
-    openLink.appendChild(document.createTextNode("Display in Browser"));
-    openLink.title = "Preview Spin Link";
-    openLink.href = "#";
+    var openLink = createLink("Show Site", "Previw Spin Link");
     openLink.onclick=function() { 
       openBrowserWindow(dir + "/site/index.html")
     }
-    div.appendChild(openLink);
+    logger.appendChild(openLink);
   } else {
-    div.className = "error";
+    var logger = addLog("Error spinning site", errorCls);
     // See error link.
-    var errorLink = document.createElement('a');
-    errorLink.appendChild(document.createTextNode("Show error message"));
-    errorLink.title = "See Spin Error Link";
-    errorLink.href = "#";
+    var errorLink = createLink("Show Error", "See Spin Error Link");
     errorLink.onclick=function() { 
-      alert(msg.substring(msg.indexOf("Cause Of error:"),  msg.length))
+      alert(msg.substring(msg.indexOf("Cause of error:") + 16,  msg.length))
     }
-    div.appendChild(errorLink);
+    logger.appendChild(errorLink);
   }
+}
+
+function createLink(msg, title) {
+  var a = document.createElement('a');
+  a.appendChild(document.createTextNode(msg));
+  a.title = "Preview Spin Link";
+  a.href = "#";
+  return a;
 }
 
 function openBrowserWindow(site) {
