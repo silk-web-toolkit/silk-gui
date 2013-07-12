@@ -1,50 +1,5 @@
-html {
-  margin: 0px;
-  padding: 0px;
-  overflow: hidden;
-}
-
 body {
-  margin: 0px;
-  padding: 0px;
-  background-color:#ddd;
-}
-
-div.content {
-  padding-top: 30px;
-}
-
-div.jquery-directory-chooser,
-div.simple-spin-options {
-  padding: 10px;
-  width: 100%;
-  text-align: center;
-}
-
-div.basic-logger {
-  position: absolute;
-  left: 0;
-  bottom: 25px; 
-  width: 100%;
-  height: 72%;
-}
-
-textarea.logger {
-  width: 100%;
-  height: 100%;
-  background-color:black;
-  color:white;
-  border:0px;
-  padding:5px;
-  resize: none;
-  outline: none;
-}
-
-div.clear-button {
-  position: absolute;
-  bottom:0px;
-  width:100%;
-  text-align: center;
+  margin-top: 35px;
 }
 
 ::-webkit-scrollbar-thumb {
