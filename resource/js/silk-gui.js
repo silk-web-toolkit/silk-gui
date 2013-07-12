@@ -120,6 +120,27 @@ function openBrowserWindow(site) {
   });
 }
 
+function aboutUs() {
+  var win = gui.Window.open("about-us.html", {
+    show: true,
+    title: 'About Us',
+    toolbar: false,
+    width: 600,
+    height: 500
+  });
+  
+  var mainWindow =gui.Window.get();
+  
+  win.on('loaded', function() {
+    mainWindow.hide();
+  });
+  
+  win.on('closed', function() {
+    mainWindow.show();
+    mainWindow.focus();
+  });
+}
+
 function timenow(){
   var now = new Date();
   var h = now.getHours();
