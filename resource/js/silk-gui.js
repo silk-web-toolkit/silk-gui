@@ -1,13 +1,19 @@
 var gui = require('nw.gui');
 var spawn = require('child_process').spawn;
+var fs = require('fs');
+
 var silk;
+
 var successCls = "success";
 var errorCls = "error";
+var silkReloadArg = "reload";
+
+var silkGUILastSpunProjectFile = "../silk-gui-last-spun-project.txt"
 
 function autospin(checked) {
   if (checked) {
     spin_btn.style.display = "none";
-    spin("reload");
+    spin(silkReloadArg);
   } else {
     spin_btn.style.display = "";
     try { silk.kill("SIGHUP"); } 
@@ -35,10 +41,18 @@ function spin(arg) {
   silk.stdout.on('data', function(data) {
     msg += data;
     if (msg.indexOf("Site spinning is complete") !== -1) {
-      spinOutputlogger(chooser.value, msg, true);      
+      spinOutputlogger(chooser.value, msg, true);     
+      setLastSpunDirectory(chooser.value); 
     } else if (msg.indexOf("Cause of error:") !== -1) {
       spinOutputlogger(chooser.value, msg, false);
     }
+  });
+}
+
+function setLastSpunDirectory(dir) {
+  fs.writeFile(silkGUILastSpunProjectFile, dir, function (err) {
+    if (err) throw err;
+    console.log('It\'s saved!');
   });
 }
 
@@ -107,15 +121,13 @@ function openBrowserWindow(site) {
 }
 
 function timenow(){
-    var now= new Date(),
-    h= now.getHours(),
-    m= now.getMinutes(),
-    s= now.getSeconds();
-    if(h>= 12){
-      if(h>12)h-= 12;
-    }
-    if(h<10) h= '0'+h;
-    if(m<10) m= '0'+m;
-    if(s<10) s= '0'+s;
-    return now.toLocaleDateString()+' '+h+':'+m+':'+s;
+  var now = new Date();
+  var h = now.getHours();
+  var m = now.getMinutes();
+  var s = now.getSeconds();
+  if (h > 12) h -= 12;
+  if (h < 10) h = '0'+h;
+  if (m < 10) m = '0'+m;
+  if (s < 10) s = '0'+s;
+  return now.toLocaleDateString()+' '+h+':'+m+':'+s;
 }

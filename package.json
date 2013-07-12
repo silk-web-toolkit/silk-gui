@@ -8,8 +8,8 @@
     "toolbar": false,
     "frame": true,
     "width": 500,
-    "height": 200,
+    "height": 180,
     "min_width": 500,
-    "min_height": 200
+    "min_height": 180
   }
 }
