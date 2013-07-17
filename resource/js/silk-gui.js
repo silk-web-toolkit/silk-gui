@@ -106,8 +106,8 @@ function openBrowserWindow(site) {
     show: true,
     title: 'Silk Spin Preview',
     toolbar: true,
-    width: 800,
-    height: 600
+    width: 1000,
+    height: 800
   });
 }
 
