@@ -1,5 +1,5 @@
 function closeWindow() {
-  window.close();
+  require('nw.gui').App.quit();
 }
 
 function updateImageUrl(image_id, new_image_url) {

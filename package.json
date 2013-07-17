@@ -2,15 +2,15 @@
   "name": "Silk GUI",
   "description": "Chrome platform app.",
   "version": "0.1",
-  "main": "silk-gui.html",
+  "main": "frameless-silk-gui.html",
   "window": {
     "title": "Silk Web Toolkit",
     "show": true,
     "toolbar": false,
-    "frame": true,
+    "frame": false,
     "width": 500,
-    "height": 180,
+    "height": 190,
     "min_width": 500,
-    "min_height": 180
+    "min_height": 190
   }
 }
