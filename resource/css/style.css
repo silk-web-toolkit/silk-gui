@@ -24,6 +24,22 @@ div.content {
   padding: 0px;
 }
 
+
+div.about-us {
+  width: 100%;
+  text-align: center;
+}
+
+div.about-us p {
+  text-align: left;
+}
+
+div.about-us table {
+  width: 300px;
+  margin: 10px auto;
+  text-align: left;
+}
+
 div.simple-spin-options {
   width: 100%;
   height: 30px;

@@ -117,7 +117,7 @@ function aboutUs() {
     title: 'About Us',
     toolbar: false,
     width: 600,
-    height: 500,
+    height: 350,
     position: "center"
   });
 }
