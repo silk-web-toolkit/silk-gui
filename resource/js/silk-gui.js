@@ -3,6 +3,7 @@ var spawn = require('child_process').spawn;
 var fs = require('fs');
 
 var silk;
+var openChildWnds = new Array();
 
 var successCls = "success";
 var errorCls = "error";
@@ -78,7 +79,7 @@ function spinOutputlogger(dir, msg, success) {
     // Display in browser link.
     var openLink = createLink("Show Site", "Previw Spin Link");
     openLink.onclick=function() { 
-      openBrowserWindow(dir + "/site/index.html")
+      openBrowserWindow(dir)
     }
     logger.appendChild(openLink);
   } else {
@@ -86,7 +87,7 @@ function spinOutputlogger(dir, msg, success) {
     // See error link.
     var errorLink = createLink("Show Error", "See Spin Error Link");
     errorLink.onclick=function() { 
-      alert(msg.substring(msg.indexOf("Cause of error:") + 16,  msg.length))
+      alert(msg.substring(msg.indexOf("Cause of error:") + 16,  msg.length));
     }
     logger.appendChild(errorLink);
   }
@@ -101,44 +102,54 @@ function createLink(msg, title) {
 }
 
 function openBrowserWindow(site) {
-  var win = gui.Window.open("file:///" + site, {
+  createNewWindow("file:///" + site + "/site/", {
     show: true,
-    'new-instance': true,
     title: 'Silk Spin Preview',
     toolbar: true,
     width: 800,
     height: 600
   });
-  
-  win.on('closed', function() {
-    win = null;
-  });
-  
-  // Listen to main window's close event
-  gui.Window.get().on('close', function() {
-    gui.App.quit();
-  });
 }
 
 function aboutUs() {
-  var win = gui.Window.open("about-us.html", {
+  createNewWindow("about-us.html", {
     show: true,
     title: 'About Us',
     toolbar: false,
     width: 600,
-    height: 500
+    height: 500,
+    position: "center"
   });
+}
+
+function indexOfTitleInOpenChildWindows(title) {
+  var index = -1;
   
-  var mainWindow =gui.Window.get();
-  
-  win.on('loaded', function() {
-    mainWindow.hide();
-  });
-  
-  win.on('closed', function() {
-    mainWindow.show();
-    mainWindow.focus();
-  });
+  for (i = 0; i < openChildWnds.length; i++) {
+    if (openChildWnds[i][0] == title) {
+      index = i;
+    }
+  }
+  return index;
+}
+
+function createNewWindow(url, settings) {
+  var index = indexOfTitleInOpenChildWindows(settings.title);
+  if (index > -1) {
+      openChildWnds[index][1].focus();
+  } else {
+    var new_win = gui.Window.open(url, settings);   
+    openChildWnds.push([settings.title, new_win]);
+    
+    new_win.on('closed', function() {
+      openChildWnds.splice(indexOfTitleInOpenChildWindows(settings.title), 1);
+    });
+    
+    // Listen to main window's close event
+    gui.Window.get().on('close', function() {
+      gui.App.quit();
+    });
+  }
 }
 
 function timenow(){
