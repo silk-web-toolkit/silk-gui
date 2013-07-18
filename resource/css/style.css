@@ -40,24 +40,24 @@ div.about-us table {
   text-align: left;
 }
 
-div.simple-spin-options {
+div.simple-options {
   width: 100%;
   height: 30px;
 }
 
-div.simple-spin-options div.auto-spin {
+div.simple-options div.auto-spin {
   width: 20%;
   margin-top: 3px;
   float: left;
 }
 
-div.simple-spin-options div.directory-chooser {
+div.simple-options div.directory-chooser {
   width: 60%;
   float: left;
   text-align: center;
 }
 
-div.simple-spin-options div.manual-spin {
+div.simple-options div.manual-spin {
   float: right;
   text-align: right;
 }
