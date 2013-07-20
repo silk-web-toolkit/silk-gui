@@ -4,19 +4,12 @@
   <body>
     <div class="simple-options">
       <div class="auto-spin">
-        Auto Spin 
+        <label for="autospin_cbx">Auto Spin</label>
         <input type="checkbox" id="autospin_cbx" onclick="autospin(this.checked);" />
       </div>
       <div id="chooser-div" class="directory-chooser">
-        <script>
-          var div = document.getElementById('chooser-div');
-          fs.readFile(silkGUILastSpunProjectFile, function (err, data) {
-            div.innerHTML = '<input id="chooser" \
-                                    type="file" \
-                                    nwdirectory \
-                                    nwworkingdir="' + data +'" />';
-          });
-        </script>
+        <input id="chooser" type="file" nwdirectory 
+               onchange="document.getElementById('current-project').value = this.value;"/>
       </div>
       <div class="manual-spin">
         <input type="button" id="spin_btn" value="Manual Spin" onclick="spin('');"/>

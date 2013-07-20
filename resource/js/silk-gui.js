@@ -9,7 +9,7 @@ var successCls = "success";
 var errorCls = "error";
 var silkReloadArg = "reload";
 
-var silkGUILastSpunProjectFile = "../silk-gui-last-spun-project.txt"
+var silkGUILastSpunProjectFile = process.env.HOME  + "/.silk/silk-gui-last-spun-project.txt";
 
 function autospin(checked) {
   if (checked) {
@@ -24,11 +24,18 @@ function autospin(checked) {
 
 function spin(arg) {  
   var spin_btn = document.getElementById('spin_btn');
-  var chooser = document.getElementById('chooser');
+  var currentProject = document.getElementById('current-project');
   var msg = "";
-  
-  if (chooser.value == "") {
+  if (currentProject.value == "") {
     addLog("Please select a Silk Project.", errorCls);
+    spin_btn.style.display = "";
+    autospin_cbx.checked = false;
+    return;
+  }
+  
+  try { fs.statSync(currentProject.value);}
+  catch (err) {
+    addLog("Directory does not exists.", errorCls);
     spin_btn.style.display = "";
     autospin_cbx.checked = false;
     return;
@@ -38,21 +45,69 @@ function spin(arg) {
   
   addLog("Spinning please wait", "");
   
-  silk = spawn('silk', [arg], {cwd: chooser.value});
+  silk = spawn('silk', [arg], {cwd: currentProject.value}); 
   silk.stdout.on('data', function(data) {
     msg += data;
     if (msg.indexOf("Site spinning is complete") !== -1) {
-      spinOutputlogger(chooser.value, msg, true);     
-      setLastSpunDirectory(chooser.value); 
+      spinOutputlogger(currentProject.value, msg, true);
+      for (i = 0; i < openChildWnds.length; i++) {
+        openChildWnds[i][1].reload(); 
+      }
+      //TO-DO only proccess the following for new projects.
+      setLastSpunDirectory(currentProject.value); 
+      listProjects();
     } else if (msg.indexOf("Cause of error:") !== -1) {
-      spinOutputlogger(chooser.value, msg, false);
+      spinOutputlogger(currentProject.value, msg, false);
     }
   });
 }
 
+function loadLastProject() {
+  fs.readFile(silkGUILastSpunProjectFile, function (err, data) {
+    if (data != undefined) {
+      document.getElementById('current-project').value = data;
+    }
+  });
+}
+
+function listProjects() {
+  var list = document.getElementById('project-list');
+  var currentProject = document.getElementById("current-project");
+  
+  while (list.hasChildNodes()) {
+    list.removeChild(list.lastChild);
+  }
+  
+  var file = process.env.HOME  + '/.silk/spun-projects.txt';
+  fs.readFile(file, 'utf8', function (err, data) {
+    if (err) { return console.log(err); }
+    
+    var items = data.split('\n');
+    for (i = 0; i < items.length-1; i++) {
+      var row = document.createElement('div');
+      var grp = "project";
+      var tick = currentProject.value == items[i];
+      var radio = createRadioWithLabel(items[i], grp + i, grp, items[i], tick, 
+        function() { currentProject.value = getSelectedRadioGroup(grp).value; }
+      );
+      list.appendChild(radio);
+      list.appendChild(row);
+    }
+  });
+}
+
+function getSelectedRadioGroup(name){
+  var radio = document.getElementsByName(name);
+  for (i=0; i < radio.length; i++) {
+    if (radio[i].checked){
+      return radio[i];
+    }
+  }
+}
+
 function setLastSpunDirectory(dir) {
   fs.writeFile(silkGUILastSpunProjectFile, dir, function (err) {
-    if (err) throw err;
+    if (err) { return console.log(err); }
     console.log('It\'s saved!');
   });
 }
@@ -77,28 +132,43 @@ function spinOutputlogger(dir, msg, success) {
   if (success) {
     var logger = addLog("Successfully spun site", successCls);
     // Display in browser link.
-    var openLink = createLink("Show Site", "Previw Spin Link");
-    openLink.onclick=function() { 
+    var openLink = createLink("Show Site", "Previw Spin Link", function() { 
       openBrowserWindow(dir)
-    }
+    });
     logger.appendChild(openLink);
   } else {
-    var logger = addLog("Error spinning site", errorCls);
-    // See error link.
-    var errorLink = createLink("Show Error", "See Spin Error Link");
-    errorLink.onclick=function() { 
-      alert(msg.substring(msg.indexOf("Cause of error:") + 16,  msg.length));
-    }
-    logger.appendChild(errorLink);
+    var error = msg.substring(msg.indexOf("Cause of error:") + 16,  msg.length);
+    addLog(error, errorCls);
   }
 }
 
-function createLink(msg, title) {
+function createLink(msg, title, onclick) {
   var a = document.createElement('a');
   a.appendChild(document.createTextNode(msg));
-  a.title = "Preview Spin Link";
+  a.title = title;
   a.href = "#";
+  a.onclick = onclick;
   return a;
+}
+
+function createRadioWithLabel(msg, id, group, value, checked, onclick) {
+  var span = document.createElement("span");
+  
+  var radio = document.createElement("input");
+  radio.type = "radio";
+  radio.id = id;
+  radio.name = group;
+  radio.value = value;
+  radio.checked = checked;
+  radio.onclick = onclick;
+  
+  var label = document.createElement("label");
+  label.htmlFor = id;
+  
+  label.appendChild(document.createTextNode(msg));
+  span.appendChild(radio);
+  span.appendChild(label);
+  return span;
 }
 
 function openBrowserWindow(site) {
