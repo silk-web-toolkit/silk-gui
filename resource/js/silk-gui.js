@@ -22,6 +22,15 @@ function autospin(checked) {
   }
 }
 
+function changeProject(newProject) {
+  document.getElementById('current-project').value = newProject;  
+  removeChildElements(document.getElementById("last-spin-logger")); 
+  if (document.getElementById('autospin_cbx').checked) {
+    autospin(false) 
+    autospin(true)
+  }
+}
+
 function spin(arg) {  
   var spin_btn = document.getElementById('spin_btn');
   var currentProject = document.getElementById('current-project');
@@ -70,13 +79,16 @@ function loadLastProject() {
   });
 }
 
+function removeChildElements(parent) {
+  while (parent.hasChildNodes()) {
+    parent.removeChild(parent.lastChild);
+  }
+}
+
 function listProjects() {
   var list = document.getElementById('project-list');
   var currentProject = document.getElementById("current-project");
-  
-  while (list.hasChildNodes()) {
-    list.removeChild(list.lastChild);
-  }
+  removeChildElements(list);
   
   var file = process.env.HOME  + '/.silk/spun-projects.txt';
   fs.readFile(file, 'utf8', function (err, data) {
@@ -88,7 +100,7 @@ function listProjects() {
       var grp = "project";
       var tick = currentProject.value == items[i];
       var radio = createRadioWithLabel(items[i], grp + i, grp, items[i], tick, 
-        function() { currentProject.value = getSelectedRadioGroup(grp).value; }
+        function() { changeProject(getSelectedRadioGroup(grp).value); }
       );
       list.appendChild(radio);
       list.appendChild(row);
