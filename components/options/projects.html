@@ -3,7 +3,13 @@
   </head>
   <body>
     <div>
-      <div id="project-list" class="project-list"></div>  
+      <div id="chooser-div" class="directory-chooser">
+        <input type="button" value="New Project" 
+               onclick="document.getElementById('chooser').click();" /> 
+        <input id="chooser" type="file" nwdirectory name="New Project" style="display:none"
+               onchange="document.getElementById('current-project').value = this.value;"/>
+      </div>
+      <div id="project-list" class="project-list"></div>
       <input type="hidden" id="current-project" name="current-project" value="" />     
       <script>
         loadLastProject();
