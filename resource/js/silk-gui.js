@@ -144,7 +144,7 @@ function spinOutputlogger(dir, msg, success) {
   if (success) {
     var logger = addLog("Successfully spun site", successCls);
     // Display in browser link.
-    var openLink = createLink("Show Site", "Previw Spin Link", function() { 
+    var openLink = createBtn("Show Site", "Previw Spin Link", function() { 
       openBrowserWindow(dir)
     });
     logger.appendChild(openLink);
@@ -154,13 +154,12 @@ function spinOutputlogger(dir, msg, success) {
   }
 }
 
-function createLink(msg, title, onclick) {
-  var a = document.createElement('a');
-  a.appendChild(document.createTextNode(msg));
-  a.title = title;
-  a.href = "#";
-  a.onclick = onclick;
-  return a;
+function createBtn(msg, title, onclick) {
+  var btn = document.createElement('input');
+  btn.type = "button";
+  btn.value = msg;
+  btn.onclick = onclick;
+  return btn;
 }
 
 function createRadioWithLabel(msg, id, group, value, checked, onclick) {
