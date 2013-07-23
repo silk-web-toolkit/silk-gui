@@ -9,7 +9,10 @@ var successCls = "success";
 var errorCls = "error";
 var silkReloadArg = "reload";
 
-var silkGUILastSpunProjectFile = process.env.HOME  + "/.silk/silk-gui-last-spun-project.txt";
+var silkPath = process.env.SILK_PATH
+if (silkPath == undefined) silkPath = process.env.HOME + "/.silk"
+
+var silkGUILastSpunProjectFile = silkPath + "/silk-gui-last-spun-project.txt";
 
 function autospin(checked) {
   if (checked) {
@@ -90,7 +93,7 @@ function listProjects() {
   var currentProject = document.getElementById("current-project");
   removeChildElements(list);
   
-  var file = process.env.HOME  + '/.silk/spun-projects.txt';
+  var file = silkPath + "/spun-projects.txt';
   fs.readFile(file, 'utf8', function (err, data) {
     if (err) { return console.log(err); }
     
