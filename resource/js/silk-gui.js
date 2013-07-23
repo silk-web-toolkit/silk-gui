@@ -93,7 +93,7 @@ function listProjects() {
   var currentProject = document.getElementById("current-project");
   removeChildElements(list);
   
-  var file = silkPath + '/.silk/spun-projects.txt';
+  var file = silkPath + '/spun-projects.txt';
   fs.readFile(file, 'utf8', function (err, data) {
     if (err) { return console.log(err); }
     
