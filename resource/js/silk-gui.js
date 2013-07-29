@@ -9,10 +9,11 @@ var successCls = "success";
 var errorCls = "error";
 var silkReloadArg = "reload";
 
-var silkPath = process.env.SILK_PATH
-if (silkPath == undefined) silkPath = process.env.HOME + "/.silk"
+var silkPath = process.env.SILK_PATH;
+if (silkPath == undefined) silkPath = process.env.HOME + "/.silk";
 
 var silkGUILastSpunProjectFile = silkPath + "/silk-gui-last-spun-project.txt";
+var silkGUIProjectList = silkPath + "/spun-projects.txt";
 
 function autospin(checked) {
   if (checked) {
@@ -29,8 +30,8 @@ function changeProject(newProject) {
   document.getElementById('current-project').value = newProject;  
   removeChildElements(document.getElementById("last-spin-logger")); 
   if (document.getElementById('autospin_cbx').checked) {
-    autospin(false) 
-    autospin(true)
+    autospin(false); 
+    autospin(true);
   }
 }
 
@@ -92,9 +93,8 @@ function listProjects() {
   var list = document.getElementById('project-list');
   var currentProject = document.getElementById("current-project");
   removeChildElements(list);
-  
-  var file = silkPath + "/spun-projects.txt';
-  fs.readFile(file, 'utf8', function (err, data) {
+    
+  fs.readFile(silkGUIProjectList, 'utf8', function (err, data) {
     if (err) { return console.log(err); }
     
     var items = data.split('\n');
