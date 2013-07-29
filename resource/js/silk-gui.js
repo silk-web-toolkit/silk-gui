@@ -201,7 +201,7 @@ function aboutUs() {
     title: 'About Us',
     toolbar: false,
     width: 600,
-    height: 350,
+    height: 370,
     position: "center"
   });
 }
