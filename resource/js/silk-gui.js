@@ -69,8 +69,10 @@ function spin(arg) {
       //TO-DO only proccess the following for new projects.
       setLastSpunDirectory(currentProject.value); 
       listProjects();
+      msg = "";  // Clear spin msg for next Silk reload.
     } else if (msg.indexOf("Cause of error:") !== -1) {
       spinOutputlogger(currentProject.value, msg, false);
+      msg = "";  // Clear spin msg for next Silk reload.
     }
   });
 }
