@@ -110,6 +110,7 @@ function listProjects() {
       var csv = items[i].split(",");
       var row = document.createElement('li');
       var tick = currentProject.value == csv[0];
+      var label = document.createElement('label');
       var grp = "project";
       
       var radio = createRadio(grp + i, grp, csv[0], tick, 
@@ -126,9 +127,10 @@ function listProjects() {
       dateSpan.innerHTML = datetimeString(date);
       dateSpan.className = "spin-name";
       
-      row.appendChild(radio);
-      row.appendChild(dirSpan);
-      row.appendChild(dateSpan);
+      label.appendChild(radio);
+      label.appendChild(dirSpan);
+      label.appendChild(dateSpan);
+      row.appendChild(label);
       list.appendChild(row);
     }
   });
