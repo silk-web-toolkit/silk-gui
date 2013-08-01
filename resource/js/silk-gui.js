@@ -101,13 +101,15 @@ function listProjects() {
     
     var items = data.split('\n');
     for (i = 0; i < items.length-1; i++) {
-      var row = document.createElement('div');
+      var row = document.createElement('li');
+      var projectLabel = document.createElement('label');
       var grp = "project";
       var tick = currentProject.value == items[i];
       var radio = createRadioWithLabel(items[i], grp + i, grp, items[i], tick, 
         function() { changeProject(getSelectedRadioGroup(grp).value); }
       );
-      list.appendChild(radio);
+      projectLabel.appendChild(radio);
+      row.appendChild(projectLabel);
       list.appendChild(row);
     }
   });
