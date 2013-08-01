@@ -47,7 +47,7 @@ div.about-us table {
   text-align: left;
 }
 
-div.project-list {
+ul.project-list {
   max-height: 100px;
   overflow:auto;
 }
