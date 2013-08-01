@@ -9,10 +9,11 @@ var successCls = "success";
 var errorCls = "error";
 var silkReloadArg = "reload";
 
-var silkPath = process.env.SILK_PATH
-if (silkPath == undefined) silkPath = process.env.HOME + "/.silk"
+var silkPath = process.env.SILK_PATH;
+if (silkPath == undefined) silkPath = process.env.HOME + "/.silk";
 
 var silkGUILastSpunProjectFile = silkPath + "/silk-gui-last-spun-project.txt";
+var silkGUIProjectList = silkPath + "/spun-projects.txt";
 
 function autospin(checked) {
   if (checked) {
@@ -29,8 +30,8 @@ function changeProject(newProject) {
   document.getElementById('current-project').value = newProject;  
   removeChildElements(document.getElementById("last-spin-logger")); 
   if (document.getElementById('autospin_cbx').checked) {
-    autospin(false) 
-    autospin(true)
+    autospin(false); 
+    autospin(true);
   }
 }
 
@@ -68,8 +69,10 @@ function spin(arg) {
       //TO-DO only proccess the following for new projects.
       setLastSpunDirectory(currentProject.value); 
       listProjects();
+      msg = "";  // Clear spin msg for next Silk reload.
     } else if (msg.indexOf("Cause of error:") !== -1) {
       spinOutputlogger(currentProject.value, msg, false);
+      msg = "";  // Clear spin msg for next Silk reload.
     }
   });
 }
@@ -92,20 +95,21 @@ function listProjects() {
   var list = document.getElementById('project-list');
   var currentProject = document.getElementById("current-project");
   removeChildElements(list);
-  
-  var file = silkPath + '/spun-projects.txt';
-  fs.readFile(file, 'utf8', function (err, data) {
+    
+  fs.readFile(silkGUIProjectList, 'utf8', function (err, data) {
     if (err) { return console.log(err); }
     
     var items = data.split('\n');
     for (i = 0; i < items.length-1; i++) {
-      var row = document.createElement('div');
+      var row = document.createElement('li');
+      var projectLabel = document.createElement('label');
       var grp = "project";
       var tick = currentProject.value == items[i];
       var radio = createRadioWithLabel(items[i], grp + i, grp, items[i], tick, 
         function() { changeProject(getSelectedRadioGroup(grp).value); }
       );
-      list.appendChild(radio);
+      projectLabel.appendChild(radio);
+      row.appendChild(projectLabel);
       list.appendChild(row);
     }
   });
