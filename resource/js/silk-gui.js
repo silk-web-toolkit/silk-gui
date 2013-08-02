@@ -91,6 +91,12 @@ function removeChildElements(parent) {
   }
 }
 
+function showProjectList(show) {
+  var list = document.getElementById('project-list');
+  if (show) list.style.display = 'block';
+  else list.style.display = 'none';
+}
+
 function listProjects() {
   var list = document.getElementById('project-list');
   var currentProject = document.getElementById("current-project");
@@ -101,15 +107,30 @@ function listProjects() {
     
     var items = data.split('\n');
     for (i = 0; i < items.length-1; i++) {
+      var csv = items[i].split(",");
       var row = document.createElement('li');
-      var projectLabel = document.createElement('label');
+      var tick = currentProject.value == csv[0];
+      var label = document.createElement('label');
       var grp = "project";
-      var tick = currentProject.value == items[i];
-      var radio = createRadioWithLabel(items[i], grp + i, grp, items[i], tick, 
+      
+      var radio = createRadio(grp + i, grp, csv[0], tick, 
         function() { changeProject(getSelectedRadioGroup(grp).value); }
       );
-      projectLabel.appendChild(radio);
-      row.appendChild(projectLabel);
+      
+      var dirSpan = document.createElement('span');
+      dirSpan.className = "spin-name";
+      dirSpan.title = csv[0];
+      dirSpan.innerHTML = csv[0].substring(csv[0].lastIndexOf("/"));  
+      
+      var date = new Date(parseInt(csv[1]));
+      var dateSpan = document.createElement('span');
+      dateSpan.innerHTML = datetimeString(date);
+      dateSpan.className = "spin-name";
+      
+      label.appendChild(radio);
+      label.appendChild(dirSpan);
+      label.appendChild(dateSpan);
+      row.appendChild(label);
       list.appendChild(row);
     }
   });
@@ -140,7 +161,7 @@ function addLog(msg, className) {
   else container.appendChild(logger);
   
   var span = document.createElement("span");
-  span.appendChild(document.createTextNode(timenow() + " - " + msg));
+  span.appendChild(document.createTextNode(datetimeString(new Date) + " - " + msg));
   logger.appendChild(span);
   
   logger.className = className
@@ -169,9 +190,7 @@ function createBtn(msg, title, onclick) {
   return btn;
 }
 
-function createRadioWithLabel(msg, id, group, value, checked, onclick) {
-  var span = document.createElement("span");
-  
+function createRadio(id, group, value, checked, onclick) {
   var radio = document.createElement("input");
   radio.type = "radio";
   radio.id = id;
@@ -179,14 +198,7 @@ function createRadioWithLabel(msg, id, group, value, checked, onclick) {
   radio.value = value;
   radio.checked = checked;
   radio.onclick = onclick;
-  
-  var label = document.createElement("label");
-  label.htmlFor = id;
-  
-  label.appendChild(document.createTextNode(msg));
-  span.appendChild(radio);
-  span.appendChild(label);
-  return span;
+  return radio;
 }
 
 function openBrowserWindow(site) {
@@ -240,14 +252,7 @@ function createNewWindow(url, settings) {
   }
 }
 
-function timenow(){
-  var now = new Date();
-  var h = now.getHours();
-  var m = now.getMinutes();
-  var s = now.getSeconds();
-  if (h > 12) h -= 12;
-  if (h < 10) h = '0'+h;
-  if (m < 10) m = '0'+m;
-  if (s < 10) s = '0'+s;
-  return now.toLocaleDateString()+' '+h+':'+m+':'+s;
+function datetimeString(){
+  var date = new Date();
+  return date.toLocaleDateString() + " " + date.toLocaleTimeString();
 }
