@@ -214,7 +214,9 @@ function createNewWindow(url, settings) {
 }
 
 function getProjectNameFromPath(path) {
-  return path.substring(path.lastIndexOf("/")+1);
+  var index = path.lastIndexOf("/");
+  if (index == -1) index = path.lastIndexOf("\\");
+  return path.substring(index +1);
 }
 
 function removeChildElements(parent) {
