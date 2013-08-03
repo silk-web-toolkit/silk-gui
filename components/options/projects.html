@@ -2,20 +2,31 @@
   <head>
   </head>
   <body>
-    <div>
-      <div id="chooser-div" class="directory-chooser">
-        <input type="button" value="Recent Projects" 
-               onclick="showProjectList(true);" /> 
-        <input type="button" value="New Project" 
-               onclick="document.getElementById('chooser').click();" /> 
-        <input id="chooser" type="file" nwdirectory name="New Project" 
-               style="display:none;" onchange="changeProject(this.value);"/>
+    <div id="chooser-div" class="directory-chooser">
+      <div class="current-project">
+        <span class="title">Current Project: </span> 
+        <span class="value" id="current-project-span" />
+        <input type="hidden" id="current-project" />
+      </div>
+      
+      <input type="button" id="recent-projects-btn" value="Recent Projects" 
+             onclick="showProjectList(true);" /> 
+      <input type="button" value="New Project" 
+             onclick="document.getElementById('chooser').click();" /> 
+      <input id="chooser" type="file" nwdirectory name="New Project" 
+             style="display:none;" onchange="changeProject(this.value);"/>
+             
+      <div class="manual-spin">
+        <input type="button" id="spin_btn" value="Manual Spin" onclick="spin('');"/>
+      </div>
+      <div class="auto-spin">
+        <label for="autospin_cbx">Auto Spin</label>
+        <input type="checkbox" id="autospin_cbx" onclick="autospin(this.checked);" />
       </div>
       <ul id="project-list" class="project-list"></ul>
-      <input type="hidden" id="current-project" name="current-project" value="" />     
       <script>
-        loadLastProject();
         listProjects();
+        loadLastProject();
       </script>
     </div>
   </body>
