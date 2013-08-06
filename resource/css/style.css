@@ -61,20 +61,23 @@ ul.project-list li {
   padding: 0px;
 }
 
-div.simple-options {
-  width: 100%;
-  height: 30px;
+ul.project-list li label.project-not-found {
+  text-decoration: line-through;
 }
 
-div.simple-options div.auto-spin {
+div.auto-spin {
   width: 20%;
   margin-top: 3px;
-  float: left;
+  float: right;
 }
 
-div.directory-chooser {}
+div.directory-chooser {
+  margin-bottom: 50px;
+}
 
-div.simple-options div.manual-spin {
+
+
+div.manual-spin {
   float: right;
   text-align: right;
 }

@@ -12,7 +12,6 @@ var silkReloadArg = "reload";
 var silkPath = process.env.SILK_PATH;
 if (silkPath == undefined) silkPath = process.env.HOME + "/.silk";
 
-var silkGUILastSpunProjectFile = silkPath + "/silk-gui-last-spun-project.txt";
 var silkGUIProjectList = silkPath + "/spun-projects.txt";
 
 function autospin(checked) {
@@ -23,15 +22,6 @@ function autospin(checked) {
     spin_btn.style.display = "";
     try { silk.kill("SIGHUP"); } 
     catch (err) { }
-  }
-}
-
-function changeProject(newProject) {
-  document.getElementById('current-project').value = newProject;  
-  removeChildElements(document.getElementById("last-spin-logger")); 
-  if (document.getElementById('autospin_cbx').checked) {
-    autospin(false); 
-    autospin(true);
   }
 }
 
@@ -66,8 +56,6 @@ function spin(arg) {
       for (i = 0; i < openChildWnds.length; i++) {
         openChildWnds[i][1].reload(); 
       }
-      //TO-DO only proccess the following for new projects.
-      setLastSpunDirectory(currentProject.value); 
       listProjects();
       msg = "";  // Clear spin msg for next Silk reload.
     } else if (msg.indexOf("Cause of error:") !== -1) {
@@ -78,16 +66,20 @@ function spin(arg) {
 }
 
 function loadLastProject() {
-  fs.readFile(silkGUILastSpunProjectFile, function (err, data) {
-    if (data != undefined) {
-      document.getElementById('current-project').value = data;
-    }
-  });
+  document.getElementById('current-project-span').innerHTML = "Please a new project";
+  setTimeout(function() { 
+    changeProject(getSelectedRadioGroup("project").value);
+  }, 100);
 }
 
-function removeChildElements(parent) {
-  while (parent.hasChildNodes()) {
-    parent.removeChild(parent.lastChild);
+function changeProject(newProject) {
+  document.getElementById('current-project').value = newProject;
+  var name = getProjectNameFromPath(newProject);
+  document.getElementById('current-project-span').innerHTML = name;
+  removeChildElements(document.getElementById("last-spin-logger")); 
+  if (document.getElementById('autospin_cbx').checked) {
+    autospin(false); 
+    autospin(true);
   }
 }
 
@@ -99,28 +91,37 @@ function showProjectList(show) {
 
 function listProjects() {
   var list = document.getElementById('project-list');
-  var currentProject = document.getElementById("current-project");
+  var grp = "project";
   removeChildElements(list);
-    
+  var recentProjectsBtn = document.getElementById("recent-projects-btn");
+        
   fs.readFile(silkGUIProjectList, 'utf8', function (err, data) {
-    if (err) { return console.log(err); }
-    
+    if (err) { 
+      recentProjectsBtn.style.display = 'none';
+      return;
+    }
+    recentProjectsBtn.style.display = '';
     var items = data.split('\n');
     for (i = 0; i < items.length-1; i++) {
       var csv = items[i].split(",");
       var row = document.createElement('li');
-      var tick = currentProject.value == csv[0];
+      var tick = i == 0;
       var label = document.createElement('label');
-      var grp = "project";
       
       var radio = createRadio(grp + i, grp, csv[0], tick, 
         function() { changeProject(getSelectedRadioGroup(grp).value); }
       );
       
+      try { fs.statSync(csv[0]);}
+      catch (err) { 
+        label.className = "project-not-found";
+        radio.disabled = true; 
+      } 
+      
       var dirSpan = document.createElement('span');
       dirSpan.className = "spin-name";
       dirSpan.title = csv[0];
-      dirSpan.innerHTML = csv[0].substring(csv[0].lastIndexOf("/"));  
+      dirSpan.innerHTML = getProjectNameFromPath(csv[0]); 
       
       var date = new Date(parseInt(csv[1]));
       var dateSpan = document.createElement('span');
@@ -133,22 +134,6 @@ function listProjects() {
       row.appendChild(label);
       list.appendChild(row);
     }
-  });
-}
-
-function getSelectedRadioGroup(name){
-  var radio = document.getElementsByName(name);
-  for (i=0; i < radio.length; i++) {
-    if (radio[i].checked){
-      return radio[i];
-    }
-  }
-}
-
-function setLastSpunDirectory(dir) {
-  fs.writeFile(silkGUILastSpunProjectFile, dir, function (err) {
-    if (err) { return console.log(err); }
-    console.log('It\'s saved!');
   });
 }
 
@@ -182,24 +167,6 @@ function spinOutputlogger(dir, msg, success) {
   }
 }
 
-function createBtn(msg, title, onclick) {
-  var btn = document.createElement('input');
-  btn.type = "button";
-  btn.value = msg;
-  btn.onclick = onclick;
-  return btn;
-}
-
-function createRadio(id, group, value, checked, onclick) {
-  var radio = document.createElement("input");
-  radio.type = "radio";
-  radio.id = id;
-  radio.name = group;
-  radio.value = value;
-  radio.checked = checked;
-  radio.onclick = onclick;
-  return radio;
-}
 
 function openBrowserWindow(site) {
   createNewWindow("file:///" + site + "/site/", {
@@ -250,6 +217,46 @@ function createNewWindow(url, settings) {
       gui.App.quit();
     });
   }
+}
+
+function getProjectNameFromPath(path) {
+  var index = path.lastIndexOf("/");
+  if (index == -1) index = path.lastIndexOf("\\");
+  return path.substring(index +1);
+}
+
+function removeChildElements(parent) {
+  while (parent.hasChildNodes()) {
+    parent.removeChild(parent.lastChild);
+  }
+}
+
+function getSelectedRadioGroup(name){
+  var radio = document.getElementsByName(name);
+  for (i=0; i < radio.length; i++) {
+    if (radio[i].checked){
+      return radio[i];
+    }
+  }
+}
+
+function createBtn(msg, title, onclick) {
+  var btn = document.createElement('input');
+  btn.type = "button";
+  btn.value = msg;
+  btn.onclick = onclick;
+  return btn;
+}
+
+function createRadio(id, group, value, checked, onclick) {
+  var radio = document.createElement("input");
+  radio.type = "radio";
+  radio.id = id;
+  radio.name = group;
+  radio.value = value;
+  radio.checked = checked;
+  radio.onclick = onclick;
+  return radio;
 }
 
 function datetimeString(){
