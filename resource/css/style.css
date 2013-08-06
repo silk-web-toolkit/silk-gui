@@ -61,6 +61,10 @@ ul.project-list li {
   padding: 0px;
 }
 
+ul.project-list li label.project-not-found {
+  text-decoration: line-through;
+}
+
 div.auto-spin {
   width: 20%;
   margin-top: 3px;

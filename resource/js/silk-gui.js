@@ -112,6 +112,12 @@ function listProjects() {
         function() { changeProject(getSelectedRadioGroup(grp).value); }
       );
       
+      try { fs.statSync(csv[0]);}
+      catch (err) { 
+        label.className = "project-not-found";
+        radio.disabled = true; 
+      } 
+      
       var dirSpan = document.createElement('span');
       dirSpan.className = "spin-name";
       dirSpan.title = csv[0];
