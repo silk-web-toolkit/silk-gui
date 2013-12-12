@@ -32,7 +32,7 @@ function createButton(button_id, button_name, normal_image_url,
 }
 
 function focusTitlebars(focus) {
-  var bg_color = focus ? "#3a3d3d" : "#7a7c7c";
+  var bg_color = focus ? "white" : "white";
     
   var titlebar = document.getElementById("top-titlebar");
   if (titlebar)
