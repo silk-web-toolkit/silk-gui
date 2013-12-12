@@ -5,8 +5,9 @@ var fs = require('fs');
 var silk;
 var openChildWnds = new Array();
 
-var successCls = "success";
-var errorCls = "error";
+var infoCls = "alert alert-info";
+var successCls = "alert alert-success";
+var errorCls = "alert alert-danger";
 var silkReloadArg = "reload";
 
 var silkPath = process.env.SILK_PATH;
@@ -14,156 +15,96 @@ if (silkPath == undefined) silkPath = process.env.HOME + "/.silk";
 
 var silkGUIProjectList = silkPath + "/spun-projects.txt";
 
-function autospin(checked) {
-  if (checked) {
-    spin_btn.style.display = "none";
-    spin(silkReloadArg);
-  } else {
-    spin_btn.style.display = "";
-    try { silk.kill("SIGHUP"); } 
-    catch (err) { }
-  }
-}
-
-function spin(arg) {  
-  var spin_btn = document.getElementById('spin_btn');
-  var currentProject = document.getElementById('current-project');
+function spin(project) {
   var msg = "";
-  if (currentProject.value == "") {
-    addLog("Please select a Silk Project.", errorCls);
-    spin_btn.style.display = "";
-    autospin_cbx.checked = false;
-    return;
-  }
   
-  try { fs.statSync(currentProject.value);}
+  try { fs.statSync(project);}
   catch (err) {
-    addLog("Directory does not exists.", errorCls);
-    spin_btn.style.display = "";
-    autospin_cbx.checked = false;
+    addLog("Oh Snap! Directory does not exists.", errorCls);
     return;
   }
+
+  try { silk.kill("SIGHUP"); } 
+  catch (err) { }
   
-  if (arg == "") document.getElementById('autospin_cbx').checked = false;
-  
-  addLog("Spinning please wait", "");
-  
-  silk = spawn('silk', [arg], {cwd: currentProject.value}); 
+  addLog("Spinning, please wait ...", infoCls);
+
+  silk = spawn('silk', [silkReloadArg], {cwd: project}); 
   silk.stdout.on('data', function(data) {
     msg += data;
     if (msg.indexOf("Site spinning is complete") !== -1) {
-      spinOutputlogger(currentProject.value, msg, true);
+      spinOutputlogger(project, msg, true);
       for (i = 0; i < openChildWnds.length; i++) {
         openChildWnds[i][1].reload(); 
       }
-      listProjects();
+      listAndDisplayProjects(spinOnceLoaded = false);
       msg = "";  // Clear spin msg for next Silk reload.
     } else if (msg.indexOf("Cause of error:") !== -1) {
-      spinOutputlogger(currentProject.value, msg, false);
+      spinOutputlogger(project, msg, false);
       msg = "";  // Clear spin msg for next Silk reload.
     }
   });
 }
 
-function loadLastProject() {
-  document.getElementById('current-project-span').innerHTML = "Please a new project";
-  setTimeout(function() { 
-    changeProject(getSelectedRadioGroup("project").value);
-  }, 100);
-}
-
-function changeProject(newProject) {
-  document.getElementById('current-project').value = newProject;
-  var name = getProjectNameFromPath(newProject);
-  document.getElementById('current-project-span').innerHTML = name;
-  removeChildElements(document.getElementById("last-spin-logger")); 
-  if (document.getElementById('autospin_cbx').checked) {
-    autospin(false); 
-    autospin(true);
-  }
-}
-
-function showProjectList(show) {
-  var list = document.getElementById('project-list');
-  if (show) list.style.display = 'block';
-  else list.style.display = 'none';
-}
-
-function listProjects() {
-  var list = document.getElementById('project-list');
-  var grp = "project";
-  removeChildElements(list);
-  var recentProjectsBtn = document.getElementById("recent-projects-btn");
-        
+function listAndDisplayProjects(spinOnceLoaded) {
   fs.readFile(silkGUIProjectList, 'utf8', function (err, data) {
-    if (err) { 
-      recentProjectsBtn.style.display = 'none';
-      return;
-    }
-    recentProjectsBtn.style.display = '';
-    var items = data.split('\n');
-    for (i = 0; i < items.length-1; i++) {
-      var csv = items[i].split(",");
-      var row = document.createElement('li');
-      var tick = i == 0;
-      var label = document.createElement('label');
-      
-      var radio = createRadio(grp + i, grp, csv[0], tick, 
-        function() { changeProject(getSelectedRadioGroup(grp).value); }
-      );
-      
-      try { fs.statSync(csv[0]);}
-      catch (err) { 
-        label.className = "project-not-found";
-        radio.disabled = true; 
-      } 
-      
-      var dirSpan = document.createElement('span');
-      dirSpan.className = "spin-name";
-      dirSpan.title = csv[0];
-      dirSpan.innerHTML = getProjectNameFromPath(csv[0]); 
-      
-      var date = new Date(parseInt(csv[1]));
-      var dateSpan = document.createElement('span');
-      dateSpan.innerHTML = datetimeString(date);
-      dateSpan.className = "spin-name";
-      
-      label.appendChild(radio);
-      label.appendChild(dirSpan);
-      label.appendChild(dateSpan);
-      row.appendChild(label);
-      list.appendChild(row);
+    var list = document.getElementById('project-list');
+    removeChildElements(list);
+    try { 
+      var items = data.split('\n');
+      if (items.length == 0) {
+        addLog("Please add a Silk Project.", infoCls)
+        return;
+      }
+      for (i = 0; i < items.length-1; i++) {
+        var active = ""; 
+        if (i == 0)  active = "active";
+        var listItem = createListItem(active);
+
+        var csv = items[i].split(",");
+        var name = getProjectNameFromPath(csv[0]);
+        var onClick = function() { spin(this.title);};
+        var link = createLink(name, csv[0], onClick);
+        listItem.appendChild(link);
+
+        // Check if directory exists
+        try { fs.statSync(csv[0]);}
+        catch (err) { 
+          link.className = "project-not-found";
+          link.disabled = true; 
+        } 
+        list.appendChild(listItem);
+      }
+      if (spinOnceLoaded) {
+        spin(items[0].split(",")[0]);
+      }
+    } catch (err) {
+      addLog("Please add a Silk Project.", infoCls);
     }
   });
 }
 
 function addLog(msg, className) {
-  var container = document.getElementById("last-spin-logger");
-  var logger = document.createElement("div");
-  
-  if (container.hasChildNodes()) 
-    container.replaceChild(logger, container.firstChild)
-  else container.appendChild(logger);
-  
-  var span = document.createElement("span");
-  span.appendChild(document.createTextNode(datetimeString(new Date) + " - " + msg));
-  logger.appendChild(span);
-  
-  logger.className = className
+  var logger = document.getElementById("last-spin-logger");
+  removeChildElements(logger);
+  var div = document.createElement("div");
+  div.appendChild(document.createTextNode(msg));
+  div.className = className;
+  logger.appendChild(div);
   return logger;
 }
 
 function spinOutputlogger(dir, msg, success) {
   if (success) {
-    var logger = addLog("Successfully spun site", successCls);
+    var logger = addLog("Congratulations, your site was successfully spun!", successCls);
     // Display in browser link.
-    var openLink = createBtn("Show Site", "Previw Spin Link", function() { 
+    var openLink = createBtn("View your project", "Preview Spin Link", "btn btn-success", function() { 
       openBrowserWindow(dir)
     });
     logger.appendChild(openLink);
   } else {
     var error = msg.substring(msg.indexOf("Cause of error:") + 16,  msg.length);
-    addLog(error, errorCls);
+    addLog("Oh Snap! " + error, errorCls);
   }
 }
 
@@ -240,23 +181,28 @@ function getSelectedRadioGroup(name){
   }
 }
 
-function createBtn(msg, title, onclick) {
-  var btn = document.createElement('input');
+function createBtn(msg, title, cls, onclick) {
+  var btn = document.createElement('button');
   btn.type = "button";
-  btn.value = msg;
+  btn.innerHTML = msg;
+  btn.className= cls;
   btn.onclick = onclick;
   return btn;
 }
 
-function createRadio(id, group, value, checked, onclick) {
-  var radio = document.createElement("input");
-  radio.type = "radio";
-  radio.id = id;
-  radio.name = group;
-  radio.value = value;
-  radio.checked = checked;
-  radio.onclick = onclick;
-  return radio;
+function createListItem(cls) {
+  var listItem = document.createElement("li");
+  listItem.className = cls;
+  return listItem;
+}
+
+function createLink(name, title, onclick) {
+  var link = document.createElement("a");
+  link.href = "#";
+  link.innerHTML = name;
+  link.title = title;
+  link.onclick = onclick;
+  return link;
 }
 
 function datetimeString(){

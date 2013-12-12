@@ -6,104 +6,33 @@ html {
 
 body {
   margin: 0px;
-  padding: 0px;
-  background-color:#ddd;
+  padding: 4px;
 }
 
-a {
-  color: black;
-  text-decoration: none;
-}
-
-a:hover,
-a:visited {
-  color: blue;
-  text-decoration: none;
-}
-
-div {
-  margin: 0px;
-  padding: 0px;
-}
-
-div.content {
-  margin: 10px;
-  padding: 0px;
-}
-
-
-div.about-us {
-  width: 100%;
-  text-align: center;
-}
-
-div.about-us p {
-  text-align: left;
-}
-
-div.about-us table {
-  width: 300px;
-  margin: 10px auto;
-  text-align: left;
-}
-
-ul.project-list {
-  margin: 0px;
-  border: 0px;
-  display:none;
-  max-height: 100px;
+div.sidebar {
+  height: 100%;
   overflow:auto;
+  padding-right: 4px;
+  border-right: 1px solid #eee;
 }
 
-ul.project-list li {
-  list-style: none;
-  margin: 0px;
-  padding: 0px;
-}
+div.sidebar ul.project-list {}
 
-ul.project-list li label.project-not-found {
+div.sidebar ul.project-list li {}
+
+div.sidebar ul.project-list li .project-not-found {
   text-decoration: line-through;
 }
 
-div.auto-spin {
-  width: 20%;
-  margin-top: 3px;
-  float: right;
+div.content {
+  margin-left: -20px;
 }
 
-div.directory-chooser {
-  margin-bottom: 50px;
+div.last-spin-logger  div {
+  font-weight: bold;
 }
 
-
-
-div.manual-spin {
-  float: right;
-  text-align: right;
-}
-
-div.last-spin-logger {}
-
-div.last-spin-logger div {
-  width: 98%;
-  height: 55px;
-  border: 1px dashed #000;
-  padding:5px;
-}
-
-div.last-spin-logger div.error {
-  background-color: #ffbfbf;
-}
-
-div.last-spin-logger div.success {
- background-color: #009933;
-}
-
-div.last-spin-logger div span {
-  float: left;
-}
-
-div.last-spin-logger div input {
+div.last-spin-logger  button {
   float: right;
 }
 
