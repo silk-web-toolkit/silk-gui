@@ -13,7 +13,7 @@ window.onresize = function() {
 }
 
 window.onload = function() {
-  addTitlebar("top-titlebar", "", "Silk Web Toolkit");
+  addTitlebar("top-titlebar", "resource/image/top-titlebar.png", "");
   focusTitlebars(true);
   updateContentStyle();
   require("nw.gui").Window.get().show();

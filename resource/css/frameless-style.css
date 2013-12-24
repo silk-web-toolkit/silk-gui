@@ -1,5 +1,5 @@
 body {
-  margin-top: 35px;
+  margin-top: 50px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -11,7 +11,7 @@ body {
   left: 0px;
   top: 0px;
   width: 100%;
-  height: 35px;
+  height: 50px;
   -webkit-user-select: none;
   -webkit-app-region: drag;
   border-bottom: 1px solid #eee;
@@ -50,16 +50,14 @@ body {
 .top-titlebar-icon,
 .bottom-titlebar-icon {
   position: absolute;
-  left: 6px;
-  margin-top: 6px;
-  margin-bottom: 6px;
+  left: 0px;
+  margin-top: 0px;
 }
 
 .left-titlebar-icon {
   position: absolute;
-  bottom: 6px;
-  margin-left: 6px;
-  margin-right: 6px;
+  left: 0px;
+  margin-top: 0px;
 }
 
 .right-titlebar-icon {
@@ -113,7 +111,7 @@ body {
   right: 11px;
   width: 17px;
   height: 17px;
-  margin-top: 6px;
+  margin-top: 16px;
   margin-bottom: 6px;
   -webkit-app-region: no-drag;
 }
