@@ -50,7 +50,7 @@ body {
 .top-titlebar-icon,
 .bottom-titlebar-icon {
   position: absolute;
-  left: 0px;
+  left: 5px;
   margin-top: 0px;
 }
 
@@ -70,7 +70,7 @@ body {
 .top-titlebar-text,
 .bottom-titlebar-text {
   position: absolute;
-  left: 4px;
+  left: 80px;
   width: 80%;
   margin-top: 6px;
   margin-bottom: 6px;
