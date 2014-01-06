@@ -20,10 +20,25 @@ CORE.create_module("projects", function(api) {
       return;
     }
 
-    try { silk.kill("SIGHUP"); } 
+    try { silkProcess.kill("SIGHUP"); } 
     catch (err) { }
   
     api.notify({ type: 'log-spin', data: 'Spinning, please wait...' });
+
+    silkProcess = spawn('silk', [SILK_RELOAD], {cwd: project});
+    silkProcess.stdout.on('data', function(data) {
+      msg += data;
+      if (msg.indexOf("Site spinning is complete") !== -1) {
+        api.notify({ type: 'log-spin', data: 'Congratulations, your site was successfully spun!' });
+        for (i = 0; i < openChildWnds.length; i++) {
+          openChildWnds[i][1].reload(); 
+        }
+        msg = "";
+      } else if (msg.indexOf("Cause of error:") !== -1) {
+        api.notify({ type: 'log-spin', data: 'Oh Snap! ' + error });
+        msg = "";
+      }
+    });
   }
 
   function removeChildElements(parent) {
@@ -32,34 +47,56 @@ CORE.create_module("projects", function(api) {
     }
   }
 
+  function createListItem(cls) {
+    var listItem = document.createElement("li");
+    listItem.className = cls;
+    return listItem;
+  }
+
+  /* A link with no url - design choice more than anything else */
+  function createLinkButton(name, title, onclick) {
+    var link = document.createElement("a");
+    link.href = "#";
+    link.innerHTML = name;
+    link.title = title;
+    link.onclick = onclick;
+    return link;
+  }
+
+  function getProjectNameFromPath(path) {
+    var index = path.lastIndexOf("/");
+    if (index == -1) index = path.lastIndexOf("\\");
+    return path.substring(index +1);
+  }
+
   return {
     init : function() {
-      console.log("init projects");
       projectList = api.find("#project-list")[0];
       this.buildProjectList(true);
     },
 
     buildProjectList : function(spinOnceLoaded) {
-      console.log("building project list");
       fs.readFile(PROJECT_LIST, 'utf8', function (err, data) {
         removeChildElements(projectList);
         try { 
           var items = data.split('\n');
-          console.log("items is : " + items);
           if (items.length == 0) {
             api.notify({ type: 'log-spin', data: 'Please add a Silk Project.' });
             return;
           }
           for (i = 0; i < items.length-1; i++) {
             api.notify({ type: 'log-spin', data: 'Processing item' });
-            /*var active = ""; 
+            var active = ""; 
             if (i == 0)  active = "active";
             var listItem = createListItem(active);
 
             var csv = items[i].split(",");
             var name = getProjectNameFromPath(csv[0]);
-            var onClick = function() { spin(this.title);};
-            var link = createLink(name, csv[0], onClick);
+            var onClick = function() {
+              console.log("spinning : " + this.title);
+              spin(this.title);
+            };
+            var link = createLinkButton(name, csv[0], onClick);
             listItem.appendChild(link);
 
             // Check if directory exists
@@ -68,7 +105,7 @@ CORE.create_module("projects", function(api) {
               link.className = "project-not-found";
               link.disabled = true; 
             } 
-            list.appendChild(listItem);*/
+            projectList.appendChild(listItem);
           }
           if (spinOnceLoaded) {
             spin(items[0].split(",")[0]);
@@ -91,7 +128,6 @@ CORE.create_module("spin-status", function(api) {
 
   return {
     init : function() {
-      console.log("init spin status");
     	spinLogger = api.find("#last-spin-logger")[0];
       api.listen({
         'log-spin': this.logSpin
@@ -103,7 +139,6 @@ CORE.create_module("spin-status", function(api) {
     },
 
     logSpin : function(status) {
-      console.log("attempting to write to spinLogger comp");
       spinLogger.innerHTML = status;
     }
   };
@@ -114,7 +149,6 @@ CORE.create_module("log-poker", function(api) {
 
   return {
     init: function() {
-      console.log("init log poker");
       logButton = api.find("#log_button")[0];
 
       api.addEvent(logButton, "click", this.handleLogEntry);
@@ -125,7 +159,6 @@ CORE.create_module("log-poker", function(api) {
     },
 
     handleLogEntry : function() {
-      console.log("attempting to trigger log-spin");
       api.notify({
         type: 'log-spin',
         data: 'Log entry message'
