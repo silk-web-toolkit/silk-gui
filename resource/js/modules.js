@@ -87,11 +87,13 @@ CORE.create_module("projects", function(api) {
           for (i = 0; i < items.length-1; i++) {
             api.notify({ type: 'log-spin', data: 'Processing item' });
             var active = ""; 
+            
             if (i == 0)  active = "active";
             var listItem = createListItem(active);
 
             var csv = items[i].split(",");
             var name = getProjectNameFromPath(csv[0]);
+
             var onClick = function() {
               console.log("spinning : " + this.title);
               spin(this.title);
