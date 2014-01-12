@@ -1,45 +1,69 @@
-CORE.create_module("projects", function(api) {
-  var gui = require('nw.gui'),
-  spawn = require('child_process').spawn,
+CORE.create_module("spin", function(api) {
+  var spawn = require('child_process').spawn,
   fs = require('fs');
 
   var silkProcess;
   var openChildWnds = new Array();
   var SILK_RELOAD = "reload";
+  
+  return {
+    init : function() {
+      console.log("init spin module");
+      api.listen({
+        'spin': this.spin
+      });
+    },
+
+    spin : function(project) {
+      console.log("attempting spin in spin module");
+      var msg = "";
+  
+      try { fs.statSync(project);}
+      catch (err) {
+        api.notify({ type: 'log-spin', data: 'Oh Snap! Directory does not exist.' });
+        return;
+      }
+
+      try { silkProcess.kill("SIGHUP"); } 
+      catch (err) { }
+  
+      api.notify({ type: 'log-spin', data: 'Spinning, please wait...' });
+
+      silkProcess = spawn('silk', [SILK_RELOAD], {cwd: project});
+      silkProcess.stdout.on('data', function(data) {
+        msg += data;
+        if (msg.indexOf("Site spinning is complete") !== -1) {
+          api.notify({ type: 'log-spin', data: 'Congratulations, your site was successfully spun!' });
+          for (i = 0; i < openChildWnds.length; i++) {
+            openChildWnds[i][1].reload(); 
+          }
+          api.notify({ type: 'build-projects', data: '' });
+          msg = "";
+        } else if (msg.indexOf("Cause of error:") !== -1) {
+          api.notify({ type: 'log-spin', data: 'Oh Snap! ' + error });
+          msg = "";
+        }
+      });
+    },
+
+    destroy : function() {
+      api.ignore(['spin']);
+    }
+  }
+});
+
+CORE.create_module("projects", function(api) {
+  var gui = require('nw.gui'),
+  //spawn = require('child_process').spawn,
+  fs = require('fs');
+
+  //var silkProcess;
+  var openChildWnds = new Array();
+  //var SILK_RELOAD = "reload";
   var silkPath = process.env.SILK_PATH;
   if (silkPath == undefined) silkPath = process.env.HOME + "/.silk";
   var PROJECT_LIST = silkPath + "/spun-projects.txt";
   var projectList;
-
-  function spin(project) {
-    var msg = "";
-  
-    try { fs.statSync(project);}
-    catch (err) {
-      api.notify({ type: 'log-spin', data: 'Oh Snap! Directory does not exist.' });
-      return;
-    }
-
-    try { silkProcess.kill("SIGHUP"); } 
-    catch (err) { }
-  
-    api.notify({ type: 'log-spin', data: 'Spinning, please wait...' });
-
-    silkProcess = spawn('silk', [SILK_RELOAD], {cwd: project});
-    silkProcess.stdout.on('data', function(data) {
-      msg += data;
-      if (msg.indexOf("Site spinning is complete") !== -1) {
-        api.notify({ type: 'log-spin', data: 'Congratulations, your site was successfully spun!' });
-        for (i = 0; i < openChildWnds.length; i++) {
-          openChildWnds[i][1].reload(); 
-        }
-        msg = "";
-      } else if (msg.indexOf("Cause of error:") !== -1) {
-        api.notify({ type: 'log-spin', data: 'Oh Snap! ' + error });
-        msg = "";
-      }
-    });
-  }
 
   function removeChildElements(parent) {
     while (parent.hasChildNodes()) {
@@ -72,6 +96,9 @@ CORE.create_module("projects", function(api) {
   return {
     init : function() {
       projectList = api.find("#project-list")[0];
+      api.listen({
+        'build-projects' : this.buildProjectList(false)
+      });
       this.buildProjectList(true);
     },
 
@@ -96,7 +123,8 @@ CORE.create_module("projects", function(api) {
 
             var onClick = function() {
               console.log("spinning : " + this.title);
-              spin(this.title);
+              //spin(this.title);
+              api.notify({ type: 'spin', data: this.title });
             };
             var link = createLinkButton(name, csv[0], onClick);
             listItem.appendChild(link);
@@ -110,7 +138,8 @@ CORE.create_module("projects", function(api) {
             projectList.appendChild(listItem);
           }
           if (spinOnceLoaded) {
-            spin(items[0].split(",")[0]);
+            //this.spin(items[0].split(",")[0]);
+            api.notify({ type: 'spin', data: items[0].split(",")[0] });
           }
         } catch (err) {
           console.log("error is : " + err);
