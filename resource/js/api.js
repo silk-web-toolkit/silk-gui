@@ -29,7 +29,6 @@ var Api = {
         }
       },
 
-      // TODO: needs a real home
       loadTpl : function(parent, tpl) {
         var p = document.getElementById(parent);
         var tpl = document.getElementById(tpl);
