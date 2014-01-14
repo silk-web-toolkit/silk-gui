@@ -29,6 +29,20 @@ var Api = {
         }
       },
 
+      // TODO: needs a real home
+      loadTpl : function(parent, tpl) {
+        var p = document.getElementById(parent);
+        var tpl = document.getElementById(tpl);
+        this.removeChildElements(p);
+        p.appendChild(tpl.content.cloneNode(true));
+      },
+
+      removeChildElements : function(parent) {
+        while (parent.hasChildNodes()) {
+          parent.removeChild(parent.lastChild);
+        }
+      },
+
       ignore : function(evts) {
         if (core.is_arr) {
           core.removeEvents(evts, module_selector);
