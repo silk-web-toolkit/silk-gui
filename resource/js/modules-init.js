@@ -1,0 +1,1 @@
+CORE.start_all();
