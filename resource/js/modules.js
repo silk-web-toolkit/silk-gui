@@ -1,3 +1,42 @@
+CORE.create_module("render", function(api) {
+
+  // TODO: needs a real home
+  function loadTpl(parent, tpl) {
+    var p = document.getElementById(parent);
+    var tpl = document.getElementById(tpl);
+    removeChildElements(p);
+    p.appendChild(tpl.content.cloneNode(true));
+  }
+
+  // TODO: needs a real home
+  function removeChildElements(parent) {
+    while (parent.hasChildNodes()) {
+      parent.removeChild(parent.lastChild);
+    }
+  }
+
+  return {
+    init: function() {
+      this.homeNoProjects();  
+    },
+
+    homeNoProjects : function() {
+      loadTpl('left-panel', 'lp-home-nproj');
+      loadTpl('right-panel', 'rp-home-nproj');
+      var hello = {
+        name:     'Schnickety Schnack',
+        question: 'Do I look like a hovercraft pilot ?'
+      };
+
+      $('#question-panel').render(hello);
+    },
+
+    destroy : function() {
+      
+    }
+  };
+});
+
 CORE.create_module("spin", function(api) {
   var spawn = require('child_process').spawn,
   fs = require('fs');
@@ -5,28 +44,28 @@ CORE.create_module("spin", function(api) {
   var silkProcess;
   var openChildWnds = new Array();
   var SILK_RELOAD = "reload";
-  
+
   return {
     init : function() {
       console.log("init spin module");
-      api.listen({
-        'spin': this.spin
-      });
+      //api.listen({
+        //'spin': this.spin
+      //});
     },
 
     spin : function(project) {
       console.log("attempting spin in spin module");
       var msg = "";
-  
+
       try { fs.statSync(project);}
       catch (err) {
         api.notify({ type: 'log-spin', data: 'Oh Snap! Directory does not exist.' });
         return;
       }
 
-      try { silkProcess.kill("SIGHUP"); } 
+      try { silkProcess.kill("SIGHUP"); }
       catch (err) { }
-  
+
       api.notify({ type: 'log-spin', data: 'Spinning, please wait...' });
 
       silkProcess = spawn('silk', [SILK_RELOAD], {cwd: project});
@@ -35,7 +74,7 @@ CORE.create_module("spin", function(api) {
         if (msg.indexOf("Site spinning is complete") !== -1) {
           api.notify({ type: 'log-spin', data: 'Congratulations, your site was successfully spun!' });
           for (i = 0; i < openChildWnds.length; i++) {
-            openChildWnds[i][1].reload(); 
+            openChildWnds[i][1].reload();
           }
           api.notify({ type: 'build-projects', data: '' });
           msg = "";
@@ -96,16 +135,16 @@ CORE.create_module("projects", function(api) {
   return {
     init : function() {
       projectList = api.find("#project-list")[0];
-      api.listen({
-        'build-projects' : this.buildProjectList(false)
-      });
-      this.buildProjectList(true);
+      //api.listen({
+        //'build-projects' : this.buildProjectList(false)
+      //});
+      //this.buildProjectList(true);
     },
 
     buildProjectList : function(spinOnceLoaded) {
       fs.readFile(PROJECT_LIST, 'utf8', function (err, data) {
         removeChildElements(projectList);
-        try { 
+        try {
           var items = data.split('\n');
           if (items.length == 0) {
             api.notify({ type: 'log-spin', data: 'Please add a Silk Project.' });
@@ -113,8 +152,8 @@ CORE.create_module("projects", function(api) {
           }
           for (i = 0; i < items.length-1; i++) {
             api.notify({ type: 'log-spin', data: 'Processing item' });
-            var active = ""; 
-            
+            var active = "";
+
             if (i == 0)  active = "active";
             var listItem = createListItem(active);
 
@@ -131,10 +170,10 @@ CORE.create_module("projects", function(api) {
 
             // Check if directory exists
             try { fs.statSync(csv[0]);}
-            catch (err) { 
+            catch (err) {
               link.className = "project-not-found";
-              link.disabled = true; 
-            } 
+              link.disabled = true;
+            }
             projectList.appendChild(listItem);
           }
           if (spinOnceLoaded) {
@@ -160,9 +199,9 @@ CORE.create_module("spin-status", function(api) {
   return {
     init : function() {
     	spinLogger = api.find("#last-spin-logger")[0];
-      api.listen({
-        'log-spin': this.logSpin
-      });
+      //api.listen({
+        //'log-spin': this.logSpin
+      //});
     },
 
     destroy : function() {
