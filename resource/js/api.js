@@ -43,6 +43,10 @@ var Api = {
         }
       },
 
+      dataRender : function(el, data) {
+        core.dataRender(el, data);
+      },
+
       ignore : function(evts) {
         if (core.is_arr) {
           core.removeEvents(evts, module_selector);

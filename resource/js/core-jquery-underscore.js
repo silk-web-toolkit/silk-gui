@@ -106,6 +106,10 @@ var CORE = (function() {
       }
     },
 
+    dataRender : function(el, data) {
+      $('#' + el).render(data);
+    },
+
     is_obj : function(obj) {
       return jQuery.isPlainObject(obj);         
     },
