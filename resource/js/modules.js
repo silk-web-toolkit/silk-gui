@@ -1,4 +1,4 @@
-CORE.create_module("spin", function(api) {
+CORE.createModule("spin", function(api) {
   var spawn = require('child_process').spawn,
   fs = require('fs');
 
@@ -52,7 +52,7 @@ CORE.create_module("spin", function(api) {
   }
 });
 
-CORE.create_module("projects", function(api) {
+CORE.createModule("projects", function(api) {
   var gui = require('nw.gui'),
   //spawn = require('child_process').spawn,
   fs = require('fs');
@@ -154,7 +154,7 @@ CORE.create_module("projects", function(api) {
   }
 });
 
-CORE.create_module("spin-status", function(api) {
+CORE.createModule("spin-status", function(api) {
   var spinLogger;
 
   return {
@@ -175,7 +175,7 @@ CORE.create_module("spin-status", function(api) {
   };
 });
 
-CORE.create_module("log-poker", function(api) {
+CORE.createModule("log-poker", function(api) {
   var logButton;
 
   return {
@@ -191,7 +191,7 @@ CORE.create_module("log-poker", function(api) {
 
     handleLogEntry : function() {
       api.notify({
-        type: 'log-spin',
+        type: 'test-payload',
         data: 'Log entry message'
       });
     }

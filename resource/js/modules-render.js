@@ -1,9 +1,13 @@
 // loads templates into layout containers orchestrates our SPA
-CORE.create_module("render", function(api) {
+CORE.createModule("render", function(api) {
 
   return {
     init: function() {
-      this.homeNoProjects();  
+      this.homeNoProjects();
+
+      api.listen({
+        'test-payload': this.testNotification()
+      });  
     },
 
     homeNoProjects : function() {
@@ -14,7 +18,12 @@ CORE.create_module("render", function(api) {
         name:     'Schnickety Schnack',
         question: 'Do I look like a hovercraft pilot ?'
       };
-      api.dataRender('question-panel', hello);
+      api.inject('question-panel', hello);
+    },
+
+    testNotification : function(status) {
+      console.log("meh");
+      alert("flibble");
     },
 
     destroy : function() {

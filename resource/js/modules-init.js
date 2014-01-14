@@ -1,1 +1,1 @@
-CORE.start_all();
+CORE.startAll();

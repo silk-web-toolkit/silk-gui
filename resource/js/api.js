@@ -1,31 +1,31 @@
 var Api = {
-	create : function(core, module_selector) {
-    var CONTAINER = core.dom.find('#' + module_selector);
+	create : function(core, dom, pubsub, module_selector) {
+    //var CONTAINER = core.dom.find('#' + module_selector);
 
     return {
       find : function(selector) {
-        return core.dom.find(selector);
+        return dom.find(selector);
       },
 
       addEvent : function(element, type, fn) {
-        core.dom.bind(element, type, fn);           
+        dom.addEvent(element, type, fn);           
       },
 
       removeEvent : function(element, type, fn) {
-        core.dom.unbind(element, type, fn);              
+        dom.removeEvent(element, type, fn);              
       },
 
-      notify : function(evt) {
-        if (core.is_obj(evt) && evt.type) {
-          core.triggerEvent(evt);
+      notify : function(core, evt) {
+        if (pubsub.is_obj(evt) && evt.type) {
+          pubsub.notify(core, evt);
         }         
       },
 
-      listen : function(evts) {
+      listen : function(core, evts) {
         console.log("in listen");
-        if (core.is_obj(evts)) {
+        if (pubsub.is_obj(evts)) {
           console.log("is obj, off to register");
-          core.registerEvents(evts, module_selector);
+          pubsub.listen(core, evts, module_selector);
         }
       },
 
@@ -42,8 +42,8 @@ var Api = {
         }
       },
 
-      dataRender : function(el, data) {
-        core.dataRender(el, data);
+      inject : function(el, data) {
+        dom.inject(el, data);
       },
 
       ignore : function(evts) {
