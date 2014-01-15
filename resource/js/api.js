@@ -1,17 +1,21 @@
 var Api = {
-	create : function(core, module_selector) {
+	create : function(core, dom, module_selector) {
 
     return {
       find : function(selector) {
-        return core.dom.find(selector);
+        return dom.find(selector);
       },
 
       addEvent : function(element, type, fn) {
-        core.dom.bind(element, type, fn);           
+        dom.bind(element, type, fn);           
       },
 
       removeEvent : function(element, type, fn) {
-        core.dom.unbind(element, type, fn);              
+        dom.unbind(element, type, fn);              
+      },
+
+      inject : function(el, data) {
+        dom.dataRender(el, data);
       },
 
       notify : function(evt) {
@@ -39,10 +43,6 @@ var Api = {
         while (parent.hasChildNodes()) {
           parent.removeChild(parent.lastChild);
         }
-      },
-
-      dataRender : function(el, data) {
-        core.dataRender(el, data);
       },
 
       ignore : function(evts) {

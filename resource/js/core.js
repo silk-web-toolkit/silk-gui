@@ -6,7 +6,7 @@ var CORE = (function() {
     create_module : function(moduleID, creator) {
       var temp;
       if (typeof moduleID === 'string' && typeof creator === 'function') {
-        temp = creator(Api.create(this, moduleID));
+        temp = creator(Api.create(this, DOM, moduleID));
         if (temp.init && typeof temp.init === 'function' && temp.destroy && typeof temp.destroy === 'function') {
           temp = null;
           moduleData[moduleID] = {
@@ -24,7 +24,7 @@ var CORE = (function() {
     start : function(moduleID) {
       var mod = moduleData[moduleID];
       if (mod) {
-        mod.instance = mod.create(Api.create(this, moduleID));
+        mod.instance = mod.create(Api.create(this, DOM, moduleID));
         mod.instance.init();
       }
     },
@@ -61,56 +61,6 @@ var CORE = (function() {
           }
         }
       }
-    },
-
-    dom : {
-      find : function(selector, context) {
-        var ret = {}, that = this, jqEls, i = 0;
-
-        if (context && context.find) {
-          jqEls = context.find(selector);
-        } else {
-          jqEls = jQuery(selector);
-        }
-                
-        ret = jqEls.get();
-        ret.length = jqEls.length;
-        ret.query = function (sel) {
-          return that.query(sel, jqEls);
-        }
-        return ret;
-      },
-
-      bind : function(element, evt, fn) {
-        console.log('binding');
-        console.log('element is : ' + element);
-        console.log('evt is : ' + evt);
-        if (element && evt) {
-          if (typeof evt === 'function') {
-            fn = evt;
-            evt = 'click';
-          }
-          jQuery(element).bind(evt, fn);
-        } else {
-          // log wrong arguments
-        }
-      },
-
-      unbind : function(element, evt, fn) {
-        if (element && evt) {
-          if (typeof evt === 'function') {
-            fn = evt;
-            evt = 'click';
-          }
-          jQuery(element).unbind(evt, fn);
-        } else {
-          // log wrong arguments 
-        }
-      }
-    },
-
-    dataRender : function(el, data) {
-      $('#' + el).render(data);
     },
 
     is_obj : function(obj) {
