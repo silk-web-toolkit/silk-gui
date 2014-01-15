@@ -1,6 +1,5 @@
 var CORE = (function() {
-  var moduleData = {},
-  debug = true;
+  var moduleData = {}
 
   return {
     createModule : function(moduleID, creator) {
@@ -14,10 +13,10 @@ var CORE = (function() {
             instance : null
           };
         } else {
-          this.log(1, "Module '" + moduleID + "' Registration : FAILED : instance has no init or destory functions");
+          error("Module '" + moduleID + "' Registration : FAILED : instance has no init or destory functions");
         }
       } else {
-        this.log(1, "Module '" + moduleID + "' Registration : FAILED : one or more arguments are of incorrect type");
+        error(1, "Module '" + moduleID + "' Registration : FAILED : one or more arguments are of incorrect type");
       }
     },
 
@@ -40,16 +39,6 @@ var CORE = (function() {
 
     getModulesData : function() {
       return moduleData;
-    },
-
-    debug : function(on) {
-      debug = on ? true : false;
-    },
-
-    log : function(severity, message) {
-      if (debug) {
-        console[(severity === 1) ? 'log' : (severity === 2) ? 'warn' : 'error'](message);
-      }
     }
   };
 }());

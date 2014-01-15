@@ -7,10 +7,10 @@ var PUBSUB = (function() {
         if (core.getModulesData()[mod]) {
           core.getModulesData()[mod].events = evts;
         } else {
-          this.log(1, "");
+          info("can't find module to attach listenable events to");
         }
       } else {
-        this.log(1, "");
+        info("unable to queue events to listen to");
       }
     },
 
@@ -28,16 +28,6 @@ var PUBSUB = (function() {
 
     is_obj : function(obj) {
       return jQuery.isPlainObject(obj);         
-    },
-
-    debug : function(on) {
-      debug = on ? true : false;
-    },
-
-    log : function(severity, message) {
-      if (debug) {
-        console[(severity === 1) ? 'log' : (severity === 2) ? 'warn' : 'error'](message);
-      }
     }
   };
 }());
