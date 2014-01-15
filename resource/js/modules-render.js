@@ -1,5 +1,5 @@
 // loads templates into layout containers orchestrates our SPA
-CORE.create_module("render", function(api) {
+CORE.createModule("render", function(api) {
   var projectChooser;
   fs = require('fs');
   var silkPath = process.env.SILK_PATH;
@@ -17,14 +17,12 @@ CORE.create_module("render", function(api) {
     },
 
     homeNoProjects : function() {
-      console.log("PROJECT_LIST is : " + PROJECT_LIST);
       var data;
       try {
         data = fs.readFileSync(PROJECT_LIST);
       } catch (err) {
         data = null;
       }
-      console.log("data is : " + data);
       if (data != null) {
         api.loadTpl('left-panel', 'lp-home-proj');
         api.loadTpl('right-panel', 'rp-home-proj'); 
