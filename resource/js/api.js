@@ -7,15 +7,15 @@ var Api = {
       },
 
       addEvent : function(element, type, fn) {
-        dom.bind(element, type, fn);           
+        dom.addEvent(element, type, fn);           
       },
 
       removeEvent : function(element, type, fn) {
-        dom.unbind(element, type, fn);              
+        dom.removeEvent(element, type, fn);              
       },
 
       inject : function(el, data) {
-        dom.dataRender(el, data);
+        dom.inject(el, data);
       },
 
       notify : function(evt) {

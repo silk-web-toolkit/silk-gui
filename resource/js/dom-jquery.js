@@ -18,7 +18,7 @@ var DOM = (function() {
       return ret;
     },
 
-    bind : function(element, evt, fn) {
+    addEvent : function(element, evt, fn) {
       console.log('binding');
       console.log('element is : ' + element);
       console.log('evt is : ' + evt);
@@ -33,7 +33,7 @@ var DOM = (function() {
       }
     },
 
-    unbind : function(element, evt, fn) {
+    removeEvent : function(element, evt, fn) {
       if (element && evt) {
         if (typeof evt === 'function') {
           fn = evt;
