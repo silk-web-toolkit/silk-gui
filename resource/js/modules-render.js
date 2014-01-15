@@ -1,5 +1,5 @@
 // loads templates into layout containers orchestrates our SPA
-CORE.create_module("render", function(api) {
+CORE.createModule("render", function(api) {
   var projectChooser;
   fs = require('fs');
   var silkPath = process.env.SILK_PATH;

@@ -1,5 +1,5 @@
 var Api = {
-	create : function(core, dom, module_selector) {
+	create : function(core, dom, moduleSelector) {
 
     return {
       find : function(selector) {
@@ -28,7 +28,7 @@ var Api = {
         console.log("in listen");
         if (core.is_obj(evts)) {
           console.log("is obj, off to register");
-          core.registerEvents(evts, module_selector);
+          core.registerEvents(evts, moduleSelector);
         }
       },
 
@@ -47,7 +47,7 @@ var Api = {
 
       ignore : function(evts) {
         if (core.is_arr) {
-          core.removeEvents(evts, module_selector);
+          core.removeEvents(evts, moduleSelector);
         }   
       }
     };

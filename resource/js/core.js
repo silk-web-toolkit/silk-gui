@@ -3,7 +3,7 @@ var CORE = (function() {
   debug = true;
 
   return {
-    create_module : function(moduleID, creator) {
+    createModule : function(moduleID, creator) {
       var temp;
       if (typeof moduleID === 'string' && typeof creator === 'function') {
         temp = creator(Api.create(this, DOM, moduleID));
@@ -29,7 +29,7 @@ var CORE = (function() {
       }
     },
 
-    start_all : function() {
+    startAll : function() {
       var moduleID;
       for (moduleID in moduleData) {
         if (moduleData.hasOwnProperty(moduleID)) {
