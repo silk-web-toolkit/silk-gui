@@ -1,5 +1,5 @@
 var Api = {
-	create : function(core, dom, moduleSelector) {
+	create : function(core, dom, pubsub, moduleSelector) {
 
     return {
       find : function(selector) {
@@ -19,16 +19,16 @@ var Api = {
       },
 
       notify : function(evt) {
-        if (core.is_obj(evt) && evt.type) {
-          core.triggerEvent(evt);
+        if (pubsub.is_obj(evt) && evt.type) {
+          pubsub.triggerEvent(core, evt);
         }         
       },
 
       listen : function(evts) {
         console.log("in listen");
-        if (core.is_obj(evts)) {
+        if (pubsub.is_obj(evts)) {
           console.log("is obj, off to register");
-          core.registerEvents(evts, moduleSelector);
+          pubsub.registerEvents(core, evts, moduleSelector);
         }
       },
 

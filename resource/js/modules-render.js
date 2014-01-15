@@ -17,14 +17,12 @@ CORE.createModule("render", function(api) {
     },
 
     homeNoProjects : function() {
-      console.log("PROJECT_LIST is : " + PROJECT_LIST);
       var data;
       try {
         data = fs.readFileSync(PROJECT_LIST);
       } catch (err) {
         data = null;
       }
-      console.log("data is : " + data);
       if (data != null) {
         api.loadTpl('left-panel', 'lp-home-proj');
         api.loadTpl('right-panel', 'rp-home-proj'); 

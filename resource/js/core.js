@@ -6,7 +6,7 @@ var CORE = (function() {
     createModule : function(moduleID, creator) {
       var temp;
       if (typeof moduleID === 'string' && typeof creator === 'function') {
-        temp = creator(Api.create(this, DOM, moduleID));
+        temp = creator(Api.create(this, DOM, PUBSUB, moduleID));
         if (temp.init && typeof temp.init === 'function' && temp.destroy && typeof temp.destroy === 'function') {
           temp = null;
           moduleData[moduleID] = {
@@ -24,7 +24,7 @@ var CORE = (function() {
     start : function(moduleID) {
       var mod = moduleData[moduleID];
       if (mod) {
-        mod.instance = mod.create(Api.create(this, DOM, moduleID));
+        mod.instance = mod.create(Api.create(this, DOM, PUBSUB, moduleID));
         mod.instance.init();
       }
     },
@@ -38,33 +38,8 @@ var CORE = (function() {
       }
     },
 
-    registerEvents : function (evts, mod) {
-      console.log("registering events");
-      if (this.is_obj(evts) && mod) {
-        if (moduleData[mod]) {
-          moduleData[mod].events = evts;
-        } else {
-          this.log(1, "");
-        }
-      } else {
-        this.log(1, "");
-      }
-    },
-
-    triggerEvent : function(evt) {
-      var mod;
-      for (mod in moduleData) {
-        if (moduleData.hasOwnProperty(mod)) {
-          mod = moduleData[mod];
-          if (mod.events && mod.events[evt.type]) {
-            mod.events[evt.type](evt.data);
-          }
-        }
-      }
-    },
-
-    is_obj : function(obj) {
-      return jQuery.isPlainObject(obj);         
+    getModulesData : function() {
+      return moduleData;
     },
 
     debug : function(on) {
