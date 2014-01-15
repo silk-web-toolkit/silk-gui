@@ -7,6 +7,12 @@ CORE.createModule("render", function(api) {
   var PROJECT_LIST = silkPath + "/spun-projects.txt";
   var projectList;
 
+  function parseCSV(str) {
+    return _.reduce(str.split("\n"), function(table, row) {
+    table.push(_.map(row.split(","), function(c) { return c.trim()}));
+    return table; }, []);
+  };
+
   return {
     init: function() {
       this.homeNoProjects();  
@@ -19,13 +25,18 @@ CORE.createModule("render", function(api) {
     homeNoProjects : function() {
       var data;
       try {
-        data = fs.readFileSync(PROJECT_LIST);
+        data = fs.readFileSync(PROJECT_LIST, 'utf8');
       } catch (err) {
         data = null;
       }
-      if (data != null) {
+      if (defined(data)) {
+        info("data is : " + data);
         api.loadTpl('left-panel', 'lp-home-proj');
-        api.loadTpl('right-panel', 'rp-home-proj'); 
+        api.loadTpl('right-panel', 'rp-home-proj');
+        //debugObject(data);
+        var csv = parseCSV(data);
+        info("csv is : " + csv);
+        info(_.rest(csv).sort());
       } else {
         api.loadTpl('left-panel', 'lp-home-nproj');
         api.loadTpl('right-panel', 'rp-home-nproj');
