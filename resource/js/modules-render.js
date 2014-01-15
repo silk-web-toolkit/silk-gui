@@ -1,5 +1,11 @@
 // loads templates into layout containers orchestrates our SPA
 CORE.create_module("render", function(api) {
+  var projectChooser;
+  fs = require('fs');
+  var silkPath = process.env.SILK_PATH;
+  if (silkPath == undefined) silkPath = process.env.HOME + "/.silk";
+  var PROJECT_LIST = silkPath + "/spun-projects.txt";
+  var projectList;
 
   return {
     init: function() {
@@ -11,14 +17,28 @@ CORE.create_module("render", function(api) {
     },
 
     homeNoProjects : function() {
-      api.loadTpl('left-panel', 'lp-home-nproj');
-      api.loadTpl('right-panel', 'rp-home-nproj');
+      console.log("PROJECT_LIST is : " + PROJECT_LIST);
+      var data;
+      try {
+        data = fs.readFileSync(PROJECT_LIST);
+      } catch (err) {
+        data = null;
+      }
+      console.log("data is : " + data);
+      if (data != null) {
+        api.loadTpl('left-panel', 'lp-home-proj');
+        api.loadTpl('right-panel', 'rp-home-proj'); 
+      } else {
+        api.loadTpl('left-panel', 'lp-home-nproj');
+        api.loadTpl('right-panel', 'rp-home-nproj');
+        projectChooser = api.find("#project-chooser")[0];
+        api.addEvent(projectChooser, "change", this.handleProjectChooserChange);
+      }
+    },
 
-      var hello = {
-        name:     'Schnickety Schnack',
-        question: 'Do I look like a hovercraft pilot ?'
-      };
-      api.dataRender('question-panel', hello);
+    handleProjectChooserChange : function() {
+      console.log("handling project choose change");
+      //console.log(projectChoice);
     },
 
     logSpin : function(status) {

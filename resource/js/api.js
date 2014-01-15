@@ -1,6 +1,5 @@
 var Api = {
 	create : function(core, module_selector) {
-    var CONTAINER = core.dom.find('#' + module_selector);
 
     return {
       find : function(selector) {

@@ -82,6 +82,9 @@ var CORE = (function() {
       },
 
       bind : function(element, evt, fn) {
+        console.log('binding');
+        console.log('element is : ' + element);
+        console.log('evt is : ' + evt);
         if (element && evt) {
           if (typeof evt === 'function') {
             fn = evt;

@@ -1,14 +1,22 @@
 <html>
   <body>
     <template id="lp-home-nproj">
-      <h2>lp No Proj</h2>
     </template>
     <template id="rp-home-nproj">
-      <h2>rp No Proj</h2>
-      <div id="question-panel">
-        <span data-bind="name"></span>
-        <span class="question"></span>
-      </div>
+      <h2>No projects found</h2>
+      <p>You have no Silk sites.  Please create one with the button below or use the menu.</p>
+      <button id="loadProject" class="btn btn-primary"
+              onclick="document.getElementById('project-chooser').click();">Load project</button>
+      <!-- works from html 5 template -->
+      <!--<button id="project-chooser" class="btn btn-primary">Scheisse JQuery</button>-->
+      <input id="project-chooser" type="file" nwdirectory style="display:none;" />
+    </template>
+    <template id="lp-home-proj">
+      <h2>Yah projects</h2>
+    </template>
+    <template id="rp-home-proj">
+      <h2>Yay projects found</h2>
+      <p>Stuff.</p>
     </template>
   </body>
 </html>
