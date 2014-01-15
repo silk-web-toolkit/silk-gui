@@ -20,7 +20,7 @@ var Api = {
 
       notify : function(evt) {
         if (pubsub.is_obj(evt) && evt.type) {
-          pubsub.triggerEvent(core, evt);
+          pubsub.notify(core, evt);
         }         
       },
 
@@ -28,7 +28,7 @@ var Api = {
         console.log("in listen");
         if (pubsub.is_obj(evts)) {
           console.log("is obj, off to register");
-          pubsub.registerEvents(core, evts, moduleSelector);
+          pubsub.listen(core, evts, moduleSelector);
         }
       },
 

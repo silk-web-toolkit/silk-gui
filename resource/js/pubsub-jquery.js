@@ -2,7 +2,7 @@ var PUBSUB = (function() {
   var debug = true;
 
   return {
-    registerEvents : function (core, evts, mod) {
+    listen : function (core, evts, mod) {
       if (this.is_obj(evts) && mod) {
         if (core.getModulesData()[mod]) {
           core.getModulesData()[mod].events = evts;
@@ -14,7 +14,7 @@ var PUBSUB = (function() {
       }
     },
 
-    triggerEvent : function(core, evt) {
+    notify : function(core, evt) {
       var mod;
       for (mod in core.getModulesData()) {
         if (core.getModulesData().hasOwnProperty(mod)) {
