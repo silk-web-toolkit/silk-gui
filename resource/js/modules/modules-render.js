@@ -1,7 +1,11 @@
-// loads templates into layout containers orchestrates our SPA
+/******************************************************************************
+orchestrates our SPA
+
+loads templates into layout containers
+******************************************************************************/
+
 CORE.createModule("render", function(api) {
   var projectChooser;
-  fs = require('fs');
   var silkPath = process.env.SILK_PATH;
   if (silkPath == undefined) silkPath = process.env.HOME + "/.silk";
   var PROJECT_LIST = silkPath + "/spun-projects.txt";
@@ -9,9 +13,18 @@ CORE.createModule("render", function(api) {
 
   function parseCSV(str) {
     return _.reduce(str.split("\n"), function(table, row) {
-    table.push(_.map(row.split(","), function(c) { return c.trim()}));
-    return table; }, []);
+      table.push(_.map(row.split(","), function(c) { return c.trim()}));
+      return table;
+    }, []);
   };
+
+  function getProjectPaths(csv) { return _.map(csv, _.first); }
+
+  function getProjectName(path) {
+    var index = path.lastIndexOf("/");
+    if (index == -1) index = path.lastIndexOf("\\");
+    return path.substring(index +1);
+  }
 
   return {
     init: function() {
@@ -30,13 +43,17 @@ CORE.createModule("render", function(api) {
         data = null;
       }
       if (defined(data)) {
-        info("data is : " + data);
         api.loadTpl('left-panel', 'lp-home-proj');
         api.loadTpl('right-panel', 'rp-home-proj');
-        //debugObject(data);
-        var csv = parseCSV(data);
-        info("csv is : " + csv);
-        info(_.rest(csv).sort());
+
+        var directives = {
+          project: {
+            text:  function(params) { return getProjectName(this.value); },
+            title: function(params) { return this.value; }
+          }
+       };
+
+        api.inject('#projects', getProjectPaths(_.initial(parseCSV(data))), directives);
       } else {
         api.loadTpl('left-panel', 'lp-home-nproj');
         api.loadTpl('right-panel', 'rp-home-nproj');

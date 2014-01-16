@@ -1,6 +1,11 @@
+/******************************************************************************
+early experimental modules
+
+will be refactored and split out as we progress with the app
+******************************************************************************/
+
 CORE.createModule("spin", function(api) {
-  var spawn = require('child_process').spawn,
-  fs = require('fs');
+  var spawn = require('child_process').spawn;
 
   var silkProcess;
   var openChildWnds = new Array();
@@ -53,9 +58,8 @@ CORE.createModule("spin", function(api) {
 });
 
 CORE.createModule("projects", function(api) {
-  var gui = require('nw.gui'),
+  var gui = require('nw.gui'); //,
   //spawn = require('child_process').spawn,
-  fs = require('fs');
 
   //var silkProcess;
   var openChildWnds = new Array();

@@ -1,3 +1,9 @@
+/******************************************************************************
+DOM plugin
+
+jQuery flavour
+******************************************************************************/
+
 var DOM = (function() {
 
   return {
@@ -45,8 +51,8 @@ var DOM = (function() {
       }
     },
 
-    inject : function(el, data) {
-      $('#' + el).render(data);
+    inject : function(el, data, directives) {
+      $(el).render(data, directives);
     }
   };
 }());

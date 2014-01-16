@@ -1,3 +1,9 @@
+/******************************************************************************
+our fixed API
+
+remains unchanging so any and all modules can use it
+******************************************************************************/
+
 var Api = {
 	create : function(core, dom, pubsub, moduleSelector) {
 
@@ -14,8 +20,8 @@ var Api = {
         dom.removeEvent(element, type, fn);              
       },
 
-      inject : function(el, data) {
-        dom.inject(el, data);
+      inject : function(el, data, directives) {
+        dom.inject(el, data, directives);
       },
 
       notify : function(evt) {

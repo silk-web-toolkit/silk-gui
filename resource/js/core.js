@@ -1,5 +1,13 @@
+/******************************************************************************
+the CORE
+
+the core or kernel of our app, handles creation of the API and registration
+ plus lifecycle of modules
+******************************************************************************/
+
 var CORE = (function() {
-  var moduleData = {}
+  var moduleData = {};
+  fs = require('fs');
 
   return {
     createModule : function(moduleID, creator) {

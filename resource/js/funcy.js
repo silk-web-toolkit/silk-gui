@@ -1,3 +1,9 @@
+/******************************************************************************
+functional abstractions
+
+usable anywhere in the application, no initialisation required
+******************************************************************************/
+
 /************************
 error handling
 ************************/
@@ -31,4 +37,20 @@ function when(cond, action) {
     return action();
   else
     return undefined;
+}
+
+
+/************************
+collection access
+************************/
+
+function isIndexed(data) {
+  return _.isArray(data) || _.isString(data);
+}
+
+function nth(a, index) {
+  if (!_.isNumber(index)) fail("Expected a number as the index");
+  if (!isIndexed(a)) fail("Not supported on non-indexed type");
+  if ((index < 0) || (index > a.length - 1)) fail("Index value is out of bounds");
+  return a[index];
 }
