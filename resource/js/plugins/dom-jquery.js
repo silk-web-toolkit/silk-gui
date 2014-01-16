@@ -25,9 +25,8 @@ var DOM = (function() {
     },
 
     addEvent : function(element, evt, fn) {
-      console.log('binding');
-      console.log('element is : ' + element);
-      console.log('evt is : ' + evt);
+      debug('binding on element : ' + element);
+      debug('binding evt : ' + evt);
       if (element && evt) {
         if (typeof evt === 'function') {
           fn = evt;

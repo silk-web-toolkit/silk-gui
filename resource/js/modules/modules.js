@@ -4,7 +4,7 @@ early experimental modules
 will be refactored and split out as we progress with the app
 ******************************************************************************/
 
-CORE.createModule("spin", function(api) {
+/*CORE.createModule("spin", function(api) {
   var spawn = require('child_process').spawn;
 
   var silkProcess;
@@ -79,10 +79,10 @@ CORE.createModule("projects", function(api) {
     var listItem = document.createElement("li");
     listItem.className = cls;
     return listItem;
-  }
+  }*/
 
   /* A link with no url - design choice more than anything else */
-  function createLinkButton(name, title, onclick) {
+  /*function createLinkButton(name, title, onclick) {
     var link = document.createElement("a");
     link.href = "#";
     link.innerHTML = name;
@@ -200,4 +200,4 @@ CORE.createModule("log-poker", function(api) {
       });
     }
   };
-});
+});*/

@@ -31,9 +31,9 @@ var Api = {
       },
 
       listen : function(evts) {
-        console.log("in listen");
         if (pubsub.is_obj(evts)) {
-          console.log("is obj, off to register");
+          debug("registering to listen to : " + evts);
+          debug("module is : " + moduleSelector);
           pubsub.listen(core, evts, moduleSelector);
         }
       },

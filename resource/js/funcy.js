@@ -14,6 +14,8 @@ function warn(msg) { console.log(['WARN :', msg].join(' ')); }
 
 function info(msg) { console.log(['INFO :', msg].join(' ')); }
 
+function debug(msg) { console.log(['DEBUG : ', msg].join(' ')); }
+
 
 /************************
 existence and truthyness

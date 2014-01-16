@@ -4,6 +4,26 @@ orchestrates our SPA
 loads templates into layout containers
 ******************************************************************************/
 
+CORE.createModule("projects-list", function(api) {
+
+  return {
+    init: function() {
+      info("in projects-list init");
+      api.listen({
+        'projects-list' : this.projectsList
+      });
+    },
+
+    projectsList : function(status) {
+      info("in projects list function");
+    },
+
+    destroy : function() {
+      
+    }
+  };
+});
+
 CORE.createModule("render", function(api) {
   var projectChooser;
   var silkPath = process.env.SILK_PATH;
@@ -43,6 +63,8 @@ CORE.createModule("render", function(api) {
         data = null;
       }
       if (defined(data)) {
+        api.notify({ type: 'projects-list', data: 'blurb' });
+
         api.loadTpl('left-panel', 'lp-home-proj');
         api.loadTpl('right-panel', 'rp-home-proj');
 
@@ -63,12 +85,12 @@ CORE.createModule("render", function(api) {
     },
 
     handleProjectChooserChange : function() {
-      console.log("handling project choose change");
+      info("handling project choose change");
       //console.log(projectChoice);
     },
 
     logSpin : function(status) {
-      console.log("in log spin");
+      info("in log spin");
     },
 
     destroy : function() {
