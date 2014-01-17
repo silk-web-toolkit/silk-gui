@@ -32,10 +32,9 @@ CORE.createModule("app-launch", function(api) {
         api.notify({ type: 'projects-list', data: data });
         api.notify({ type: 'spin-status-start', data: data });
       } else {
-        api.loadTpl('left-panel', 'lp-home-nproj');
-        api.loadTpl('right-panel', 'rp-home-nproj');
-        projectChooser = api.find("#project-chooser")[0];
-        api.addEvent(projectChooser, "change", this.handleProjectChooserChange);
+        api.loadTpl('right-panel', 'project-chooser');
+        projectChooserInput = api.find("#project-chooser-input")[0];
+        api.addEvent(projectChooserInput, "change", this.handleProjectChooserChange);
       }
     },
 
@@ -99,10 +98,9 @@ CORE.createModule("projects-list", function(api) {
 
 
 /****************************************************************************** 
-  app launch - the entry point of the app
+  spin status - show the status of a spin
 
-  at this point no events have occurred so we need to figure out which screen
-  to display
+  let the use know when we are starting a spin, and what the reuslts are
 ******************************************************************************/
 CORE.createModule("spin-status", function(api) {
 

@@ -19,23 +19,17 @@
             eg projects-list
     -->
 
-
-    <!-- 
-      home screen with no projects
-    -->
-    <template id="lp-home-nproj">
+    <template id="project-chooser">
+      <div id="project-chooser">
+        <h2>No projects found</h2>
+        <p>You have no Silk sites.  Please create one with the button below or use the menu.</p>
+        <button id="loadProject" class="btn btn-primary"
+                onclick="document.getElementById('project-chooser-input').click();">Load project</button>
+        <!-- works from html 5 template -->
+        <!--<button id="project-chooser" class="btn btn-primary">Scheisse JQuery</button>-->
+        <input id="project-chooser-input" type="file" nwdirectory style="display:none;" />
+      </div>
     </template>
-
-    <template id="rp-home-nproj">
-      <h2>No projects found</h2>
-      <p>You have no Silk sites.  Please create one with the button below or use the menu.</p>
-      <button id="loadProject" class="btn btn-primary"
-              onclick="document.getElementById('project-chooser').click();">Load project</button>
-      <!-- works from html 5 template -->
-      <!--<button id="project-chooser" class="btn btn-primary">Scheisse JQuery</button>-->
-      <input id="project-chooser" type="file" nwdirectory style="display:none;" />
-    </template>
-
 
     <template id="projects-list">
       <div id="projects-list">
