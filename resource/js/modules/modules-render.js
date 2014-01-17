@@ -10,6 +10,8 @@ loads templates into layout containers
 
   at this point no events have occurred so we need to figure out which screen
   to display
+
+  N.B. does not have an associated module template
 ******************************************************************************/
 CORE.createModule("app-launch", function(api) {
   var projectChooser;
