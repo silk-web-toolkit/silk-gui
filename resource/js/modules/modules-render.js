@@ -10,11 +10,8 @@ loads templates into layout containers
 
   at this point no events have occurred so we need to figure out which screen
   to display
-
-  N.B. does not have an associated module template
 ******************************************************************************/
 CORE.createModule("app-launch", function(api) {
-  var projectChooser;
 
   return {
     bootstrap : function() { },
@@ -34,10 +31,39 @@ CORE.createModule("app-launch", function(api) {
         api.notify({ type: 'projects-list', data: data });
         api.notify({ type: 'spin-status-start', data: data });
       } else {
-        api.loadTpl('right-panel', 'project-chooser');
-        projectChooserInput = api.find("#project-chooser-input")[0];
-        api.addEvent(projectChooserInput, "change", this.handleProjectChooserChange);
+        api.notify({ type: 'project-choose', data: data });
       }
+    },
+
+    destroy : function() { }
+  };
+});
+
+
+/****************************************************************************** 
+  project chooser - choose a project and initiate a spin
+
+  will trigger projects-list refresh
+******************************************************************************/
+CORE.createModule("project-chooser", function(api) {
+  var projectChooserInput;
+
+  return {
+    bootstrap : function() {
+      api.listen({ 'project-choose' : this.projectChoose });
+      api.loadTpl('right-panel', 'project-chooser');
+      projectChooserInput = api.find("#project-chooser-input")[0];
+      api.addEvent(projectChooserInput, "change", this.handleProjectChooserChange);
+      $("#project-chooser").fadeTo(0,0);
+    },
+
+    create : function() { 
+      
+    },
+
+    projectChoose : function() {
+      debug("in projectChoose");
+      $("#project-chooser").fadeTo(0,1);
     },
 
     handleProjectChooserChange : function() {
