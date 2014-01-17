@@ -1,5 +1,25 @@
 <html>
   <body>
+    <!--
+      Definitions:
+        * layout : 
+            overall presentation configuration
+            defined in components/layout.html
+            contains a number of panels
+
+        * panel :
+            defined in layout above
+            eg footer-panel.html
+            may contain 0 or more module templates
+
+        * module template :
+            defined in panel above
+            usually has markup associated with it
+            the moduleSelector (name) matches the id of the associated markup
+            eg projects-list
+    -->
+
+
     <!-- 
       home screen with no projects
     -->
@@ -17,10 +37,7 @@
     </template>
 
 
-    <!--
-      home screen with projects
-    -->
-    <template id="lp-home-proj">
+    <template id="projects-list">
       <div id="projects-list">
         <h2>Projects</h2>
         <ul id="projects">
@@ -29,9 +46,10 @@
       </div>
     </template>
 
-    <template id="rp-home-proj">
-      <h2>Yay projects found</h2>
-      <p>Stuff.</p>
+    <template id="spin-status">
+      <div id="spin-status">
+        <p class="status">temporary blurb</p>
+      </div>
     </template>
   </body>
 </html>

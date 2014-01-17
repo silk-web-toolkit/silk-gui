@@ -4,13 +4,57 @@ orchestrates our SPA
 loads templates into layout containers
 ******************************************************************************/
 
-/* app launch - the entry point of the app
 
-   at this point no events have occurred so we need to figure out which screen
-   to display
+/****************************************************************************** 
+  app launch - the entry point of the app
+
+  at this point no events have occurred so we need to figure out which screen
+  to display
 ******************************************************************************/
 CORE.createModule("app-launch", function(api) {
   var projectChooser;
+
+  return {
+    bootstrap : function() { },
+
+    create: function() {
+      this.homeNoProjects();
+    },
+
+    homeNoProjects : function() {
+      var data;
+      try {
+        data = fs.readFileSync(api.getProjectList(), 'utf8');
+      } catch (err) {
+        data = null;
+      }
+      if (defined(data)) {
+        api.notify({ type: 'projects-list', data: data });
+        api.notify({ type: 'spin-status-start', data: data });
+      } else {
+        api.loadTpl('left-panel', 'lp-home-nproj');
+        api.loadTpl('right-panel', 'rp-home-nproj');
+        projectChooser = api.find("#project-chooser")[0];
+        api.addEvent(projectChooser, "change", this.handleProjectChooserChange);
+      }
+    },
+
+    handleProjectChooserChange : function() {
+      info("handling project choose change");
+      //console.log(projectChoice);
+    },
+
+    destroy : function() { }
+  };
+});
+
+
+/****************************************************************************** 
+  projects list - reusable interactive list of projects
+
+  displays project name and enables click to spin
+******************************************************************************/
+CORE.createModule("projects-list", function(api) {
 
   function parseCSV(str) {
     return _.reduce(str.split("\n"), function(table, row) {
@@ -28,63 +72,6 @@ CORE.createModule("app-launch", function(api) {
   }
 
   return {
-    bootstrap : function() {
-      api.listen({
-        'log-spin' : this.logSpin 
-      });
-    },
-
-    create: function() {
-      this.homeNoProjects();
-    },
-
-    homeNoProjects : function() {
-      var data;
-      try {
-        data = fs.readFileSync(api.getProjectList(), 'utf8');
-      } catch (err) {
-        data = null;
-      }
-      if (defined(data)) {
-        api.notify({ type: 'projects-list', data: 'blurb' });
-
-        api.loadTpl('left-panel', 'lp-home-proj');
-        api.loadTpl('right-panel', 'rp-home-proj');
-
-        var directives = {
-          project: {
-            text:  function(params) { return getProjectName(this.value); },
-            title: function(params) { return this.value; }
-          }
-       };
-
-        api.inject('#projects', getProjectPaths(_.initial(parseCSV(data))), directives);
-      } else {
-        api.loadTpl('left-panel', 'lp-home-nproj');
-        api.loadTpl('right-panel', 'rp-home-nproj');
-        projectChooser = api.find("#project-chooser")[0];
-        api.addEvent(projectChooser, "change", this.handleProjectChooserChange);
-      }
-    },
-
-    handleProjectChooserChange : function() {
-      info("handling project choose change");
-      //console.log(projectChoice);
-    },
-
-    logSpin : function(status) {
-      info("in log spin");
-    },
-
-    destroy : function() {
-      
-    }
-  };
-});
-
-CORE.createModule("projects-list", function(api) {
-
-  return {
     bootstrap: function() {
       api.listen({
         'projects-list' : this.projectsList
@@ -93,9 +80,46 @@ CORE.createModule("projects-list", function(api) {
 
     create: function() { },
 
-    projectsList : function(status) {
-      debug("in projects list function");
+    projectsList : function(payload) {
+      api.loadTpl('left-panel', 'projects-list');
+
+      var directives = {
+        project: {
+          text:  function(params) { return getProjectName(this.value); },
+          title: function(params) { return this.value; }
+        }
+      };
+
+      api.inject('#projects', getProjectPaths(_.initial(parseCSV(payload))), directives);
     },
+
+    destroy : function() { }
+  };
+});
+
+
+/****************************************************************************** 
+  app launch - the entry point of the app
+
+  at this point no events have occurred so we need to figure out which screen
+  to display
+******************************************************************************/
+CORE.createModule("spin-status", function(api) {
+
+  return {
+    bootstrap : function() {
+      api.listen({ 'spin-status-start' : this.spinStatusStart });
+      //api.listen({ 'spin-status-end' : this.spinStatusEnd });
+    },
+
+    create : function() { },
+
+    spinStatusStart : function() {
+      api.loadTpl('right-panel', 'spin-status');
+      api.inject('#spin-status', {status: 'Your project is spinning...' }, {});
+    },
+
+    /*spinStatusEnd : function(status) { },*/
 
     destroy : function() { }
   };
