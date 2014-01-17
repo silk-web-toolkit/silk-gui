@@ -49,17 +49,11 @@ var CORE = (function() {
     },
 
     startAll : function() {
-      var moduleID;
-      for (moduleID in moduleData) {
-        if (moduleData.hasOwnProperty(moduleID)) {
-          this.prepare(moduleID);
-        }
+      for (var modulePrep in moduleData) {
+        if (moduleData.hasOwnProperty(modulePrep)) { this.prepare(modulePrep); }
       }
-      var cModuleID;
-      for (cModuleID in moduleData) {
-        if (moduleData.hasOwnProperty(cModuleID)) {
-          this.start(cModuleID);
-        }
+      for (var moduleStart in moduleData) {
+        if (moduleData.hasOwnProperty(moduleStart)) { this.start(moduleStart); }
       }
     },
 
