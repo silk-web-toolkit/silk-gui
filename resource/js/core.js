@@ -8,6 +8,9 @@ the core or kernel of our app, handles creation of the API and registration
 var CORE = (function() {
   var moduleData = {};
   fs = require('fs');
+  var silkPath = process.env.SILK_PATH;
+  if (silkPath == undefined) silkPath = process.env.HOME + "/.silk";
+  var projectList = silkPath + "/spun-projects.txt";
 
   return {
     createModule : function(moduleID, creator) {
@@ -62,6 +65,10 @@ var CORE = (function() {
 
     getModulesData : function() {
       return moduleData;
+    },
+
+    getProjectList : function() {
+      return projectList;
     }
   };
 }());

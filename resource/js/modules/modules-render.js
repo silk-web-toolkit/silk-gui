@@ -4,12 +4,13 @@ orchestrates our SPA
 loads templates into layout containers
 ******************************************************************************/
 
-CORE.createModule("render", function(api) {
+/* app launch - the entry point of the app
+
+   at this point no events have occurred so we need to figure out which screen
+   to display
+******************************************************************************/
+CORE.createModule("app-launch", function(api) {
   var projectChooser;
-  var silkPath = process.env.SILK_PATH;
-  if (silkPath == undefined) silkPath = process.env.HOME + "/.silk";
-  var PROJECT_LIST = silkPath + "/spun-projects.txt";
-  var projectList;
 
   function parseCSV(str) {
     return _.reduce(str.split("\n"), function(table, row) {
@@ -40,7 +41,7 @@ CORE.createModule("render", function(api) {
     homeNoProjects : function() {
       var data;
       try {
-        data = fs.readFileSync(PROJECT_LIST, 'utf8');
+        data = fs.readFileSync(api.getProjectList(), 'utf8');
       } catch (err) {
         data = null;
       }

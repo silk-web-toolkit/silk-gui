@@ -55,6 +55,10 @@ var Api = {
         if (core.is_arr) {
           core.removeEvents(evts, moduleSelector);
         }   
+      },
+
+      getProjectList : function() {
+        return core.getProjectList();
       }
     };
   }
