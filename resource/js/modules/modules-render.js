@@ -51,9 +51,11 @@ CORE.createModule("project-chooser", function(api) {
   return {
     bootstrap : function() {
       api.listen({ 'project-choose' : this.projectChoose });
+      // TODO: this needs to be here atm, otherwise the dom event is not hooked or registered properly
       api.loadTpl('right-panel', 'project-chooser');
       projectChooserInput = api.find("#project-chooser-input")[0];
       api.addEvent(projectChooserInput, "change", this.handleProjectChooserChange);
+      // TODO: this is yucky, but necessary until we unpick the dom event reg issue
       $("#project-chooser").fadeTo(0,0);
     },
 
@@ -61,6 +63,7 @@ CORE.createModule("project-chooser", function(api) {
 
     projectChoose : function() {
       debug("in projectChoose");
+      // TODO: this is yucky, but necessary until we unpick the dom event reg issue
       $("#project-chooser").fadeTo(0,1);
     },
 
