@@ -5,7 +5,7 @@ remains unchanging so any and all modules can use it
 ******************************************************************************/
 
 var Api = {
-	create : function(core, dom, pubsub, moduleSelector) {
+    create : function(core, dom, pubsub, moduleSelector) {
 
     return {
       find : function(selector) {
@@ -13,11 +13,11 @@ var Api = {
       },
 
       addEvent : function(element, type, fn) {
-        dom.addEvent(element, type, fn);           
+        dom.addEvent(element, type, fn);
       },
 
       removeEvent : function(element, type, fn) {
-        dom.removeEvent(element, type, fn);              
+        dom.removeEvent(element, type, fn);
       },
 
       inject : function(el, data, directives) {
@@ -27,7 +27,7 @@ var Api = {
       notify : function(evt) {
         if (pubsub.is_obj(evt) && evt.type) {
           pubsub.notify(core, evt);
-        }         
+        }
       },
 
       listen : function(evts) {
@@ -54,7 +54,7 @@ var Api = {
       ignore : function(evts) {
         if (core.is_arr) {
           core.removeEvents(evts, moduleSelector);
-        }   
+        }
       },
 
       getProjectList : function() {

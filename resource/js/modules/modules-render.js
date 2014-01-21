@@ -5,7 +5,7 @@ loads templates into layout containers
 ******************************************************************************/
 
 
-/****************************************************************************** 
+/*****************************************************************************
   app launch - the entry point of the app
 
   at this point no events have occurred so we need to figure out which screen
@@ -36,7 +36,7 @@ CORE.createModule("app-launch", function(api) {
 });
 
 
-/****************************************************************************** 
+/******************************************************************************
   project chooser - choose a project and initiate a spin
 
   will trigger projects-list refresh
@@ -73,7 +73,7 @@ CORE.createModule("project-chooser", function(api) {
 });
 
 
-/****************************************************************************** 
+/*****************************************************************************
   projects list - reusable interactive list of projects
 
   displays project name and enables click to spin
@@ -129,10 +129,10 @@ CORE.createModule("projects-list", function(api) {
 });
 
 
-/****************************************************************************** 
+/******************************************************************************
   spin status - show the status of a spin
 
-  let the use know when we are starting a spin, and what the reuslts are
+  let the user know when we are starting a spin, and what the reuslts are
 ******************************************************************************/
 CORE.createModule("spin-status", function(api) {
 
