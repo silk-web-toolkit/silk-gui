@@ -57,9 +57,7 @@ CORE.createModule("project-chooser", function(api) {
       $("#project-chooser").fadeTo(0,0);
     },
 
-    create : function() { 
-      
-    },
+    create : function() { },
 
     projectChoose : function() {
       debug("in projectChoose");
