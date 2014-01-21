@@ -25,7 +25,7 @@ CORE.createModule("app-launch", function(api) {
       }
       if (defined(data)) {
         api.notify({ type: 'projects-list', data: data });
-        api.notify({ type: 'spin-status-start', data: data });
+        api.notify({ type: 'spin-status', data: data });
       } else {
         api.notify({ type: 'project-choose', data: data });
       }
@@ -121,13 +121,69 @@ CORE.createModule("projects-list", function(api) {
 
     projectsList : function(payload) {
       api.loadTpl('left-panel', 'projects-list');
-      api.inject('#projects', silkProjectsData(_.initial(parseCSV(payload))), {});
+      var csv = parseCSV(payload);
+      api.inject('#projects', silkProjectsData(_.initial(csv)), {});
+      api.notify({ type: 'spin', data: _.first(getProjectPaths(csv)) });
     },
 
     destroy : function() { }
   };
 });
 
+CORE.createModule("spin", function(api) {
+  var spawn = require('child_process').spawn;
+
+  var silkProcess;
+  var openChildWnds = new Array();
+  var SILK_RELOAD = "reload";
+
+  return {
+    bootstrap: function () {
+      api.listen ({
+        'spin' : this.spin
+      });
+    },
+
+    create: function () {},
+
+    spin : function(project) {
+      console.log("attempting spin in spin module");
+      var msg = "";
+
+      try { fs.statSync(project);}
+      catch (err) {
+        console.log("SPIN error " + err);
+//        api.notify({ type: 'log-spin', data: 'Oh Snap! Directory does not exist.' });
+        return;
+      }
+
+      try { silkProcess.kill("SIGHUP"); }
+      catch (err) { }
+        console.log("SPIN wait");
+//      api.notify({ type: 'log-spin', data: 'Spinning, please wait...' });
+
+      silkProcess = spawn('silk', [SILK_RELOAD], {cwd: project});
+      silkProcess.stdout.on('data', function(data) {
+        msg += data;
+        if (msg.indexOf("Site spinning is complete") !== -1) {
+          console.log("SPIN yay");
+          api.notify({ type: 'spin-status', data: 'Congratulations, your site was successfully spun!' });
+          for (i = 0; i < openChildWnds.length; i++) {
+            openChildWnds[i][1].reload();
+          }
+          api.notify({ type: 'build-projects', data: '' });
+          msg = "";
+        } else if (msg.indexOf("Cause of error:") !== -1) {
+          console.log("SPIN related error " + err);
+//          api.notify({ type: 'log-spin', data: 'Oh Snap! ' + error });
+          msg = "";
+        }
+      });
+    },
+
+    destroy: function () {}
+  };
+});
 
 /******************************************************************************
   spin status - show the status of a spin
@@ -138,18 +194,16 @@ CORE.createModule("spin-status", function(api) {
 
   return {
     bootstrap : function() {
-      api.listen({ 'spin-status-start' : this.spinStatusStart });
-      //api.listen({ 'spin-status-end' : this.spinStatusEnd });
+      api.listen({ 'spin-status' : this.spinStatus });
     },
 
-    create : function() { },
-
-    spinStatusStart : function() {
+    create : function() {
       api.loadTpl('right-panel', 'spin-status');
-      api.inject('#spin-status', {status: 'Your project is spinning...' }, {});
     },
 
-    /*spinStatusEnd : function(status) { },*/
+    spinStatus : function(payload) {
+      api.inject('#spin-status', {status: payload }, {});
+    },
 
     destroy : function() { }
   };
