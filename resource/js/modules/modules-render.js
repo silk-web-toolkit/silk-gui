@@ -90,12 +90,27 @@ CORE.createModule("projects-list", function(api) {
     }, []);
   };
 
-  function getProjectPaths(csv) { return _.map(csv, _.first); }
-
   function getProjectName(path) {
+    debug("path is : " + path)
     var index = path.lastIndexOf("/");
     if (index == -1) index = path.lastIndexOf("\\");
     return path.substring(index +1);
+  }
+
+  function getProjectPaths(csv) { return _.map(csv, _.first); }
+
+  function getProjectNames(csv) {
+    return _.map(csv, function(item) {
+      return getProjectName(_.first(item));
+    });
+  }
+
+  function labelProject(pair) {
+    return { "path" : pair[0], "name" :  pair[1] };
+  }
+
+  function silkProjectsData(csv) {
+    return _.map(_.zip(getProjectPaths(csv), getProjectNames(csv)), labelProject);
   }
 
   return {
@@ -109,15 +124,7 @@ CORE.createModule("projects-list", function(api) {
 
     projectsList : function(payload) {
       api.loadTpl('left-panel', 'projects-list');
-
-      var directives = {
-        project: {
-          text:  function(params) { return getProjectName(this.value); },
-          title: function(params) { return this.value; }
-        }
-      };
-
-      api.inject('#projects', getProjectPaths(_.initial(parseCSV(payload))), directives);
+      api.inject('#projects', silkProjectsData(_.initial(parseCSV(payload))), {});
     },
 
     destroy : function() { }
