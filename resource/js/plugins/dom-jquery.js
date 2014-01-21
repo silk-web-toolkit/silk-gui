@@ -50,8 +50,6 @@ var DOM = (function() {
       }
     },
 
-    inject : function(el, data, directives) {
-      $(el).render(data, directives);
-    }
+    inject : function(el, data, directives) { $(el).render(data, directives); }
   };
 }());
