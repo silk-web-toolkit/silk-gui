@@ -42,10 +42,7 @@ var CORE = (function() {
 
     start : function(moduleID) {
       var mod = moduleData[moduleID];
-      if (mod) {
-        debug("creating module : " + moduleID);
-        mod.instance.create();
-      }
+      if (mod) { debug("creating module : " + moduleID); mod.instance.create(); }
     },
 
     startAll : function() {
@@ -57,12 +54,8 @@ var CORE = (function() {
       }
     },
 
-    getModulesData : function() {
-      return moduleData;
-    },
+    getModulesData : function() { return moduleData; },
 
-    getProjectList : function() {
-      return projectList;
-    }
+    getProjectList : function() { return projectList; }
   };
 }());
