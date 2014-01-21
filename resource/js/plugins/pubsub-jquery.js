@@ -33,7 +33,7 @@ var PUBSUB = (function() {
     },
 
     is_obj : function(obj) {
-      return jQuery.isPlainObject(obj);         
+      return jQuery.isPlainObject(obj);
     }
   };
 }());

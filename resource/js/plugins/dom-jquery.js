@@ -15,7 +15,7 @@ var DOM = (function() {
       } else {
         jqEls = jQuery(selector);
       }
-                
+
       ret = jqEls.get();
       ret.length = jqEls.length;
       ret.query = function (sel) {
@@ -46,7 +46,7 @@ var DOM = (function() {
         }
         jQuery(element).unbind(evt, fn);
       } else {
-        // log wrong arguments 
+        // log wrong arguments
       }
     },
 
