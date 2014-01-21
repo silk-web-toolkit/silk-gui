@@ -17,10 +17,6 @@ CORE.createModule("app-launch", function(api) {
     bootstrap : function() { },
 
     create: function() {
-      this.homeNoProjects();
-    },
-
-    homeNoProjects : function() {
       var data;
       try {
         data = fs.readFileSync(api.getProjectList(), 'utf8');
