@@ -40,9 +40,9 @@ var Api = {
 
       loadTpl : function(parent, tpl) {
         var p = document.getElementById(parent);
-        var tpl = document.getElementById(tpl);
+        var loadedTpl = document.getElementById(tpl);
         this.removeChildElements(p);
-        p.appendChild(tpl.content.cloneNode(true));
+        p.appendChild(loadedTpl.content.cloneNode(true));
       },
 
       removeChildElements : function(parent) {

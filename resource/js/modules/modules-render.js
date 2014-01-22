@@ -25,9 +25,9 @@ CORE.createModule("app-launch", function(api) {
       }
       if (defined(data)) {
         api.notify({ type: 'projects-list', data: data });
-        api.notify({ type: 'spin-status', data: data });
+        api.notify({ type: 'spin-status', data: "Spinning your project..." });
       } else {
-        api.notify({ type: 'project-choose', data: data });
+        api.notify({ type: 'project-choose', data: '' });
       }
     },
 
@@ -48,7 +48,7 @@ CORE.createModule("project-chooser", function(api) {
     bootstrap : function() {
       api.listen({ 'project-choose' : this.projectChoose });
       // TODO: this needs to be here atm, otherwise the dom event is not hooked or registered properly
-      api.loadTpl('right-panel', 'project-chooser');
+      api.loadTpl('right-panel', 'project-chooser-tpl');
       projectChooserInput = api.find("#project-chooser-input")[0];
       api.addEvent(projectChooserInput, "change", this.handleProjectChooserChange);
       // TODO: this is yucky, but necessary until we unpick the dom event reg issue
@@ -58,7 +58,6 @@ CORE.createModule("project-chooser", function(api) {
     create : function() { },
 
     projectChoose : function() {
-      debug("in projectChoose");
       // TODO: this is yucky, but necessary until we unpick the dom event reg issue
       $("#project-chooser").fadeTo(0,1);
     },
@@ -88,7 +87,6 @@ CORE.createModule("projects-list", function(api) {
   };
 
   function getProjectName(path) {
-    debug("path is : " + path)
     var index = path.lastIndexOf("/");
     if (index == -1) index = path.lastIndexOf("\\");
     return path.substring(index +1);
@@ -120,7 +118,7 @@ CORE.createModule("projects-list", function(api) {
     create: function() { },
 
     projectsList : function(payload) {
-      api.loadTpl('left-panel', 'projects-list');
+      api.loadTpl('left-panel', 'projects-list-tpl');
       var csv = parseCSV(payload);
       api.inject('#projects', silkProjectsData(_.initial(csv)), {});
       api.notify({ type: 'spin', data: _.first(getProjectPaths(csv)) });
@@ -134,7 +132,6 @@ CORE.createModule("spin", function(api) {
   var spawn = require('child_process').spawn;
 
   var silkProcess;
-  var openChildWnds = new Array();
   var SILK_RELOAD = "reload";
 
   return {
@@ -147,20 +144,18 @@ CORE.createModule("spin", function(api) {
     create: function () {},
 
     spin : function(project) {
-      console.log("attempting spin in spin module");
       var msg = "";
 
       try { fs.statSync(project);}
       catch (err) {
-        console.log("SPIN error " + err);
-//        api.notify({ type: 'log-spin', data: 'Oh Snap! Directory does not exist.' });
+        api.notify({ type: 'spin-status', data: 'Oh Snap! Directory does not exist.' });
         return;
       }
 
       try { silkProcess.kill("SIGHUP"); }
       catch (err) { }
-        console.log("SPIN wait");
-//      api.notify({ type: 'log-spin', data: 'Spinning, please wait...' });
+
+      api.notify({ type: 'spin-status', data: 'Spinning, please wait...' });
 
       silkProcess = spawn('silk', [SILK_RELOAD], {cwd: project});
       silkProcess.stdout.on('data', function(data) {
@@ -168,14 +163,9 @@ CORE.createModule("spin", function(api) {
         if (msg.indexOf("Site spinning is complete") !== -1) {
           console.log("SPIN yay");
           api.notify({ type: 'spin-status', data: 'Congratulations, your site was successfully spun!' });
-          for (i = 0; i < openChildWnds.length; i++) {
-            openChildWnds[i][1].reload();
-          }
-          api.notify({ type: 'build-projects', data: '' });
           msg = "";
         } else if (msg.indexOf("Cause of error:") !== -1) {
-          console.log("SPIN related error " + err);
-//          api.notify({ type: 'log-spin', data: 'Oh Snap! ' + error });
+          api.notify({ type: 'spin-status', data: 'Oh Snap! ' + error });
           msg = "";
         }
       });
@@ -198,10 +188,11 @@ CORE.createModule("spin-status", function(api) {
     },
 
     create : function() {
-      api.loadTpl('right-panel', 'spin-status');
+
     },
 
     spinStatus : function(payload) {
+      api.loadTpl('right-panel', 'spin-status-tpl');
       api.inject('#spin-status', {status: payload }, {});
     },
 
