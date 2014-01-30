@@ -1,4 +1,4 @@
-(defproject silk-gui-spike "0.1.0-SNAPSHOT"
+(defproject silk-gui "0.5.0-SNAPSHOT"
   :description "Clojurescript silk gui"
   :url "http://www.silkyweb.org"
   :dependencies [[org.clojure/clojure "1.5.1"]
@@ -9,4 +9,4 @@
             [lein-ring "0.8.3"]]
   :cljsbuild {:builds [{:source-paths ["src"],
                         :compiler {:output-to "resources/public/js/main.js"}}]}
-  :ring {:handler silk-gui.server/app})
+  :ring {:handler silk.gui.server/app})

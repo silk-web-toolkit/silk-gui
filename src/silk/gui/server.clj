@@ -1,4 +1,4 @@
-(ns silk-gui.server
+(ns silk.gui.server
   (:use [ring.middleware.resource :only [wrap-resource]]
         [ring.middleware.file-info :only [wrap-file-info]]))
 
@@ -9,7 +9,7 @@
 (defn wrap-index [handler]
   (fn [req]
     (println (pr-str req))
-    (if (= (:uri req) "/")  
+    (if (= (:uri req) "/")
       (handler (assoc req :uri "/index.html"))
       (handler req))))
 
@@ -18,4 +18,3 @@
              (wrap-resource "public")
              (wrap-file-info)
              (wrap-index)))
-  
