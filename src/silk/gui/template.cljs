@@ -20,8 +20,7 @@
 ;; Helper functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defn home-view-decision []
-  (ef/substitute (projects-list)))
+(defn home-view-decision [] (ef/substitute (projects-list)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -37,5 +36,4 @@
   "#home-btn" (ef/add-class "active")
   "#edit-site-btn" (events/listen :click edit-site->))
 
-(defaction init-> []
-  "#home-btn" (events/listen :click home->))
+(defaction init-> [] "#home-btn" (events/listen :click home->))
