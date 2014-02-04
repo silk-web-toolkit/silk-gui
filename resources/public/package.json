@@ -6,7 +6,7 @@
   "window": {
     "title": "Silk Web Toolkit",
     "show": true,
-    "toolbar": false,
+    "toolbar": true,
     "frame": true,
     "width": 800,
     "height": 600,

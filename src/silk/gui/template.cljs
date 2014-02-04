@@ -1,5 +1,6 @@
 (ns silk.gui.template
-  (:require [enfocus.core :as ef]
+  (:require [cljs.nodejs :as node]
+            [enfocus.core :as ef]
             [enfocus.events :as events])
   (:use-macros [enfocus.macros :only [deftemplate defsnippet defaction]]))
 
@@ -19,6 +20,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Helper functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(def fs (node/require "fs"))
 
 (defn home-view-decision [] (ef/substitute (projects-list)))
 
