@@ -25,7 +25,7 @@
 
 (defn home-view-decision []
   (log (str "projects file is : *" env/PROJECTS_FILE "*"))
-  (.readFileSync env/fs env/PROJECTS_FILE)
+  (log (.toString (.readFileSync env/fs env/PROJECTS_FILE)))
   ;(if (exists? SILK_PATH) (log "defined") (log "not defined"))
   (ef/substitute (projects-list)))
 

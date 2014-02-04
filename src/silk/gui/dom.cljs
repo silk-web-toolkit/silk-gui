@@ -4,5 +4,4 @@
 ;; Dom functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defn by-id [id]
-  (.getElementById js/document id))
+(defn by-id [id] (.getElementById js/document id))
