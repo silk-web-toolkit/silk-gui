@@ -1,15 +1,15 @@
 (ns silk.gui.template
-  (:require [cljs.nodejs :as node]
+  (:require [cljs.nodejs :as nd]
             [enfocus.core :as ef]
-            [enfocus.events :as events])
+            [enfocus.events :as evt]
+            [silk.gui.env :as env])
+  (:use [silk.gui.utils :only [log]])
   (:use-macros [enfocus.macros :only [deftemplate defsnippet defaction]]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Compile time template files
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; we can use enlive based selects
-;; along side string based selectors
 (defsnippet home-snip :compiled "public/index.html" [:#stage] [])
 
 (deftemplate projects-list :compiled "public/templates/projects-list.html" [])
@@ -21,9 +21,13 @@
 ;; Helper functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(def fs (node/require "fs"))
+;(.readFileSync fs (str __dirname "/index.html"))
 
-(defn home-view-decision [] (ef/substitute (projects-list)))
+(defn home-view-decision []
+  (log (str "projects file is : *" env/PROJECTS_FILE "*"))
+  (.readFileSync env/fs env/PROJECTS_FILE)
+  ;(if (exists? SILK_PATH) (log "defined") (log "not defined"))
+  (ef/substitute (projects-list)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -37,6 +41,6 @@
 (defaction home-> []
   "#stage" (home-view-decision)
   "#home-btn" (ef/add-class "active")
-  "#edit-site-btn" (events/listen :click edit-site->))
+  "#edit-site-btn" (evt/listen :click edit-site->))
 
-(defaction init-> [] "#home-btn" (events/listen :click home->))
+(defaction init-> [] "#home-btn" (evt/listen :click home->))
