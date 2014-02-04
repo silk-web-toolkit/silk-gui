@@ -22,7 +22,6 @@
 
 (set! (.-onload js/window)
       #(do
-         (.log js/console js/aTest)
          (repl-connect)
          (pipe/init)
          (pipe/home)))

@@ -21,8 +21,6 @@
 ;; Helper functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;(.readFileSync fs (str __dirname "/index.html"))
-
 (defn home-view-decision []
   (log (str "projects file is : *" env/PROJECTS_FILE "*"))
   (log (.toString (.readFileSync env/fs env/PROJECTS_FILE)))
