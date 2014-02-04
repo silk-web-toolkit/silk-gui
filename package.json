@@ -1,7 +1,7 @@
 {
   "name": "Silk GUI",
   "description": "Chrome platform app.",
-  "version": "0.1",
+  "version": "0.4.0",
   "main": "frameless-silk-gui.html",
   "window": {
     "title": "Silk Web Toolkit",
