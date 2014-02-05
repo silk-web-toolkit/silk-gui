@@ -3,7 +3,7 @@
             [enfocus.core :as ef]
             [enfocus.events :as evt]
             [silk.gui.env :as env])
-  (:use [silk.gui.utils :only [log]])
+  (:use [silk.gui.utils :only [cmap->jobj log]])
   (:use-macros [enfocus.macros :only [deftemplate defsnippet defaction]]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -21,17 +21,13 @@
 ;; Helper functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defn cljsmap->jsmap [cljmap]
-  (let [out (js-obj)]
-    (doall (map #(aset out (name (first %)) (second %)) cljmap))
-    out))
-
-(defn home-view-decision []
+(defn home-view? []
   (log (str "projects file is : *" env/PROJECTS_FILE "*"))
   (log (.toString (.readFileSync env/fs env/PROJECTS_FILE)))
-  
-  (let [options (cljsmap->jsmap {:cwd "/Users/rossputin/Projects/bheap/silk-projects/silk-site"} )]
-    (.exec env/spawn "silk spin" options (fn [err stdout stderr] (.log js/console stdout))))
+  (let [;project "/Users/rossputin/Projects/bheap/silk-projects/silk-site"
+        project "/home/rmcdonald/Projects/mine/silk/silk-test-site"
+        opt (cmap->jobj {:cwd project} )]
+    (env/exec "silk spin" opt (fn [err stdout stderr] (.log js/console stdout))))
   (ef/substitute (projects-list)))
 
 
@@ -44,7 +40,7 @@
   "#home-btn" (ef/remove-class "active"))
 
 (defaction home-> []
-  "#stage" (home-view-decision)
+  "#stage" (home-view?)
   "#home-btn" (ef/add-class "active")
   "#edit-site-btn" (evt/listen :click edit-site->))
 
