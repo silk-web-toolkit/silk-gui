@@ -2,6 +2,13 @@
   (:require [cljs.nodejs :as nd]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Helper functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(def spawn (nd/require "child_process"))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Silk environment
 ;;
 ;; Includes domain level information, SILK_PATH etc and environment concerns
@@ -11,8 +18,6 @@
 (defn env [k] (aget (-> nd/process.env) k))
 
 (def fs (nd/require "fs"))
-
-(def spawn (nd/require "child_process"))
 
 (defn exec [cmd opt fn] (.exec spawn cmd opt fn))
 
