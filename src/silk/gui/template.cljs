@@ -21,10 +21,17 @@
 ;; Helper functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defn cljsmap->jsmap [cljmap]
+  (let [out (js-obj)]
+    (doall (map #(aset out (name (first %)) (second %)) cljmap))
+    out))
+
 (defn home-view-decision []
   (log (str "projects file is : *" env/PROJECTS_FILE "*"))
   (log (.toString (.readFileSync env/fs env/PROJECTS_FILE)))
-  ;(if (exists? SILK_PATH) (log "defined") (log "not defined"))
+  
+  (let [options (cljsmap->jsmap {:cwd "/Users/rossputin/Projects/bheap/silk-projects/silk-site"} )]
+    (.exec env/spawn "silk spin" options (fn [err stdout stderr] (.log js/console stdout))))
   (ef/substitute (projects-list)))
 
 
