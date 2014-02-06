@@ -19,8 +19,10 @@
 
 (def fs (nd/require "fs"))
 
-(defn exec [cmd opt fn] (.exec spawn cmd opt fn))
-
 (def SILK_PATH (or (env "SILK_PATH") (str (env "HOME") "/.silk")))
 
 (def PROJECTS_FILE (str SILK_PATH "/spun-projects.txt"))
+
+(defn file? [f] (.existsSync fs f))
+
+(defn exec [cmd opt fn] (.exec spawn cmd opt fn))
