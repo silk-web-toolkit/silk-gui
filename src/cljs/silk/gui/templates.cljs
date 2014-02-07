@@ -11,7 +11,7 @@
 ;; home
 ;;
 ;; defpage and deftpl both accept 1) the macro name, 2) the page name
-;;   page name is then concatenated together with path and extension .html
+;;   page name is concatenated together with path prefix and extension .html
 
 (defpage home-snip "index")
 (deftpl no-projects "no-projects")
