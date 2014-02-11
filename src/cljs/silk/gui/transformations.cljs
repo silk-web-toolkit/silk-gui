@@ -11,11 +11,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;(defn home-view? []
-  ;(if (env/file? env/PROJECTS_FILE)
-    ;(ef/substitute (projects-list))
-    ;(ef/substitute (no-projects))))
-
-;(defn home-view? []
   ;(log (str "projects file is : *" env/PROJECTS_FILE "*"))
   ;(log (.toString (.readFileSync env/fs env/PROJECTS_FILE)))
   ;(let [;project "/Users/rossputin/Projects/bheap/silk-projects/silk-site"
