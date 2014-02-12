@@ -24,4 +24,4 @@
       #(do
          (repl-connect)
          (pipe/init)
-         (pipe/home)))
+         (pipe/testicle)))

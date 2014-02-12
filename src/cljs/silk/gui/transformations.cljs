@@ -28,6 +28,14 @@
   "#stage" (ef/substitute tpl)
   "#home-btn" (ef/remove-class "active"))
 
+(defaction schnicky-> [msg]
+  "#spin-msg" (ef/content msg))
+
+(defaction testicle-> [tpl]
+  "#stage" (ef/substitute tpl)
+  "#home-btn" (ef/add-class "active")
+  "#edit-site-btn" (evt/listen :click edit-site->))
+
 (defaction home-> [tpl]
   "#stage" (ef/substitute tpl)
   "#home-btn" (ef/add-class "active")
