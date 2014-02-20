@@ -12,17 +12,17 @@
 ;; Pipelines
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defn- load-projects []
+(defn- load-projects-csv []
   (if (env/file? env/PROJECTS_FILE) 
     (split (.toString (.readFileSync env/fs env/PROJECTS_FILE)) #"\n")
     ('())))
 
-(defn- display [projects]
+(defn- list-projects [csv]
   (ef/at "#projects-list li" 
-    (clone-for [project projects] (ef/content (first (split project #","))))))
+    (clone-for [line csv] (ef/content (first (split line #","))))))
 
-(defn- spin [project]
-  (let [opt (utl/cmap->jobj {:cwd project})]
+(defn- spin-project [project-path]
+  (let [opt (utl/cmap->jobj {:cwd project-path})]
     (env/exec "silk spin" opt (fn [err stdout stderr] (do (utl/log stdout) (tx/handle-spin-> stdout))))))
 
 ;;;;;;;;;;;;;;;;;
@@ -31,11 +31,11 @@
 (defn init [] (tx/init->))
 
 (defn home []
-  (let [projects (load-projects)]  
-    (if (empty projects)
+  (let [csv (load-projects-csv)]  
+    (if (empty csv)
       ( (tx/home-> (tpl/projects))
-        (display projects)
-        (spin (first (split (first projects) #","))))
+        (list-projects csv)
+        (spin-project (first (split (first csv) #","))))
       (tx/home-> (tpl/no-projects)))))
 
 (defn edit-site [] (tx/edit-site-> tpl/edit-site))
