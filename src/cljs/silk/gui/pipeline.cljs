@@ -9,7 +9,7 @@
   (:use-macros [enfocus.macros :only [clone-for deftemplate defsnippet]]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Pipelines
+;; Helper functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn- load-projects-csv []
@@ -25,8 +25,9 @@
   (let [opt (utl/cmap->jobj {:cwd project-path})]
     (env/exec "silk spin" opt (fn [err stdout stderr] (do (utl/log stdout) (tx/handle-spin-> stdout))))))
 
-;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; View pipelines
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn init [] (tx/init->))
 
