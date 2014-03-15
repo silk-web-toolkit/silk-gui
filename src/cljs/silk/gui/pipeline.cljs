@@ -25,11 +25,22 @@
   (let [opt (utl/cmap->jobj {:cwd project-path})
         proc (env/spawn "silk" (array "reload") opt)
         sb (goog.string.StringBuffer. "")]
-    (.on (.-stdout proc) "data" (fn [data] 
-      (.append sb data)
-      (if (.indexOf (.toString sb) "Site spinning is complete" != -1)
-        (.log js/console (.toString sb))
-        (.clear sb)))))) ;;(tx/handle-spin-> data)))))
+    (.on (.-stdout proc) "data" 
+      (fn [data]
+        (cond 
+          (not= (.indexOf (.toString sb) "Site spinning is complete") -1)
+            (do 
+              (tx/display-spin-> true 
+                "Congratulations, your site was successfully spun!")
+              (.clear sb))
+          (not= (.indexOf (.toString sb) "Cause of error:") -1)
+            (do 
+              (tx/display-spin-> false 
+                (.substring (.toString sb)
+                  (.indexOf (.toString sb) "Cause of error:" + 16
+                  (.-length (.toString sb)))))
+              (.clear sb))
+          :else (.append sb data))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; View pipelines

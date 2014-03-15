@@ -18,7 +18,7 @@
   "#stage" (ef/substitute tpl)
   "#home-btn" (ef/remove-class "active"))
 
-(defaction handle-spin-> [msg]
+(defaction display-spin-> [success? msg]
   "#spin-msg" (ef/content msg))
 
 (defaction home-> [tpl]
