@@ -22,8 +22,14 @@
     (clone-for [line csv] (ef/content (first (split line #","))))))
 
 (defn- spin-project [project-path]
-  (let [opt (utl/cmap->jobj {:cwd project-path})]
-    (env/exec "silk spin" opt (fn [err stdout stderr] (do (utl/log stdout) (tx/handle-spin-> stdout))))))
+  (let [opt (utl/cmap->jobj {:cwd project-path})
+        proc (env/spawn "silk" (array "reload") opt)
+        sb (goog.string.StringBuffer. "")]
+    (.on (.-stdout proc) "data" (fn [data] 
+      (.append sb data)
+      (if (.indexOf (.toString sb) "Site spinning is complete" != -1)
+        (.log js/console (.toString sb))
+        (.clear sb)))))) ;;(tx/handle-spin-> data)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; View pipelines

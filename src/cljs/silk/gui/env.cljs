@@ -5,9 +5,6 @@
 ;; Helper functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(def spawn (nd/require "child_process"))
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Silk environment
 ;;
@@ -25,4 +22,4 @@
 
 (defn file? [f] (.existsSync fs f))
 
-(defn exec [cmd opt fn] (.exec spawn cmd opt fn))
+(def spawn (.-spawn (js/require "child_process")))
