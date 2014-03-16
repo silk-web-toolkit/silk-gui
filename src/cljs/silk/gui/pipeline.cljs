@@ -37,8 +37,8 @@
             (do 
               (tx/display-spin-> false 
                 (.substring (.toString sb)
-                  (.indexOf (.toString sb) "Cause of error:" + 16
-                  (.-length (.toString sb)))))
+                  (+ (.indexOf (.toString sb) "Cause of error:") 16)
+                  (.-length (.toString sb))))
               (.clear sb))
           :else (.append sb data))))))
 
