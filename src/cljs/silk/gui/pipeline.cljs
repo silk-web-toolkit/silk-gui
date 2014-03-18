@@ -1,5 +1,6 @@
 (ns silk.gui.pipeline
   (:require [enfocus.core :as ef]
+            [enfocus.events :as evt]
             [clojure.browser.repl :as repl]
             [silk.gui.env :as env]
             [silk.gui.transformations :as tx]
@@ -15,16 +16,21 @@
 (defn- load-projects-csv []
   (if (env/file? env/PROJECTS_FILE) 
     (split (.toString (.readFileSync env/fs env/PROJECTS_FILE)) #"\n")
-    ('())))
+    nil))
 
-(defn- list-projects [csv]
+(defn- list-projects [projects]
   (ef/at "#projects-list li" 
-    (clone-for [line csv] (ef/content (first (split line #","))))))
+    (clone-for [p projects]
+      "*:first-child" (ef/content (first p))
+      "*:first-child" (evt/listen :click (fn [event] (spin-project (first p)))))))
+
+(def ^:dynamic proc )
 
 (defn- spin-project [project-path]
   (let [opt (utl/cmap->jobj {:cwd project-path})
-        proc (env/spawn "silk" (array "reload") opt)
         sb (goog.string.StringBuffer. "")]
+    (try (.kill proc "SIGHUP")(catch js/Error e))
+    (def ^:dynamic proc (env/spawn "silk" (array "reload") opt))
     (.on (.-stdout proc) "data" 
       (fn [data]
         (cond 
@@ -49,12 +55,11 @@
 (defn init [] (tx/init->))
 
 (defn home []
-  (let [csv (load-projects-csv)]  
-    (if (empty csv)
-      ( (tx/home-> (tpl/projects))
-        (list-projects csv)
-        (spin-project (first (split (first csv) #","))))
-      (tx/home-> (tpl/no-projects)))))
+  (if-let [csv (load-projects-csv)] 
+    (let [ps (map #(split % #",") csv)]
+      (tx/home-> (tpl/projects))
+      (list-projects ps)
+      (spin-project (first (first ps))))
+    (tx/home-> (tpl/no-projects))))
 
 (defn edit-site [] (tx/edit-site-> tpl/edit-site))
-
