@@ -33,7 +33,7 @@ function createButton(button_id, button_name, normal_image_url,
 
 function focusTitlebars(focus) {
   var bg_color = focus ? "white" : "white";
-    
+
   var titlebar = document.getElementById("top-titlebar");
   if (titlebar)
     titlebar.style.backgroundColor = bg_color;
@@ -64,7 +64,7 @@ function addTitlebar(titlebar_name, titlebar_icon_url, titlebar_text) {
   var divider = document.createElement("div");
   divider.setAttribute("class", titlebar_name + "-divider");
   titlebar.appendChild(divider);
-  
+
   document.body.appendChild(titlebar);
 }
 

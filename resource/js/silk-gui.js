@@ -17,25 +17,25 @@ var silkGUIProjectList = silkPath + "/spun-projects.txt";
 
 function spin(project) {
   var msg = "";
-  
+
   try { fs.statSync(project);}
   catch (err) {
     addLog("Oh Snap! Directory does not exists.", errorCls);
     return;
   }
 
-  try { silk.kill("SIGHUP"); } 
+  try { silk.kill("SIGHUP"); }
   catch (err) { }
-  
+
   addLog("Spinning, please wait ...", infoCls);
 
-  silk = spawn('silk', [silkReloadArg], {cwd: project}); 
+  silk = spawn('silk', [silkReloadArg], {cwd: project});
   silk.stdout.on('data', function(data) {
     msg += data;
     if (msg.indexOf("Site spinning is complete") !== -1) {
       spinOutputlogger(project, msg, true);
       for (i = 0; i < openChildWnds.length; i++) {
-        openChildWnds[i][1].reload(); 
+        openChildWnds[i][1].reload();
       }
       listAndDisplayProjects(spinOnceLoaded = false);
       msg = "";  // Clear spin msg for next Silk reload.
@@ -50,14 +50,14 @@ function listAndDisplayProjects(spinOnceLoaded) {
   fs.readFile(silkGUIProjectList, 'utf8', function (err, data) {
     var list = document.getElementById('project-list');
     removeChildElements(list);
-    try { 
+    try {
       var items = data.split('\n');
       if (items.length == 0) {
         addLog("Please add a Silk Project.", infoCls)
         return;
       }
       for (i = 0; i < items.length-1; i++) {
-        var active = ""; 
+        var active = "";
         if (i == 0)  active = "active";
         var listItem = createListItem(active);
 
@@ -69,10 +69,10 @@ function listAndDisplayProjects(spinOnceLoaded) {
 
         // Check if directory exists
         try { fs.statSync(csv[0]);}
-        catch (err) { 
+        catch (err) {
           link.className = "project-not-found";
-          link.disabled = true; 
-        } 
+          link.disabled = true;
+        }
         list.appendChild(listItem);
       }
       if (spinOnceLoaded) {
@@ -98,7 +98,7 @@ function spinOutputlogger(dir, msg, success) {
   if (success) {
     var logger = addLog("Congratulations, your site was successfully spun!", successCls);
     // Display in browser link.
-    var openLink = createBtn("View your project", "Preview Spin Link", "btn btn-success", function() { 
+    var openLink = createBtn("View your project", "Preview Spin Link", "btn btn-success", function() {
       openBrowserWindow(dir)
     });
     logger.appendChild(openLink);
@@ -132,7 +132,7 @@ function aboutUs() {
 
 function indexOfTitleInOpenChildWindows(title) {
   var index = -1;
-  
+
   for (i = 0; i < openChildWnds.length; i++) {
     if (openChildWnds[i][0] == title) {
       index = i;
@@ -146,13 +146,13 @@ function createNewWindow(url, settings) {
   if (index > -1) {
       openChildWnds[index][1].focus();
   } else {
-    var new_win = gui.Window.open(url, settings);   
+    var new_win = gui.Window.open(url, settings);
     openChildWnds.push([settings.title, new_win]);
-    
+
     new_win.on('closed', function() {
       openChildWnds.splice(indexOfTitleInOpenChildWindows(settings.title), 1);
     });
-    
+
     // Listen to main window's close event
     gui.Window.get().on('close', function() {
       gui.App.quit();

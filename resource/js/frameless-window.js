@@ -1,9 +1,9 @@
-window.onfocus = function() { 
+window.onfocus = function() {
   console.log("focus");
   focusTitlebars(true);
 }
 
-window.onblur = function() { 
+window.onblur = function() {
   console.log("blur");
   focusTitlebars(false);
 }
