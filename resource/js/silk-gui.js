@@ -32,14 +32,14 @@ function spin(project) {
   silk = spawn('silk', [silkReloadArg], {cwd: project});
   silk.stdout.on('data', function(data) {
     msg += data;
-    if (msg.indexOf("Site spinning is complete") !== -1) {
+    if (msg.indexOf("SUCCESS:") !== -1) {
       spinOutputlogger(project, msg, true);
       for (i = 0; i < openChildWnds.length; i++) {
         openChildWnds[i][1].reload();
       }
       listAndDisplayProjects(spinOnceLoaded = false);
       msg = "";  // Clear spin msg for next Silk reload.
-    } else if (msg.indexOf("Cause of error:") !== -1) {
+    } else if (msg.indexOf("CAUSE:") !== -1) {
       spinOutputlogger(project, msg, false);
       msg = "";  // Clear spin msg for next Silk reload.
     }
@@ -103,7 +103,7 @@ function spinOutputlogger(dir, msg, success) {
     });
     logger.appendChild(openLink);
   } else {
-    var error = msg.substring(msg.indexOf("Cause of error:") + 16,  msg.length);
+    var error = msg.substring(msg.indexOf("CAUSE:") + 14,  msg.length - 4);
     addLog("Oh Snap! " + error, errorCls);
   }
 }
