@@ -9,6 +9,7 @@ var infoCls = "alert alert-info";
 var successCls = "alert alert-success";
 var errorCls = "alert alert-danger";
 var silkReloadArg = "reload";
+var exitMessage = "Press enter to exit"
 
 var silkPath = process.env.SILK_PATH;
 if (silkPath == undefined) silkPath = process.env.HOME + "/.silk";
@@ -39,7 +40,7 @@ function spin(project) {
       }
       listAndDisplayProjects(spinOnceLoaded = false);
       msg = "";  // Clear spin msg for next Silk reload.
-    } else if (msg.indexOf("CAUSE:") !== -1) {
+    } else if (msg.indexOf("CAUSE:") !== -1 && msg.indexOf(exitMessage)) {
       spinOutputlogger(project, msg, false);
       msg = "";  // Clear spin msg for next Silk reload.
     }
@@ -103,7 +104,8 @@ function spinOutputlogger(dir, msg, success) {
     });
     logger.appendChild(openLink);
   } else {
-    var error = msg.substring(msg.indexOf("CAUSE:") + 14,  msg.length - 4);
+    // Also removes ASCII color values.
+    var error = msg.substring(msg.indexOf("CAUSE:") + 14,  msg.lastIndexOf(exitMessage) - 4);
     addLog("Oh Snap! " + error, errorCls);
   }
 }
