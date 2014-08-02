@@ -121,17 +121,6 @@ function openBrowserWindow(site) {
   });
 }
 
-function aboutUs() {
-  createNewWindow("about-us.html", {
-    show: true,
-    title: 'About Us',
-    toolbar: false,
-    width: 600,
-    height: 370,
-    position: "center"
-  });
-}
-
 function indexOfTitleInOpenChildWindows(title) {
   var index = -1;
 
