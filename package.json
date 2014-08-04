@@ -4,6 +4,7 @@
   "version": "0.5.0",
   "main": "silk-gui.html",
   "window": {
+    "icon" : "resource/image/silk-blue.png",
     "title": "Silk Web Toolkit",
     "show": true,
     "toolbar": false,
