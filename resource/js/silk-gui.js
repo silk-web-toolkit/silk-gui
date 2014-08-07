@@ -200,3 +200,15 @@ function datetimeString(){
   var date = new Date();
   return date.toLocaleDateString() + " " + date.toLocaleTimeString();
 }
+
+function save(){
+  alert(tinyMCE.get('data_content').getContent());
+  var content = escape(tinyMCE.get('data_content').getContent());
+  alert(content);
+  var ednString = "{ :title \"Blank Template\" :details \"" + content + "\" :image \"resource/img/blank-template.png\" :zip \"resource/blank-template.zip\" }"
+  fs.writeFile("/home/nick/workspace/mine/silk/silk-site/data/example-projects/example4.edn", ednString, function(err) {
+    if(err) {
+      alert("error");
+    }
+  });
+}
