@@ -28,18 +28,16 @@ div.content {
   margin-left: -20px;
 }
 
-div.last-spin-logger  div {
+div.last-spin-logger div {
   font-weight: bold;
 }
 
-div.last-spin-logger  button {
-  float: right;
+div.last-spin-logger div button {
+  position:absolute;
+  right: 20px;
+  top: 72px;
 }
 
-footer {
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  margin: 2px;
+div.c {
   text-align: center;
 }

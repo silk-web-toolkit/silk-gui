@@ -1,61 +1,70 @@
 <html>
   <body>
-    <p>
-      <button class="btn btn-primary" data-toggle="modal" data-target="#sourceModal">Add Source</button>
-    </p>
     <div class="panel-group" id="accordion">
       <div class="panel panel-default">
-        <div class="panel-heading">
-          <div class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Source 1</a>
-            <span class="badge">4</span>
-            <button class="btn btn-primary" data-toggle="modal" data-target="#sourceModal">Edit</button>
-            <button class="btn btn-default">Delete</button>
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
+          <div class="panel-title" style="cursor:pointer;">
+            <a title="Click to change" data-toggle="modal" data-target="#sourceModal">Source 1</a>
+            <span class="pull-right badge">12</span>
           </div>
         </div>
-        <div id="collapseOne" class="panel-collapse collapse">
-          <div class="panel-body">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#dataModal">New</button>
-            <table class="table table-striped">
+        <div id="collapseOne" class="panel-collapse collapse in">
+          <div class="panel-body" style="height:50%;overflow:auto;">
+            <table class="table table-hover">
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Last Modified</th>
-                  <th></th>
+                  <th style="text-align:right">Last Modified</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>File1</td>
-                  <td>01/01/2013: 12:31:23<td>
-                  <td>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#dataModal">Edit</button>
-                    <button class="btn btn-default">Delete</button>
-                  </td>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
                 </tr>
-                <tr>
-                  <td>File2</td>
-                  <td>01/01/2013: 12:01:39<td>
-                  <td>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#dataModal">Edit</button>
-                    <button class="btn btn-default">Delete</button>
-                  </td>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
                 </tr>
-                <tr>
-                  <td>File3</td>
-                  <td>01/01/2013: 12:31:23<td>
-                  <td>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#dataModal">Edit</button>
-                    <button class="btn btn-default">Delete</button>
-                  </td>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
                 </tr>
-                <tr>
-                  <td>File4</td>
-                  <td>01/01/2013: 12:01:39<td>
-                  <td>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#dataModal">Edit</button>
-                    <button class="btn btn-default">Delete</button>
-                  </td>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
+                </tr>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
+                </tr>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
+                </tr>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
+                </tr>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
+                </tr>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
+                </tr>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
+                </tr>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
+                </tr>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
                 </tr>
               </tbody>
             </table>
@@ -63,57 +72,53 @@
         </div>
       </div>
       <div class="panel panel-default">
-        <div class="panel-heading">
-          <div class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Source 2</a>
-            <span class="badge">4</span>
-            <button class="btn btn-primary" data-toggle="modal" data-target="#sourceModal">Edit</button>
-            <button class="btn btn-default">Delete</button>
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo">
+          <div class="panel-title" style="cursor:pointer;">
+            <a title="Click to change" data-toggle="modal" data-target="#sourceModal">Source 2</a>
+            <span class="pull-right badge">8</span>
           </div>
         </div>
         <div id="collapseTwo" class="panel-collapse collapse">
-          <div class="panel-body">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#dataModal">New</button>
-            <table class="table table-striped">
+          <div class="panel-body" style="height:50%;overflow:auto;">
+            <table class="table table-hover">
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Last Modified</th>
-                  <th></th>
+                  <th style="text-align:right">Last Modified</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>File1</td>
-                  <td>01/01/2013: 12:31:23<td>
-                  <td>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#dataModal">Edit</button>
-                    <button class="btn btn-default">Delete</button>
-                  </td>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
                 </tr>
-                <tr>
-                  <td>File2</td>
-                  <td>01/01/2013: 12:01:39<td>
-                  <td>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#dataModal">Edit</button>
-                    <button class="btn btn-default">Delete</button>
-                  </td>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
                 </tr>
-                <tr>
-                  <td>File3</td>
-                  <td>01/01/2013: 12:31:23<td>
-                  <td>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#dataModal">Edit</button>
-                    <button class="btn btn-default">Delete</button>
-                  </td>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
                 </tr>
-                <tr>
-                  <td>File4</td>
-                  <td>01/01/2013: 12:01:39<td>
-                  <td>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#dataModal">Edit</button>
-                    <button class="btn btn-default">Delete</button>
-                  </td>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
+                </tr>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
+                </tr>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
+                </tr>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
+                </tr>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
                 </tr>
               </tbody>
             </table>
@@ -121,57 +126,25 @@
         </div>
       </div>
       <div class="panel panel-default">
-        <div class="panel-heading">
-          <div class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Source 3</a>
-            <span class="badge">4</span>
-            <button class="btn btn-primary" data-toggle="modal" data-target="#sourceModal">Edit</button>
-            <button class="btn btn-default">Delete</button>
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree">
+          <div class="panel-title" style="cursor:pointer;">
+            <a title="Click to change" data-toggle="modal" data-target="#sourceModal">Source 3</a>
+            <span class="pull-right badge">1</span>
           </div>
         </div>
         <div id="collapseThree" class="panel-collapse collapse">
-          <div class="panel-body">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#dataModal">New</button>
-            <table class="table table-striped">
+          <div class="panel-body" style="height:50%;overflow:auto;">
+            <table class="table table-hover">
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Last Modified</th>
-                  <th></th>
+                  <th style="text-align:right">Last Modified</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>File1</td>
-                  <td>01/01/2013: 12:31:23<td>
-                  <td>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#dataModal">Edit</button>
-                    <button class="btn btn-default">Delete</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>File2</td>
-                  <td>01/01/2013: 12:01:39<td>
-                  <td>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#dataModal">Edit</button>
-                    <button class="btn btn-default">Delete</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>File3</td>
-                  <td>01/01/2013: 12:31:23<td>
-                  <td>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#dataModal">Edit</button>
-                    <button class="btn btn-default">Delete</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>File4</td>
-                  <td>01/01/2013: 12:01:39<td>
-                  <td>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#dataModal">Edit</button>
-                    <button class="btn btn-default">Delete</button>
-                  </td>
+                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
+                  <td>Some Filename</td>
+                  <td style="text-align:right">01/01/2014 12:31:23<td>
                 </tr>
               </tbody>
             </table>
@@ -196,8 +169,8 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" onclick="alert(document.getElementById('html-data').value)">Save changes</button>
+            <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Delete</button>
+            <button type="button" class="btn btn-primary">Save</button>
           </div>
         </div>
       </div>
@@ -225,8 +198,8 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" onclick="save()">Save changes</button>
+            <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Delete</button>
+            <button type="button" class="btn btn-primary pull-right" onclick="save()">Save</button>
           </div>
         </div>
       </div>

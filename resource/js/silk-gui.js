@@ -40,7 +40,7 @@ function spin(project) {
       }
       listAndDisplayProjects(spinOnceLoaded = false);
       msg = "";  // Clear spin msg for next Silk reload.
-    } else if (msg.indexOf("CAUSE:") !== -1 && msg.indexOf(exitMessage)) {
+    } else if (msg.indexOf("CAUSE:") !== -1 && msg.indexOf(exitMessage) !== -1) {
       spinOutputlogger(project, msg, false);
       msg = "";  // Clear spin msg for next Silk reload.
     }
@@ -99,17 +99,16 @@ function spinOutputlogger(dir, msg, success) {
   if (success) {
     var logger = addLog("Congratulations, your site was successfully spun!", successCls);
     // Display in browser link.
-    var openLink = createBtn("View your project", "Preview Spin Link", "btn btn-success", function() {
+    var openLink = createBtn("View", "Preview Spin Link", "btn btn-success", function() {
       openBrowserWindow(dir)
     });
-    logger.appendChild(openLink);
+    logger.lastChild.appendChild(openLink);
   } else {
     // Also removes ASCII color values.
     var error = msg.substring(msg.indexOf("CAUSE:") + 14,  msg.lastIndexOf(exitMessage) - 4);
     addLog("Oh Snap! " + error, errorCls);
   }
 }
-
 
 function openBrowserWindow(site) {
   createNewWindow("file:///" + site + "/site/", {
