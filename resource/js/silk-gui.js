@@ -1,10 +1,7 @@
-var gui = require('nw.gui');
 var spawn = require('child_process').spawn;
 var fs = require('fs');
 
 var silk;
-var openChildWnds = new Array();
-
 var infoCls = "alert alert-info";
 var successCls = "alert alert-success";
 var errorCls = "alert alert-danger";
@@ -35,9 +32,7 @@ function spin(project) {
     msg += data;
     if (msg.indexOf("SUCCESS:") !== -1) {
       spinOutputlogger(project, msg, true);
-      for (i = 0; i < openChildWnds.length; i++) {
-        openChildWnds[i][1].reload();
-      }
+      reloadWindowIfOpen();
       listAndDisplayProjects(spinOnceLoaded = false);
       displayDataCRUD(project);
       msg = "";  // Clear spin msg for next Silk reload.
@@ -122,18 +117,6 @@ function displayDataCRUD(project) {
   if (col !== undefined) col.className += " in";
 }
 
-function loadSourceModal(el) {
-  var dir = el.getAttribute("data-id");
-  document.querySelector("input#source_name").value = getProjectNameFromPath(dir);
-}
-
-function loadDataModal(el) {
-  var file = el.getAttribute("data-id");
-  document.querySelector("input#data_name").value = getProjectNameFromPath(file);
-  var data = fs.readFileSync(file, 'utf8');
-  alert(data);
-}
-
 function addLog(msg, className) {
   var logger = document.getElementById("last-spin-logger");
   removeChildElements(logger);
@@ -157,106 +140,4 @@ function spinOutputlogger(dir, msg, success) {
     var error = msg.substring(msg.indexOf("CAUSE:") + 14,  msg.lastIndexOf(exitMessage) - 4);
     addLog("Oh Snap! " + error, errorCls);
   }
-}
-
-function openBrowserWindow(site) {
-  createNewWindow("file:///" + site + "/site/", {
-    show: true,
-    title: 'Silk Spin Preview',
-    toolbar: true,
-    width: 1000,
-    height: 800
-  });
-}
-
-function indexOfTitleInOpenChildWindows(title) {
-  var index = -1;
-
-  for (i = 0; i < openChildWnds.length; i++) {
-    if (openChildWnds[i][0] == title) {
-      index = i;
-    }
-  }
-  return index;
-}
-
-function createNewWindow(url, settings) {
-  var index = indexOfTitleInOpenChildWindows(settings.title);
-  if (index > -1) {
-      openChildWnds[index][1].focus();
-  } else {
-    var new_win = gui.Window.open(url, settings);
-    openChildWnds.push([settings.title, new_win]);
-
-    new_win.on('closed', function() {
-      openChildWnds.splice(indexOfTitleInOpenChildWindows(settings.title), 1);
-    });
-
-    // Listen to main window's close event
-    gui.Window.get().on('close', function() {
-      gui.App.quit();
-    });
-  }
-}
-
-function getProjectNameFromPath(path) {
-  var index = path.lastIndexOf("/");
-  if (index == -1) index = path.lastIndexOf("\\");
-  return path.substring(index +1);
-}
-
-function removeChildElements(parent) {
-  while (parent.hasChildNodes()) {
-    parent.removeChild(parent.lastChild);
-  }
-}
-
-function getSelectedRadioGroup(name){
-  var radio = document.getElementsByName(name);
-  for (i=0; i < radio.length; i++) {
-    if (radio[i].checked){
-      return radio[i];
-    }
-  }
-}
-
-function createBtn(msg, title, cls, onclick) {
-  var btn = document.createElement('button');
-  btn.type = "button";
-  btn.innerHTML = msg;
-  btn.className= cls;
-  btn.onclick = onclick;
-  return btn;
-}
-
-function createListItem(cls) {
-  var listItem = document.createElement("li");
-  listItem.className = cls;
-  return listItem;
-}
-
-function createLink(name, title, onclick) {
-  var link = document.createElement("a");
-  link.href = "#";
-  link.innerHTML = name;
-  link.title = title;
-  link.onclick = onclick;
-  return link;
-}
-
-function datetimeString(){
-  var date = new Date();
-  return date.toLocaleDateString() + " " + date.toLocaleTimeString();
-}
-
-function save(){
-  alert(tinyMCE.get('data_content').getContent());
-  var content = escape(tinyMCE.get('data_content').getContent());
-  alert(content);
-  var ednString = "{ :title \"Blank Template\" :details \"" + content + "\" :image \"resource/img/blank-template.png\" :zip \"resource/blank-template.zip\" }"
-  fs.writeFile("/home/nick/workspace/mine/silk/silk-site/data/example-projects/example4.edn", ednString, function(err) {
-    if(err) {
-      alert("error");
-    }
-  });
 }

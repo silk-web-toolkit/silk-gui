@@ -2,18 +2,22 @@
   <head>
     <link rel="stylesheet" type="text/css" href="resource/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="resource/css/style.css" />
-    <script type="text/javascript" src="resource/js/jquery.min.js"></script>
-    <script type="text/javascript" src="resource/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="resource/js/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript" src="resource/js/silk-gui.js"></script>
-    <script>
-      tinymce.init({selector:'textarea'});
-    </script>
   </head>
   <body>
     <div data-sw-component="modals">Placeholder for Modal component</div>
     <div data-sw-view="">
       Silk views are loaded in here
     </div>
+    <script type="text/javascript" src="resource/js/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="resource/js/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="resource/js/lib/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="resource/js/silk-utils.js"></script>
+    <script type="text/javascript" src="resource/js/silk-windows.js"></script>
+    <script type="text/javascript" src="resource/js/silk-modals.js"></script>
+    <script type="text/javascript" src="resource/js/silk-gui.js"></script>
+    <script>
+      listAndDisplayProjects(spinOnceLoaded = true);
+      tinymce.init({selector:'textarea'});
+    </script>
   </body>
 </html>
