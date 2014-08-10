@@ -52,7 +52,7 @@ function saveDataModal() {
   var ednString = "{ :content \"" + content + "\" }"
   fs.writeFileSync(dir + newId + ".edn", ednString);
 
-  if (oldId && oldId !== newId) fs.unlinkSync(oldId + ".edn");
+  if (oldId && oldId !== newId) fs.unlinkSync(dir + oldId + ".edn");
 }
 
 function deleteDataModal() {
