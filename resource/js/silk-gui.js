@@ -1,5 +1,4 @@
 var spawn = require('child_process').spawn;
-var fs = require('fs');
 
 var silk;
 var infoCls = "alert alert-info";
@@ -90,36 +89,38 @@ function displayDataCRUD(project) {
   sourceHeader.querySelector("button").setAttribute("data-id", root);
   source.appendChild(sourceHeader.cloneNode(true));
 
-  var dirs = fs.readdirSync(root);
-  for (var i = 0; i < dirs.length; ++i) {
-    var path = root + dirs[i];
+  if (fs.existsSync(root)) {
+    var dirs = fs.readdirSync(root);
+    for (var i = 0; i < dirs.length; ++i) {
+      var path = root + dirs[i];
 
-    if (fs.lstatSync(path).isDirectory()) {
-      var files = fs.readdirSync(path);
-      var sourceRow = document.querySelector("template#sourceRow").content;
-      var sourceModalLink = sourceRow.querySelector("a");
-      sourceModalLink.textContent = dirs[i];
-      sourceModalLink.setAttribute("data-id", path);
-      sourceRow.querySelector("span").textContent = files.length;
-      sourceRow.querySelector("div div").setAttribute("data-target", "#collapse" + i);
-      sourceRow.querySelector("div.collapse").id = "collapse" + i;
-      sourceRow.querySelector("button").setAttribute("data-id", path + "/");
-      var data = sourceRow.querySelector("div.list-group");
-      removeChildElements(data);
+      if (fs.lstatSync(path).isDirectory()) {
+        var files = fs.readdirSync(path);
+        var sourceRow = document.querySelector("template#sourceRow").content;
+        var sourceModalLink = sourceRow.querySelector("a");
+        sourceModalLink.textContent = dirs[i];
+        sourceModalLink.setAttribute("data-id", path);
+        sourceRow.querySelector("span").textContent = files.length;
+        sourceRow.querySelector("div div").setAttribute("data-target", "#collapse" + i);
+        sourceRow.querySelector("div.collapse").id = "collapse" + i;
+        sourceRow.querySelector("button").setAttribute("data-id", path + "/");
+        var data = sourceRow.querySelector("div.list-group");
+        removeChildElements(data);
 
-      for (var x = 0; x < files.length; ++x) {
-        var dataRow = document.querySelector("template#dataRow").content;
-        var dataModalLink = dataRow.querySelector("a");
-        dataModalLink.textContent = removeExtension(files[x]);
-        dataModalLink.setAttribute("data-id", path + "/" + files[x]);
-        data.appendChild(dataRow.cloneNode(true));
+        for (var x = 0; x < files.length; ++x) {
+          var dataRow = document.querySelector("template#dataRow").content;
+          var dataModalLink = dataRow.querySelector("a");
+          dataModalLink.textContent = removeExtension(files[x]);
+          dataModalLink.setAttribute("data-id", path + "/" + files[x]);
+          data.appendChild(dataRow.cloneNode(true));
+        }
+        source.appendChild(sourceRow.cloneNode(true));
       }
-      source.appendChild(sourceRow.cloneNode(true));
     }
+    // Load first one
+    var col = document.querySelector("div.collapse");
+    if (col !== null) col.className += " in";
   }
-  // Load first one
-  var col = document.querySelector("div.collapse");
-  if (col !== undefined) col.className += " in";
 }
 
 function addLog(msg, className) {

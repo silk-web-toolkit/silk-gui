@@ -1,4 +1,5 @@
 var edn = require("jsedn");
+var fs = require('fs-extra');
 
 function loadSourceModal(el) {
   var dir = el.getAttribute("data-id");
@@ -15,12 +16,13 @@ function saveSourceModal() {
 
   if (oldId == newId) {}
   else if (oldId) fs.renameSync(oldId, newId);
-  else if (!fs.existsSync(path)) fs.mkdirSync(path);
+  else if (!fs.existsSync(path)) fs.mkdirsSync(path);
 }
 
 function deleteSourceModal() {
-  var old = document.querySelector("input#hidden_source_path").value;
-  deleteFolderRecursive(old);
+  var dir = document.querySelector("input#hidden_source_path").value;
+  var oldId = document.querySelector("input#hidden_source_id").value;
+  fs.deleteSync(dir + oldId);
 }
 
 function loadDataModal(el) {
@@ -54,20 +56,7 @@ function saveDataModal() {
 }
 
 function deleteDataModal() {
-  var old = document.querySelector("input#hidden_data_path").value;
-  fs.unlinkSync(old);
-}
-
-function deleteFolderRecursive(path) {
-  if( fs.existsSync(path) ) {
-    fs.readdirSync(path).forEach(function(file,index){
-      var curPath = path + "/" + file;
-      if(fs.lstatSync(curPath).isDirectory()) { // recurse
-        deleteFolderRecursive(curPath);
-      } else { // delete file
-        fs.unlinkSync(curPath);
-      }
-    });
-    fs.rmdirSync(path);
-  }
+  var dir = document.querySelector("input#hidden_data_path").value;
+  var oldId = document.querySelector("input#hidden_data_id").value;
+  fs.deleteSync(dir + oldId  + ".edn");
 }
