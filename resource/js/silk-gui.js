@@ -59,7 +59,7 @@ function listAndDisplayProjects(spinOnceLoaded) {
         var listItem = createListItem(active);
 
         var csv = items[i].split(",");
-        var name = getProjectNameFromPath(csv[0]);
+        var name = getNameFromPath(csv[0]);
         var onClick = function() { spin(this.title);};
         var link = createLink(name, csv[0], onClick);
         listItem.appendChild(link);
@@ -94,7 +94,7 @@ function displayDataCRUD(project) {
       var sourceRow = document.querySelector("template#sourceRow").content;
       var sourceModalLink = sourceRow.querySelector("a")
       sourceModalLink.textContent = dirs[i];
-      sourceModalLink.setAttribute("data-id", dirs[i]);
+      sourceModalLink.setAttribute("data-id", path);
       sourceRow.querySelector("span").textContent = files.length;
       sourceRow.querySelector("div div").setAttribute("data-target", "#collapse" + i);
       sourceRow.querySelector("div.collapse").id = "collapse" + i;

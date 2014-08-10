@@ -41,3 +41,7 @@ div.last-spin-logger div button {
 div.c {
   text-align: center;
 }
+
+input {
+  width: 100%;
+}
