@@ -39,6 +39,7 @@ function spin(project) {
         openChildWnds[i][1].reload();
       }
       listAndDisplayProjects(spinOnceLoaded = false);
+      displayDataCRUD(project);
       msg = "";  // Clear spin msg for next Silk reload.
     } else if (msg.indexOf("CAUSE:") !== -1 && msg.indexOf(exitMessage) !== -1) {
       spinOutputlogger(project, msg, false);
@@ -83,6 +84,54 @@ function listAndDisplayProjects(spinOnceLoaded) {
       addLog("Please add a Silk Project.", infoCls);
     }
   });
+}
+
+function displayDataCRUD(project) {
+  var source = document.querySelector("#source");
+  removeChildElements(source);
+  var dirs = fs.readdirSync(project + "/data");
+
+  for (var i = 0; i < dirs.length; ++i) {
+    var path = project + "/data/" + dirs[i];
+
+    if (fs.lstatSync(path).isDirectory()) {
+      var files = fs.readdirSync(path);
+      var sourceRow = document.querySelector("template#sourceRow").content;
+      var sourceModalLink = sourceRow.querySelector("a")
+      sourceModalLink.textContent = dirs[i];
+      sourceModalLink.setAttribute("data-id", dirs[i]);
+      sourceRow.querySelector("span").textContent = files.length;
+      sourceRow.querySelector("div div").setAttribute("data-target", "#collapse" + i);
+      sourceRow.querySelector("div.collapse").id = "collapse" + i;
+
+      var data = sourceRow.querySelector("div.list-group");
+      removeChildElements(data);
+
+      for (var x = 0; x < files.length; ++x) {
+        var dataRow = document.querySelector("template#dataRow").content;
+        var dataModalLink = dataRow.querySelector("a");
+        dataModalLink.textContent = files[x];
+        dataModalLink.setAttribute("data-id", path + "/" + files[x]);
+        data.appendChild(dataRow.cloneNode(true));
+      }
+      source.appendChild(sourceRow.cloneNode(true));
+    }
+  }
+  // Load first one
+  var col = document.querySelector("div.collapse");
+  if (col !== undefined) col.className += " in";
+}
+
+function loadSourceModal(el) {
+  var dir = el.getAttribute("data-id");
+  document.querySelector("input#source_name").value = getProjectNameFromPath(dir);
+}
+
+function loadDataModal(el) {
+  var file = el.getAttribute("data-id");
+  document.querySelector("input#data_name").value = getProjectNameFromPath(file);
+  var data = fs.readFileSync(file, 'utf8');
+  alert(data);
 }
 
 function addLog(msg, className) {

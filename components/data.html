@@ -1,208 +1,33 @@
 <html>
   <body>
-    <div class="panel-group" id="accordion">
+    <h3>Sources
+      <div class="pull-right">
+        <button class="btn btn-default small" data-toggle="modal" data-target="#sourceModal">Add</button>
+      </div>
+    </h3>
+    <div class="panel-group" id="source"></div>
+    <template id="sourceRow">
       <div class="panel panel-default">
-        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
+        <div class="panel-heading" data-toggle="collapse" data-parent="#source" data-target="#collapse">
           <div class="panel-title" style="cursor:pointer;">
-            <a title="Click to change" data-toggle="modal" data-target="#sourceModal">Source 1</a>
-            <span class="pull-right badge">12</span>
+            <a title="Click to change" data-toggle="modal" href="#sourceModal" onclick="loadSourceModal(this)"></a>
+            <span class="pull-right badge"></span>
           </div>
         </div>
-        <div id="collapseOne" class="panel-collapse collapse in">
-          <div class="panel-body" style="height:50%;overflow:auto;">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th style="text-align:right">Last Modified</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo">
-          <div class="panel-title" style="cursor:pointer;">
-            <a title="Click to change" data-toggle="modal" data-target="#sourceModal">Source 2</a>
-            <span class="pull-right badge">8</span>
-          </div>
-        </div>
-        <div id="collapseTwo" class="panel-collapse collapse">
-          <div class="panel-body" style="height:50%;overflow:auto;">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th style="text-align:right">Last Modified</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree">
-          <div class="panel-title" style="cursor:pointer;">
-            <a title="Click to change" data-toggle="modal" data-target="#sourceModal">Source 3</a>
-            <span class="pull-right badge">1</span>
-          </div>
-        </div>
-        <div id="collapseThree" class="panel-collapse collapse">
-          <div class="panel-body" style="height:50%;overflow:auto;">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th style="text-align:right">Last Modified</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr style="cursor:pointer;" data-toggle="modal" data-target="#dataModal">
-                  <td>Some Filename</td>
-                  <td style="text-align:right">01/01/2014 12:31:23<td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade" id="sourceModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">x</span><span class="sr-only">/span></button>
-            <h4 class="modal-title" id="sourceModalLabel">Souce</h4>
-          </div>
-          <div class="modal-body">
-            <form role="form">
-              <div class="form-group">
-                <label for="source_name">Name</label>
-                <input type="text" name="source_name" id="source_name">
+        <div class="panel-collapse collapse">
+          <div class="panel-body" style="overflow:auto;">
+            <h4>Files
+              <div class="pull-right">
+                <button class="btn btn-default small" data-toggle="modal" data-target="#dataModal">Add</button>
               </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Delete</button>
-            <button type="button" class="btn btn-primary">Save</button>
+            </h4>
+            <div class="list-group"></div/>
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">x</span><span class="sr-only">/span></button>
-            <h4 class="modal-title" id="dataModalLabel">Modal title</h4>
-          </div>
-          <div class="modal-body">
-            <form role="form">
-              <div class="form-group">
-                <label for="source_name">Name</label>
-                <input type="text" name="data_name" id="data_name">
-              </div>
-              <div class="form-group">
-                <label for="content_name">Content</label>
-                <textarea id="data_content" name="data_content">
-
-                </textarea>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Delete</button>
-            <button type="button" class="btn btn-primary pull-right" onclick="save()">Save</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    </template>
+    <template id="dataRow">
+      <a class="list-group-item" title="Click to change" data-toggle="modal" href="#dataModal" onclick="loadDataModal(this)"></a>
+    </template>
   </body>
 </html>
