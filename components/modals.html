@@ -56,9 +56,10 @@
           <div class="modal-body">
             <form role="form">
               <div class="form-group">
-                <label for="source_name">Name</label>
-                <input type="text" name="source_name" id="source_name">
+                <label for="source_id">Name</label>
+                <input type="text" name="source_id" id="source_id">
               </div>
+              <input type="hidden" value="hidden_source_path" id="hidden_source_path" />
               <input type="hidden" value="hidden_source_id" id="hidden_source_id" />
             </form>
           </div>
@@ -80,13 +81,14 @@
           <div class="modal-body">
             <form role="form">
               <div class="form-group">
-                <label for="source_name">Name</label>
-                <input type="text" name="data_name" id="data_name">
+                <label for="data_id">Name</label>
+                <input type="text" name="data_id" id="data_id">
               </div>
               <div class="form-group">
                 <label for="content_name">Content</label>
                 <textarea id="data_content" name="data_content"></textarea>
               </div>
+              <input type="hidden" value="hidden_data_path" id="hidden_data_path" />
               <input type="hidden" value="hidden_data_id" id="hidden_data_id" />
             </form>
           </div>

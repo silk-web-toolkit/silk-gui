@@ -1,11 +1,13 @@
 <html>
   <body>
-    <h3>Sources
-      <div class="pull-right">
-        <button class="btn btn-default small" data-toggle="modal" data-target="#sourceModal">Add</button>
-      </div>
-    </h3>
     <div class="panel-group" id="source"></div>
+    <template id="sourceHeader">
+      <h3>Sources
+        <div class="pull-right">
+          <button class="btn btn-default small" data-toggle="modal" data-target="#sourceModal" onclick="loadSourceModal(this)">Add</button>
+        </div>
+      </h3>
+    </template>
     <template id="sourceRow">
       <div class="panel panel-default">
         <div class="panel-heading" data-toggle="collapse" data-parent="#source" data-target="#collapse">
@@ -16,9 +18,9 @@
         </div>
         <div class="panel-collapse collapse">
           <div class="panel-body" style="overflow:auto;">
-            <h4>Files
+            <h4>Items
               <div class="pull-right">
-                <button class="btn btn-default small" data-toggle="modal" data-target="#dataModal">Add</button>
+                <button class="btn btn-default small" data-toggle="modal" data-target="#dataModal" onclick="loadDataModal(this)">Add</button>
               </div>
             </h4>
             <div class="list-group"></div/>

@@ -59,7 +59,7 @@ function listAndDisplayProjects(spinOnceLoaded) {
         var listItem = createListItem(active);
 
         var csv = items[i].split(",");
-        var name = getNameFromPath(csv[0]);
+        var name = calculateName(csv[0]);
         var onClick = function() { spin(this.title);};
         var link = createLink(name, csv[0], onClick);
         listItem.appendChild(link);
@@ -82,30 +82,35 @@ function listAndDisplayProjects(spinOnceLoaded) {
 }
 
 function displayDataCRUD(project) {
+  var root = project + "/data/"
   var source = document.querySelector("#source");
   removeChildElements(source);
-  var dirs = fs.readdirSync(project + "/data");
 
+  var sourceHeader = document.querySelector("template#sourceHeader").content;
+  sourceHeader.querySelector("button").setAttribute("data-id", root);
+  source.appendChild(sourceHeader.cloneNode(true));
+
+  var dirs = fs.readdirSync(root);
   for (var i = 0; i < dirs.length; ++i) {
-    var path = project + "/data/" + dirs[i];
+    var path = root + dirs[i];
 
     if (fs.lstatSync(path).isDirectory()) {
       var files = fs.readdirSync(path);
       var sourceRow = document.querySelector("template#sourceRow").content;
-      var sourceModalLink = sourceRow.querySelector("a")
+      var sourceModalLink = sourceRow.querySelector("a");
       sourceModalLink.textContent = dirs[i];
       sourceModalLink.setAttribute("data-id", path);
       sourceRow.querySelector("span").textContent = files.length;
       sourceRow.querySelector("div div").setAttribute("data-target", "#collapse" + i);
       sourceRow.querySelector("div.collapse").id = "collapse" + i;
-
+      sourceRow.querySelector("button").setAttribute("data-id", path + "/");
       var data = sourceRow.querySelector("div.list-group");
       removeChildElements(data);
 
       for (var x = 0; x < files.length; ++x) {
         var dataRow = document.querySelector("template#dataRow").content;
         var dataModalLink = dataRow.querySelector("a");
-        dataModalLink.textContent = files[x];
+        dataModalLink.textContent = removeExtension(files[x]);
         dataModalLink.setAttribute("data-id", path + "/" + files[x]);
         data.appendChild(dataRow.cloneNode(true));
       }

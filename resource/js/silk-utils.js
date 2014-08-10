@@ -1,7 +1,17 @@
-function getNameFromPath(path) {
-  var index = path.lastIndexOf("/");
-  if (index == -1) index = path.lastIndexOf("\\");
-  return path.substring(index +1);
+function calculatePath(str) {
+  var index = str.lastIndexOf("/");
+  if (index == -1) index = str.lastIndexOf("\\");
+  return str.substring(0, index + 1);
+}
+
+function calculateName(str) {
+  var index = str.lastIndexOf("/");
+  if (index == -1) index = str.lastIndexOf("\\");
+  return str.substring(index + 1);
+}
+
+function removeExtension(str) {
+  return str.substring(0, str.lastIndexOf("."));
 }
 
 function removeChildElements(parent) {
