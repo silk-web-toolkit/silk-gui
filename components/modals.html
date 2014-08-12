@@ -1,0 +1,103 @@
+<html>
+  <body>
+    <!-- About Us -->
+    <div class="modal fade" id="aboutUsModal" tabindex="-1" role="dialog" aria-labelledby="aboutUsModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">x</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="aboutUsModalLabel">About Us</h4>
+          </div>
+          <img src="resource/image/silk-blue.png" alt="Silk Web Toolkit" />
+          <div class="modal-body">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Nick Featch</td>
+                  <td>nick.featch@gmail.com</td>
+                </tr>
+                <tr>
+                  <td>Ross McDonald</td>
+                  <td>ross@bheap.com</td>
+                </tr>
+                <tr>
+                  <td>Barrie McGuire</td>
+                  <td>barrie@bheap.com</td>
+                </tr>
+                <tr>
+                  <td>Andi North</td>
+                  <td>andi@mangopear.co.uk</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="c">
+            <img src="resource/image/spun-with-silk.png" alt="spun with Silk" />
+            <br />
+            <span data-sw-component="version">Component will go here</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Source -->
+    <div class="modal fade" id="sourceModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">x</span><span class="sr-only">/span></button>
+            <h4 class="modal-title" id="sourceModalLabel">Souce</h4>
+          </div>
+          <div class="modal-body">
+            <form role="form">
+              <div class="form-group">
+                <label for="source_id">Name</label>
+                <input type="text" name="source_id" id="source_id">
+              </div>
+              <input type="hidden" value="hidden_source_path" id="hidden_source_path" />
+              <input type="hidden" value="hidden_source_id" id="hidden_source_id" />
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger pull-left" data-dismiss="modal" onclick="deleteSourceModal()">Delete</button>
+            <button type="button" class="btn btn-success" data-dismiss="modal" onclick="saveSourceModal()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Data -->
+    <div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">x</span><span class="sr-only">/span></button>
+            <h4 class="modal-title" id="dataModalLabel">Item</h4>
+          </div>
+          <div class="modal-body">
+            <form role="form">
+              <div class="form-group">
+                <label for="data_id">Name</label>
+                <input type="text" name="data_id" id="data_id">
+              </div>
+              <div class="form-group">
+                <label for="content_name">Content</label>
+                <textarea id="data_content" name="data_content"></textarea>
+              </div>
+              <input type="hidden" value="hidden_data_path" id="hidden_data_path" />
+              <input type="hidden" value="hidden_data_id" id="hidden_data_id" />
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger pull-left" data-dismiss="modal" onclick="deleteDataModal()">Delete</button>
+            <button type="button" class="btn btn-success pull-right" data-dismiss="modal" onclick="saveDataModal()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,10 +1,6 @@
-var gui = require('nw.gui');
 var spawn = require('child_process').spawn;
-var fs = require('fs');
 
 var silk;
-var openChildWnds = new Array();
-
 var infoCls = "alert alert-info";
 var successCls = "alert alert-success";
 var errorCls = "alert alert-danger";
@@ -35,12 +31,11 @@ function spin(project) {
     msg += data;
     if (msg.indexOf("SUCCESS:") !== -1) {
       spinOutputlogger(project, msg, true);
-      for (i = 0; i < openChildWnds.length; i++) {
-        openChildWnds[i][1].reload();
-      }
+      reloadWindowIfOpen();
       listAndDisplayProjects(spinOnceLoaded = false);
+      displayDataCRUD(project);
       msg = "";  // Clear spin msg for next Silk reload.
-    } else if (msg.indexOf("CAUSE:") !== -1 && msg.indexOf(exitMessage)) {
+    } else if (msg.indexOf("CAUSE:") !== -1 && msg.indexOf(exitMessage) !== -1) {
       spinOutputlogger(project, msg, false);
       msg = "";  // Clear spin msg for next Silk reload.
     }
@@ -63,7 +58,7 @@ function listAndDisplayProjects(spinOnceLoaded) {
         var listItem = createListItem(active);
 
         var csv = items[i].split(",");
-        var name = getProjectNameFromPath(csv[0]);
+        var name = calculateName(csv[0]);
         var onClick = function() { spin(this.title);};
         var link = createLink(name, csv[0], onClick);
         listItem.appendChild(link);
@@ -85,6 +80,49 @@ function listAndDisplayProjects(spinOnceLoaded) {
   });
 }
 
+function displayDataCRUD(project) {
+  var root = project + "/data/"
+  var source = document.querySelector("#source");
+  removeChildElements(source);
+
+  var sourceHeader = document.querySelector("template#sourceHeader").content;
+  sourceHeader.querySelector("button").setAttribute("data-id", root);
+  source.appendChild(sourceHeader.cloneNode(true));
+
+  if (fs.existsSync(root)) {
+    var dirs = fs.readdirSync(root);
+    for (var i = 0; i < dirs.length; ++i) {
+      var path = root + dirs[i];
+
+      if (fs.lstatSync(path).isDirectory()) {
+        var files = fs.readdirSync(path);
+        var sourceRow = document.querySelector("template#sourceRow").content;
+        var sourceModalLink = sourceRow.querySelector("a");
+        sourceModalLink.textContent = dirs[i];
+        sourceModalLink.setAttribute("data-id", path);
+        sourceRow.querySelector("span").textContent = files.length;
+        sourceRow.querySelector("div div").setAttribute("data-target", "#collapse" + i);
+        sourceRow.querySelector("div.collapse").id = "collapse" + i;
+        sourceRow.querySelector("button").setAttribute("data-id", path + "/");
+        var data = sourceRow.querySelector("ul.nav");
+        removeChildElements(data);
+
+        for (var x = 0; x < files.length; ++x) {
+          var dataRow = document.querySelector("template#dataRow").content;
+          var dataModalLink = dataRow.querySelector("a");
+          dataModalLink.textContent = removeExtension(files[x]);
+          dataModalLink.setAttribute("data-id", path + "/" + files[x]);
+          data.appendChild(dataRow.cloneNode(true));
+        }
+        source.appendChild(sourceRow.cloneNode(true));
+      }
+    }
+    // Load first one
+    var col = document.querySelector("div.collapse");
+    if (col !== null) col.className += " in";
+  }
+}
+
 function addLog(msg, className) {
   var logger = document.getElementById("last-spin-logger");
   removeChildElements(logger);
@@ -99,104 +137,13 @@ function spinOutputlogger(dir, msg, success) {
   if (success) {
     var logger = addLog("Congratulations, your site was successfully spun!", successCls);
     // Display in browser link.
-    var openLink = createBtn("View your project", "Preview Spin Link", "btn btn-success", function() {
+    var openLink = createBtn("View", "Preview Spin Link", "btn btn-success", function() {
       openBrowserWindow(dir)
     });
-    logger.appendChild(openLink);
+    logger.lastChild.appendChild(openLink);
   } else {
     // Also removes ASCII color values.
     var error = msg.substring(msg.indexOf("CAUSE:") + 14,  msg.lastIndexOf(exitMessage) - 4);
     addLog("Oh Snap! " + error, errorCls);
   }
-}
-
-
-function openBrowserWindow(site) {
-  createNewWindow("file:///" + site + "/site/", {
-    show: true,
-    title: 'Silk Spin Preview',
-    toolbar: true,
-    width: 1000,
-    height: 800
-  });
-}
-
-function indexOfTitleInOpenChildWindows(title) {
-  var index = -1;
-
-  for (i = 0; i < openChildWnds.length; i++) {
-    if (openChildWnds[i][0] == title) {
-      index = i;
-    }
-  }
-  return index;
-}
-
-function createNewWindow(url, settings) {
-  var index = indexOfTitleInOpenChildWindows(settings.title);
-  if (index > -1) {
-      openChildWnds[index][1].focus();
-  } else {
-    var new_win = gui.Window.open(url, settings);
-    openChildWnds.push([settings.title, new_win]);
-
-    new_win.on('closed', function() {
-      openChildWnds.splice(indexOfTitleInOpenChildWindows(settings.title), 1);
-    });
-
-    // Listen to main window's close event
-    gui.Window.get().on('close', function() {
-      gui.App.quit();
-    });
-  }
-}
-
-function getProjectNameFromPath(path) {
-  var index = path.lastIndexOf("/");
-  if (index == -1) index = path.lastIndexOf("\\");
-  return path.substring(index +1);
-}
-
-function removeChildElements(parent) {
-  while (parent.hasChildNodes()) {
-    parent.removeChild(parent.lastChild);
-  }
-}
-
-function getSelectedRadioGroup(name){
-  var radio = document.getElementsByName(name);
-  for (i=0; i < radio.length; i++) {
-    if (radio[i].checked){
-      return radio[i];
-    }
-  }
-}
-
-function createBtn(msg, title, cls, onclick) {
-  var btn = document.createElement('button');
-  btn.type = "button";
-  btn.innerHTML = msg;
-  btn.className= cls;
-  btn.onclick = onclick;
-  return btn;
-}
-
-function createListItem(cls) {
-  var listItem = document.createElement("li");
-  listItem.className = cls;
-  return listItem;
-}
-
-function createLink(name, title, onclick) {
-  var link = document.createElement("a");
-  link.href = "#";
-  link.innerHTML = name;
-  link.title = title;
-  link.onclick = onclick;
-  return link;
-}
-
-function datetimeString(){
-  var date = new Date();
-  return date.toLocaleDateString() + " " + date.toLocaleTimeString();
 }

@@ -1,15 +1,11 @@
 <html>
   <body>
     <h2>Projects
-      <div style="float:right">
-        <button id="new-project-btn" type="button" class="btn btn-default" onclick="document.getElementById('project-chooser').click();">Add
-        </button>
+      <div class="pull-right">
+        <button id="new-project-btn" class="btn btn-default" onclick="document.getElementById('project-chooser').click();">Add</button>
       </div>
     </h2>
     <ul id="project-list" class="nav nav-pills nav-stacked project-list" />
     <input id="project-chooser" type="file" nwdirectory style="display:none;" onchange="spin(this.value);" />
-    <script>
-      listAndDisplayProjects(spinOnceLoaded = true);
-    </script>
   </body>
 </html>

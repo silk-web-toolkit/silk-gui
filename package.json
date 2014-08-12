@@ -1,17 +1,18 @@
 {
-  "name": "Silk GUI",
+  "name": "silk-gui",
   "description": "Chrome platform app.",
   "version": "0.5.0",
   "main": "silk-gui.html",
   "window": {
     "icon" : "resource/image/silk-blue.png",
     "title": "Silk Web Toolkit",
+    "icon" : "resource/image/silk-blue.png",
     "show": true,
     "toolbar": false,
     "frame": true,
     "width": 800,
     "height": 600,
-    "min_width": 600,
-    "min_height": 400
+    "min_width": 800,
+    "min_height": 600
   }
 }
