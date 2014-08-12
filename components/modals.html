@@ -56,11 +56,11 @@
           <div class="modal-body">
             <form role="form">
               <div class="form-group">
-                <label for="source_id">Name</label>
-                <input type="text" name="source_id" id="source_id">
+                <label for="source_name">Name</label>
+                <input type="text" name="source_name" id="source_name">
               </div>
               <input type="hidden" value="hidden_source_path" id="hidden_source_path" />
-              <input type="hidden" value="hidden_source_id" id="hidden_source_id" />
+              <input type="hidden" value="hidden_source_name" id="hidden_source_name" />
             </form>
           </div>
           <div class="modal-footer">
@@ -81,15 +81,27 @@
           <div class="modal-body">
             <form role="form">
               <div class="form-group">
-                <label for="data_id">Name</label>
-                <input type="text" name="data_id" id="data_id">
+                <label for="data_name">Name</label>
+                <input type="text" name="data_name" id="data_name">
               </div>
               <div class="form-group">
-                <label for="content_name">Content</label>
-                <textarea id="data_content" name="data_content"></textarea>
+                <label for="data_name">Title</label>
+                <input type="text" name="data_title" id="data_title">
+              </div>
+              <div class="form-group">
+                <label for="content_name">Summary</label>
+                <textarea id="data_summary_html" name="data_summary_html"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="content_name">Body</label>
+                <textarea id="data_body_html" name="data_body_html"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="data_name">Author</label>
+                <input type="text" name="data_author" id="data_author">
               </div>
               <input type="hidden" value="hidden_data_path" id="hidden_data_path" />
-              <input type="hidden" value="hidden_data_id" id="hidden_data_id" />
+              <input type="hidden" value="hidden_data_name" id="hidden_data_name" />
             </form>
           </div>
           <div class="modal-footer">
