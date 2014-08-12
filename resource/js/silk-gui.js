@@ -104,7 +104,7 @@ function displayDataCRUD(project) {
         sourceRow.querySelector("div div").setAttribute("data-target", "#collapse" + i);
         sourceRow.querySelector("div.collapse").id = "collapse" + i;
         sourceRow.querySelector("button").setAttribute("data-id", path + "/");
-        var data = sourceRow.querySelector("div.list-group");
+        var data = sourceRow.querySelector("ul.nav");
         removeChildElements(data);
 
         for (var x = 0; x < files.length; ++x) {

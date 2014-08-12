@@ -17,19 +17,19 @@
           </div>
         </div>
         <div class="panel-collapse collapse">
-          <div class="panel-body" style="overflow:auto;">
+          <div class="panel-body" style="max-height:50%; overflow:auto;">
             <h4>Items
               <div class="pull-right">
                 <button class="btn btn-default small" data-toggle="modal" data-target="#dataModal" onclick="loadDataModal(this)">Add</button>
               </div>
             </h4>
-            <div class="list-group"></div/>
+            <ul class="nav nav-pills nav-stacked"></ul>
           </div>
         </div>
       </div>
     </template>
     <template id="dataRow">
-      <a class="list-group-item" title="Click to change" data-toggle="modal" href="#dataModal" onclick="loadDataModal(this)"></a>
+      <li><a class="list-group-item" title="Click to change" data-toggle="modal" href="#dataModal" onclick="loadDataModal(this)"></a></li>
     </template>
   </body>
 </html>

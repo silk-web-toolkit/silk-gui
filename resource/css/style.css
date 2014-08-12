@@ -13,7 +13,7 @@ div.sidebar {
   height: 100%;
   overflow:auto;
   padding-right: 4px;
-  border-right: 1px solid #eee;
+  /*border-right: 1px solid #eee;*/
 }
 
 div.sidebar ul.project-list {}
