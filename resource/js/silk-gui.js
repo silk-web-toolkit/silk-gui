@@ -17,7 +17,7 @@ function spin(project) {
 
   try { fs.statSync(project);}
   catch (err) {
-    addLog("Oh Snap! Directory does not exists.", errorCls);
+    addLog("Oh Snap! Directory does not exist.", errorCls);
     return;
   }
 
