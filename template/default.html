@@ -16,9 +16,22 @@
     <script type="text/javascript" src="resource/js/silk-modals.js"></script>
     <script type="text/javascript" src="resource/js/silk-windows.js"></script>
     <script type="text/javascript" src="resource/js/silk-gui.js"></script>
-    <script>
+    <script type="text/javascript">
       listAndDisplayProjects(spinOnceLoaded = true);
-      tinymce.init({selector:'textarea'});
+      tinymce.init({
+          selector: "textarea",
+          plugins: [
+              "advlist autolink lists link image charmap print preview anchor",
+              "searchreplace visualblocks code fullscreen",
+              "insertdatetime media table contextmenu paste"
+          ],
+          toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+      });
+      $(document).on('focusin', function(e) {
+        if ($(event.target).closest(".mce-window").length) {
+          e.stopImmediatePropagation();
+        }
+      });
     </script>
   </body>
 </html>
