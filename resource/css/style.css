@@ -16,6 +16,16 @@ div.sidebar {
   /*border-right: 1px solid #eee;*/
 }
 
+.sidebar__heading {
+  position: relative;
+}
+
+.sidebar__heading .pull-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 div.sidebar ul.project-list {}
 
 div.sidebar ul.project-list li {}
