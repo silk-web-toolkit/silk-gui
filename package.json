@@ -5,7 +5,7 @@
   "main": "silk-gui.html",
   "window": {
     "icon" : "resource/image/silk-blue.png",
-    "title": "Silk Web Toolkit",
+    "title": "Silk CMS",
     "icon" : "resource/image/silk-blue.png",
     "show": true,
     "toolbar": false,
