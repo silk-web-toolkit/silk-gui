@@ -27,27 +27,27 @@ function deleteSourceModal() {
 
 function loadDataModal(el) {
   var file = el.getAttribute("data-id");
+  var path = name = title = author = summary = body = "";
+
   if (fs.lstatSync(file).isDirectory()) {
-    document.getElementById("hidden_data_path").value = file;
-    document.getElementById("hidden_data_name").value = "";
-    document.getElementById("data_name").value = "";
-    tinyMCE.get("data_body_html").setContent("");
+    path = file;
   } else {
-    var data = fs.readFileSync(file, "utf8");
-    var name = removeExtension(calculateName(file));
-    var map = edn.parse(data);
-    var title = getEdnValue(map, ":title");
-    var summary = unescape(getEdnValue(map, ":summary-html"));
-    var body = unescape(getEdnValue(map, ":body-html"));
-    var author = getEdnValue(map, ":author");
-    document.getElementById("hidden_data_name").value = name;
-    document.getElementById("data_name").value = name;
-    document.getElementById("hidden_data_path").value = calculatePath(file);
-    document.getElementById("data_title").value = title;
-    document.getElementById("data_author").value = author;
-    tinyMCE.get("data_summary_html").setContent(summary);
-    tinyMCE.get("data_body_html").setContent(body);
+    path = calculatePath(file);
+    name = removeExtension(calculateName(file));
+    var map = edn.parse(fs.readFileSync(file, "utf8"));
+    title = getEdnValue(map, ":title");
+    author = getEdnValue(map, ":author");
+    summary = unescape(getEdnValue(map, ":summary-html"));
+    body = unescape(getEdnValue(map, ":body-html"));
   }
+
+  document.getElementById("hidden_data_path").value = path;
+  document.getElementById("hidden_data_name").value = name;
+  document.getElementById("data_name").value = name;
+  document.getElementById("data_title").value = title;
+  document.getElementById("data_author").value = author;
+  tinyMCE.get("data_summary_html").setContent(summary);
+  tinyMCE.get("data_body_html").setContent(body);
 }
 
 function getEdnValue(k, v) {
