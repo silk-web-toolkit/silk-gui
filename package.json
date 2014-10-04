@@ -6,13 +6,12 @@
   "window": {
     "icon" : "resource/image/silk-blue.png",
     "title": "Silk CMS",
-    "icon" : "resource/image/silk-blue.png",
     "show": true,
     "toolbar": false,
     "frame": true,
     "width": 800,
-    "height": 600,
-    "min_width": 800,
-    "min_height": 600
+    "height": 650,
+    "min_width": 750,
+    "min_height": 400
   }
 }

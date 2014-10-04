@@ -81,25 +81,32 @@
           </div>
           <div class="modal-body">
             <form role="form">
-              <div class="form-group">
-                <label for="data_name">Name</label>
-                <input type="text" name="data_name" id="data_name">
-              </div>
-              <div class="form-group">
-                <label for="data_name">Title</label>
-                <input type="text" name="data_title" id="data_title">
-              </div>
-              <div class="form-group">
-                <label for="content_name">Summary</label>
-                <textarea id="data_summary_html" name="data_summary_html"></textarea>
-              </div>
-              <div class="form-group">
-                <label for="content_name">Body</label>
-                <textarea id="data_body_html" name="data_body_html"></textarea>
-              </div>
-              <div class="form-group">
-                <label for="data_name">Author</label>
-                <input type="text" name="data_author" id="data_author">
+              <ul class="nav nav-tabs" role="tablist" id="myTab">
+                <li class="active"><a href="#details" role="tab" data-toggle="tab">Details</a></li>
+                <li><a href="#summary" role="tab" data-toggle="tab">Summary</a></li>
+                <li><a href="#artical" role="tab" data-toggle="tab">Artical</a></li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane active" id="details">
+                  <div class="form-group">
+                    <label for="data_name">Name</label>
+                    <input type="text" name="data_name" id="data_name">
+                  </div>
+                  <div class="form-group">
+                    <label for="data_name">Title</label>
+                    <input type="text" name="data_title" id="data_title">
+                  </div>
+                  <div class="form-group">
+                    <label for="data_name">Author</label>
+                    <input type="text" name="data_author" id="data_author">
+                  </div>
+                </div>
+                <div class="tab-pane" id="summary">
+                  <textarea id="data_summary_html" name="data_summary_html"></textarea>
+                </div>
+                <div class="tab-pane" id="artical">
+                  <textarea id="data_body_html" name="data_body_html"></textarea>
+                </div>
               </div>
               <input type="hidden" value="hidden_data_path" id="hidden_data_path" />
               <input type="hidden" value="hidden_data_name" id="hidden_data_name" />
