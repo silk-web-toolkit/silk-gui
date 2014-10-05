@@ -89,11 +89,14 @@ function displayProjects(items) {
     var active = "";
     if (i == 0)  active = "active";
     var listItem = createListItem(active);
-
     var csv = items[i].split(",");
     var name = calculateName(csv[0]);
     var onClick = function() { silkReload(this.title);};
     var link = createLink(name, csv[0], onClick);
+    var msg = document.createElement("span");
+    msg.innerHTML = prettyDate(new Date(parseInt(csv[1])));
+    msg.className = "spun-time";
+    link.appendChild(msg);
     listItem.appendChild(link);
 
     try { fs.statSync(csv[0]);}
@@ -101,10 +104,8 @@ function displayProjects(items) {
       link.className = "project-not-found";
       link.disabled = true;
     }
-
     list.appendChild(listItem);
   }
-
   return;
 }
 

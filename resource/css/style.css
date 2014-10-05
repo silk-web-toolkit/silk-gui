@@ -55,3 +55,8 @@ div.c {
 input {
   width: 100%;
 }
+
+span.spun-time {
+  font-size: 8px;
+  display: block;
+}
