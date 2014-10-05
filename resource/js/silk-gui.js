@@ -82,29 +82,29 @@ function listProjects() {
 }
 
 function displayProjects(items) {
-  var list = document.getElementById('project-list');
+  var list = document.getElementById('projectList');
   removeChildElements(list);
 
   for (i = 0; i < items.length-1; i++) {
-    var active = "";
-    if (i == 0)  active = "active";
-    var listItem = createListItem(active);
+    var template = document.querySelector("template#projectListRow").content;
+    var row = template.cloneNode(true);
     var csv = items[i].split(",");
-    var name = calculateName(csv[0]);
-    var onClick = function() { silkReload(this.title);};
-    var link = createLink(name, csv[0], onClick);
-    var msg = document.createElement("span");
-    msg.innerHTML = prettyDate(new Date(parseInt(csv[1])));
-    msg.className = "spun-time";
-    link.appendChild(msg);
-    listItem.appendChild(link);
+
+    if (i > 0) row.querySelector("li").className = "";
+
+    var link = row.querySelector("a");
+    link.title = csv[0]; // Also a way to pass value onclick.
+    link.onclick = function() { silkReload(this.title); };
+
+    row.querySelector(".spun-project").textContent = calculateName(csv[0]);
+    row.querySelector(".spun-time").textContent = prettyDate(new Date(parseInt(csv[1])));
 
     try { fs.statSync(csv[0]);}
     catch (err) {
       link.className = "project-not-found";
       link.disabled = true;
     }
-    list.appendChild(listItem);
+    list.appendChild(row);
   }
   return;
 }

@@ -1,0 +1,19 @@
+<html>
+  <body>
+    <h2 class="sidebar__heading">Projects
+      <div class="pull-right">
+        <button class="btn btn-default" onclick="document.getElementById('project-chooser').click();">Add</button>
+      </div>
+    </h2>
+    <ul id="projectList" class="nav nav-pills nav-stacked project-list"></ul>
+    <template id="projectListRow">
+      <li class="active">
+        <a href="#">
+          <span class="spun-project"></span>
+          <span class="spun-time"></span>
+        </a>
+      </li>
+    </template>
+    <input id="project-chooser" type="file" nwdirectory style="display:none;" onchange="spin(this.value);" />
+  </body>
+</html>
