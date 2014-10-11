@@ -4,7 +4,7 @@
   "version": "0.6.0",
   "main": "silk-gui.html",
   "window": {
-    "icon" : "resource/image/silk-blue.png",
+    "icon": "resource/image/silk-blue.png",
     "title": "Silk CMS",
     "show": true,
     "toolbar": false,
@@ -13,5 +13,26 @@
     "height": 650,
     "min_width": 750,
     "min_height": 400
-  }
+  },
+  "devDependencies": {
+    "gulp": "^3.8.8",
+    "node-webkit-builder": "^0.1.3"
+  },
+  "dependencies": {
+    "fs-extra": "^0.10.0",
+    "jsedn": "^0.3.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/silk-web-toolkit/silk-gui.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/silk-web-toolkit/silk-gui/issues"
+  },
+  "homepage": "https://github.com/silk-web-toolkit/silk-gui"
 }

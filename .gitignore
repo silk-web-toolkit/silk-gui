@@ -1,3 +1,5 @@
 site
 *.nw
 *.log
+build
+cache

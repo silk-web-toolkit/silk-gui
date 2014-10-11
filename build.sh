@@ -1,7 +1,10 @@
 #!/bin/sh
-silk 
+ulimit -S -n 4096
+silk
 cp -rf node_modules site/
-cp package.json site/ 
-cd site/ 
-zip ../silk-gui.nw * -r
-cd ../ 
+rm -rf site/node_modules/gulp
+rm -rf site/node_modules/node-webkit-builder
+rm -rf site/node_modules/.bin/gulp
+rm -rf site/node_modules/.bin/node-webkit-builder
+cp package.json site/
+gulp nw
