@@ -1,5 +1,21 @@
 <html>
   <body>
-    <div id="last-spin-logger" class="last-spin-logger" />
+    <div id="logger" class="logger" />
+    <template id="successLog">
+      <div class="alert alert-success">
+        <span></span>
+        <button class="btn btn-success" onclick="openBrowserWindow(this.getAttribute('data-id'));">View</button>
+      </div>
+    </template>
+    <template id="errorLog">
+      <div class="alert alert-danger">
+        <span></span>
+      </div>
+    </template>
+    <template id="infoLog">
+      <div class="alert alert-info">
+        <span></span>
+      </div>
+    </template>
   </body>
 </html>

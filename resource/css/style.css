@@ -38,11 +38,11 @@ div.content {
   margin-left: -20px;
 }
 
-div.last-spin-logger div {
+div.logger div {
   font-weight: bold;
 }
 
-div.last-spin-logger div button {
+div.logger div button {
   position:absolute;
   right: 20px;
   top: 72px;

@@ -7,12 +7,6 @@ var edn = require("jsedn"),
 var silk;
 var openChildWnds = new Array();
 
-var infoCls = "alert alert-info";
-var successCls = "alert alert-success";
-var errorCls = "alert alert-danger";
-var silkReloadArg = "reload";
-var exitMessage = "Press enter to exit"
-
 window.onload=function(){
   var project = loadGUI();
   if (project) silkReload(project);
@@ -20,7 +14,7 @@ window.onload=function(){
 
 function loadGUI() {
   reloadWindowIfOpen();
-  
+
   var silkPath = process.env.SILK_PATH;
   if (silkPath == undefined) silkPath = process.env.HOME + "/.silk";
 
@@ -31,7 +25,7 @@ function loadGUI() {
     displayCMS(project);
     return project;
   } else {
-    addLog("Please add a Silk Project.", infoCls, "");
+    addLog("Please add a Silk Project.", "info", "");
     return "";
   }
 }
@@ -42,22 +36,22 @@ function silkReload(project) {
   if (silk) silk.kill("SIGHUP");
 
   if (!io.exists(project)) {
-    addLog("Oh Snap! Directory does not exist.", errorCls, "");
+    addLog("Oh Snap! Directory does not exist.", "error", "");
     return;
   }
 
-  silk = spawn('silk', [silkReloadArg], {cwd: project});
+  silk = spawn('silk', ["reload"], {cwd: project});
   silk.stdout.on('data', function(data) {
     msg += data;
-    addLog("Spinning, please wait ...", infoCls, "");
+    addLog("Spinning, please wait ...", "info", "");
 
     if (msg.indexOf("SUCCESS:") !== -1) {
-      addLog("Congratulations, your site was successfully spun!", successCls, project)
+      addLog("Congratulations, your site was successfully spun!", "success", project)
       loadGUI();
       msg = "";
-    } else if (msg.indexOf("CAUSE:") !== -1 && msg.indexOf(exitMessage) !== -1) {
-      var error = msg.substring(msg.indexOf("CAUSE:") + 14,  msg.lastIndexOf(exitMessage) - 4);
-      addLog("Oh Snap! " + error, errorCls);
+    } else if (msg.indexOf("CAUSE:") !== -1 && msg.indexOf("Press enter to exit") !== -1) {
+      var error = msg.substring(msg.indexOf("CAUSE:") + 14,  msg.lastIndexOf("Press enter to exit") - 4);
+      addLog("Oh Snap! " + error, "error", "");
       msg = "";
     }
   });
@@ -133,23 +127,21 @@ function displayCMS(project) {
   }
 }
 
-// TODO - use template.
-function addLog(msg, className, project) {
-  var logger = document.getElementById("last-spin-logger");
+function addLog(msg, logType, project) {
+  var logger = document.querySelector("#logger");
   utils.removeChildElements(logger);
-  var div = document.createElement("div");
-  div.appendChild(document.createTextNode(msg));
-  div.className = className;
-  logger.appendChild(div);
 
-  if (project) {
-    var openLink = document.createElement('button');
-    openLink.type = "button";
-    openLink.innerHTML = "View";
-    openLink.className = "btn btn-success";
-    openLink.onclick = function() { openBrowserWindow(project) };
-    logger.lastChild.appendChild(openLink);
+  if (logType === "success") {
+    var template = document.querySelector("template#successLog").content;
+    template.querySelector("button").setAttribute("data-id", project);
+  } else if (logType === "error") {
+    var template = document.querySelector("template#errorLog").content;
+  } else if (logType === "info") {
+    var template = document.querySelector("template#infoLog").content;
   }
+
+  template.querySelector('span').innerHTML = msg;
+  logger.appendChild(template.cloneNode(true));
 }
 
 function loadSourceModal(el) {
