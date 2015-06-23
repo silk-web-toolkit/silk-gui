@@ -7,7 +7,7 @@ gulp.task('nw', function () {
     files: ['./site/**'],
 //    macIcns: './icons/icon.icns',
 //    platforms: ['win', 'osx', 'linux32', 'linux64']
-    platforms: ['linux64']
+    platforms: ['osx']
   });
 
   // Log stuff you want

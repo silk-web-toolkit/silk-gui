@@ -1,6 +1,6 @@
 #!/bin/sh
 ulimit -S -n 4096
-silk
+silk spin
 cp -rf node_modules site/
 rm -rf site/node_modules/gulp
 rm -rf site/node_modules/node-webkit-builder
