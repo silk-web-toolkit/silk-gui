@@ -40,7 +40,7 @@ function silkReload(project) {
     return;
   }
 
-  silk = spawn('silk', ["reload"], {cwd: project});
+  silk = spawn('silk', ["spin -a"], {cwd: project});
   silk.stdout.on('data', function(data) {
     msg += data;
     addLog("Spinning, please wait ...", "info", "");
