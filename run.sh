@@ -1,1 +1,1 @@
-open build/silk-gui/osx/silk-gui.app
+open build/silk-gui/osx64/silk-gui.app

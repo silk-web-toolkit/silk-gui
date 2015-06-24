@@ -1,5 +1,8 @@
 #!/bin/sh
 ulimit -S -n 4096
+sudo npm update
+sudo npm install gulp
+sudo npm install node-webkit-builder
 silk spin
 cp -rf node_modules site/
 rm -rf site/node_modules/gulp
