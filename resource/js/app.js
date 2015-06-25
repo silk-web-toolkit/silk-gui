@@ -39,12 +39,11 @@ function silkReload(project) {
     addLog("Oh Snap! Directory does not exist.", "error", "");
     return;
   }
-
   silk = spawn('silk', ["spin", "--auto", "--directory", project]);
   silk.stdout.on('data', function(data) {
     msg += data;
     addLog("Spinning, please wait ...", "info", "");
-
+    console.log()
     if (msg.indexOf("SUCCESS:") !== -1) {
       addLog("Congratulations, your site was successfully spun!", "success", project)
       loadGUI();

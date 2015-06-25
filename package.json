@@ -1,7 +1,7 @@
 {
   "name": "silk-gui",
   "description": "Chrome platform app.",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "main": "silk-gui.html",
   "window": {
     "icon": "resource/image/silk-blue.png",
@@ -16,10 +16,10 @@
   },
   "devDependencies": {
     "gulp": "^3.8.8",
-    "node-webkit-builder": "^0.1.3"
+    "node-webkit-builder": "^1.0.12"
   },
   "dependencies": {
-    "fs-extra": "^0.12.0",
+    "fs-extra": "^0.20.1",
     "jsedn": "^0.3.5"
   },
   "scripts": {
