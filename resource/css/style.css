@@ -1,12 +1,13 @@
 html {
-  margin: 0px;
+  margin: -10px 6px 6px 6px;
   padding: 0px;
   overflow: hidden;
 }
 
 body {
   margin: 0px;
-  padding: 4px;
+  padding: 0px;
+  overflow: hidden;
 }
 
 div.sidebar {
@@ -45,7 +46,7 @@ div.logger div {
 div.logger div button {
   position:absolute;
   right: 20px;
-  top: 72px;
+  top: 76px;
 }
 
 div.c {
@@ -59,4 +60,9 @@ input {
 span.spun-time {
   font-size: 8px;
   display: block;
+}
+
+.source-grid {
+  height: 50%;
+  overflow: auto;
 }

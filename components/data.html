@@ -4,7 +4,7 @@
     <template id="sourceHeader">
       <h3>Sources
         <div class="pull-right">
-          <button class="btn btn-default small" data-toggle="modal" data-target="#sourceModal" onclick="loadSourceModal(this)">Add</button>
+          <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#sourceModal" onclick="loadSourceModal(this)">Add</button>
         </div>
       </h3>
     </template>
@@ -17,13 +17,13 @@
           </div>
         </div>
         <div class="panel-collapse collapse">
-          <div class="panel-body" style="max-height:50%; overflow:auto;">
+          <div class="panel-body">
             <h4>Items
               <div class="pull-right">
-                <button class="btn btn-default small" data-toggle="modal" data-target="#dataModal" onclick="loadDataModal(this)">Add</button>
+                <button class="btn btn-default btn-xs" data-toggle="modal" data-target="#dataModal" onclick="loadDataModal(this)">Add</button>
               </div>
             </h4>
-            <ul class="nav nav-pills nav-stacked"></ul>
+            <ul class="nav nav-pills nav-stacked source-grid"></ul>
           </div>
         </div>
       </div>
