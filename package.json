@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "gulp": "^3.8.8",
-    "node-webkit-builder": "^1.0.12"
+    "nw-builder": "^2.0.1"
   },
   "dependencies": {
     "fs-extra": "^0.20.1",
